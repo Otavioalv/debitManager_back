@@ -17,7 +17,7 @@ datasource db {
 Clientes	
 Listar clientes	
 Consultar dados e histórico dos clientes 
-Nome, saldo, campo de busca	
+filtro: Nome, saldo, campo de busca	
 Lista com campos: nome, saldo e numero do cliente	
 
 model Post {
@@ -37,7 +37,7 @@ model Customer {
   phoneNumber String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+ 
   @@index([name])
   @@index([balance])
   @@index([createdAt])

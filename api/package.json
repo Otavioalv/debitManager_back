@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx watch src/server.ts",
     "migrate:init": "npx prisma migrate dev --name init"
   },
   "keywords": [],
@@ -20,6 +20,7 @@
     "@types/node": "^25.6.2",
     "prisma": "^7.8.0",
     "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
     "typescript": "^6.0.3"
   }
 }
