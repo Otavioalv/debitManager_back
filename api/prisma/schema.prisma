@@ -13,7 +13,7 @@ datasource db {
 }
 
 
-/* 
+/* https://www.gravatar.com/avatar/5828475687d36bc0d0bafe58d3c8d49e?s=64&d=robohash
 Clientes	
 Listar clientes	
 Consultar dados e histórico dos clientes 
@@ -28,16 +28,21 @@ model Post {
 
   @@index([user_id])
 }
-
 */
 
 model Customer {
-  idCustomer String @id @default(uuid()) @db.Uuid
+  id String @id @default(uuid()) @db.Uuid
   name String
-  balance Boolean
+  balance BigInt
   phoneNumber String
   createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) // identifica automatico
+  updatedAt DateTime @updatedAt
+  
+  @@index([name])
+  @@index([balance])
+  @@index([createdAt])
+  // money type
+  // foreight keys .....
 
-  @@map("customers")
+  @@map("customer")
 }
