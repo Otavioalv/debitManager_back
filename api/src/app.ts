@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 
+import router from './routes';
 // import { notFoundMiddleware } from './shared/middleware/notFound.middleware.js';
 // import router from './modules/products/products.routes.js';
 // import cors from 'cors';
@@ -17,15 +18,8 @@ const app = express();
 
 app.use(express.json());
 
-app.get('/health', (req, res) => {
-    res.status(200).json({
-        status: 'UP',
-        timestamp: new Date().toISOString(),
-        uptime: process.uptime()
-    });
-});
 
-// app.use('/api', router);
+app.use("/api", router);
 
 // error 404 
 // app.use(notFoundMiddleware);
