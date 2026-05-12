@@ -1,9 +1,14 @@
+import { CustomersService } from "./customers.service";
 
 export class CustomersController {
-    // init function .....
+    constructor(
+        private customerService: CustomersService
+    ) {}
     
-    public listCustomer() {
-        // function list customer 
-        // .....
+
+    public listCustomer = async () => {
+        console.log("list customer controller");
+
+        await this.customerService.listCustomer();
     }
 }
