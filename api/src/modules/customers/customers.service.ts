@@ -9,6 +9,6 @@ export class CustomersService {
     public async listCustomers() {
         console.log("SERVICE LIST");
 
-        await this.customersRepository.listCustomers();
+        return await this.customersRepository.listCustomers();
     }
 }
