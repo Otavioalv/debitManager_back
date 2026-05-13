@@ -1,12 +1,17 @@
-import { PrismaClient } from "../../../generated/prisma/client";
+import { Customer, PrismaClient } from "../../../generated/prisma/client";
 
 
 export class CustomersRepository {
     constructor(
-        // private prisma: PrismaClient
+        private prisma: PrismaClient
     ) {}
 
-    public async listCustomers() {
-        // return this.prisma.customer.findMany();
+    public async listCustomers(): Promise<Customer[]>{
+        
+        return await this.prisma.customer.findMany({
+            orderBy: {
+                name: "asc"
+            }
+        });
     }
 }
