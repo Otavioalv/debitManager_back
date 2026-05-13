@@ -7,7 +7,7 @@ import { CustomersService } from './customers.service';
 
 // const prisma = new PrismaClient();
 
-export const customersRepository = new CustomersRepository(prisma);
+export const customersRepository = new CustomersRepository();
 export const customersService = new CustomersService(customersRepository);
 export const customersController = new CustomersController(customersService);
 

@@ -3,10 +3,10 @@ import { PrismaClient } from "../../../generated/prisma/client";
 
 export class CustomersRepository {
     constructor(
-        private prisma: PrismaClient
+        // private prisma: PrismaClient
     ) {}
 
     public async listCustomers() {
-        return this.prisma.customer.findMany();
+        // return this.prisma.customer.findMany();
     }
 }
