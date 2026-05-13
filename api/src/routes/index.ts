@@ -8,7 +8,6 @@ const router = Router();
 // routes
 router.use("/customers", customersRoutes);
 
-
 router.get('/health', (req, res) => {
     res.status(200).json({
         status: 'UP',

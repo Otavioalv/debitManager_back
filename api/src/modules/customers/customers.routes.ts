@@ -2,8 +2,8 @@ import { Router } from 'express';
 
 import { customersController } from './customers.container';
 
-
 const customersRouter = Router();
+
 customersRouter.get("/", customersController.listCustomer);
 
 

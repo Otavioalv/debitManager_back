@@ -6,9 +6,8 @@ export class CustomersController {
     ) {}
     
 
-    public listCustomer = async () => {
+    public listCustomer = async (): Promise<void> => {
         console.log("list customer controller");
-
         await this.customerService.listCustomer();
     }
 }
