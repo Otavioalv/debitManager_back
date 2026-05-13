@@ -4,7 +4,7 @@ import { customersController } from './customers.container';
 
 const customersRouter = Router();
 
-customersRouter.get("/", customersController.listCustomer);
+customersRouter.get("/", customersController.listCustomers);
 
 
 // router.get("/products", ProductsController.listProduct);

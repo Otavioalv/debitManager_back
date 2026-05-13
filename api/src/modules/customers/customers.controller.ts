@@ -8,11 +8,11 @@ export class CustomersController {
     ) {}
     
 
-    public listCustomer = async (req: Request, res: Response) => {
+    public listCustomers = async (req: Request, res: Response) => {
         console.log("controler list customer");
         await new Promise(resolve => setTimeout(resolve, 5000));
         
-        await this.customerService.listCustomer();
+        await this.customerService.listCustomers();
         return ApiResponse.success(res, {
             message: "Products fetched successfully",
             data: ["pro2", "pro34", "proN"]

@@ -6,7 +6,7 @@ export class CustomersService {
         private customersRepository: CustomersRepository,
     ) {}
 
-    public async listCustomer() {
+    public async listCustomers() {
         console.log("SERVICE LIST");
 
         await this.customersRepository.listCustomers();
