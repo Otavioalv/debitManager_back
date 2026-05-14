@@ -16,6 +16,10 @@
     // "noUncheckedSideEffectImports": true,
 
     // "moduleDetection": "force",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@generated/*": ["./generated/*"]
+    }
   }
 }
 

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ApiResponse } from "../../shared/http/ApiResponse";
+import { ApiResponse } from "@/shared/http/ApiResponse";
 import { CustomersService } from "./customers.service";
 
 export class CustomersController {

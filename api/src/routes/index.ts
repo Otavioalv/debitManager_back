@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import customersRoutes from "../modules/customers/customers.routes.js";
+import customersRoutes from "@/modules/customers/customers.routes.js";
 
 const router = Router();
 

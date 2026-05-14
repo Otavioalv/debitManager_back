@@ -1,5 +1,4 @@
-import {PrismaClient} from "../../../generated/prisma/client"
-import { prisma } from "../../shared/database/prisma";
+import { prisma } from "@/shared/database/prisma";
 
 import { CustomersController } from './customers.controller';
 import { CustomersRepository } from './customers.repository';
