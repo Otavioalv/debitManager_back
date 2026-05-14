@@ -9,6 +9,7 @@ export class CustomersService {
     ) {}
 
     public async listCustomers(): Promise<CustomerResponseDTO[]>{
+        
         const customers = await this.customersRepository.listCustomers();
         return customers.map(CustomersMapper.toResponse);
     }

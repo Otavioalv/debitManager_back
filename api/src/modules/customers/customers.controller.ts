@@ -9,7 +9,7 @@ export class CustomersController {
     ) {}
 
     // list customers
-    public listCustomers = async (req: Request, res: Response) => {
+    public listCustomers = async (req: Request, res: Response):Promise<ApiResponse> => {
         const data:CustomerResponseDTO[] = await this.customerService.listCustomers();
 
         return ApiResponse.success(res, {

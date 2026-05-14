@@ -1,10 +1,14 @@
 import { Router } from 'express';
 
 import { customersController } from './customers.container';
+import { validateQuery } from './customers.validation';
 
 const customersRouter = Router();
 
-customersRouter.get("/", customersController.listCustomers);
+customersRouter.get("/",
+    validateQuery,
+    customersController.listCustomers
+);
 
 
 // router.get("/products", ProductsController.listProduct);
