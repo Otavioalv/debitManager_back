@@ -7,7 +7,6 @@ export class CustomersRepository {
     ) {}
 
     public async listCustomers(): Promise<Customer[]>{
-        
         return await this.prisma.customer.findMany({
             orderBy: {
                 name: "asc"

@@ -1,5 +1,6 @@
-import { Customer } from "@generated/prisma/client";
 import { CustomersRepository } from "./customers.repository";
+import { CustomersMapper } from "./customers.mapper";
+import { CustomerResponseDTO } from "./customers.dto";
 
 
 export class CustomersService {
@@ -7,7 +8,8 @@ export class CustomersService {
         private customersRepository: CustomersRepository,
     ) {}
 
-    public async listCustomers(): Promise<Customer[]>{
-        return await this.customersRepository.listCustomers();
+    public async listCustomers(): Promise<CustomerResponseDTO[]>{
+        const customers = await this.customersRepository.listCustomers();
+        return customers.map(CustomersMapper.toResponse);
     }
 }
