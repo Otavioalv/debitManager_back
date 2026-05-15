@@ -1,3 +1,6 @@
+import z from "zod";
+import { listCustomersQuerySchema } from "./customers.schema";
+
 interface customer {
     id: string,
     name: string,
@@ -7,7 +10,5 @@ interface customer {
     updatedAt: Date,
 }
 
-interface FilterListCustomerParams {
-    name?: string, 
-}
+export type FilterListCustomerParams = z.infer<typeof listCustomersQuerySchema>;
 

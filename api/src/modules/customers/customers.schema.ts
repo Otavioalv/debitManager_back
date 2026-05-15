@@ -10,6 +10,17 @@ export const listCustomersQuerySchema = z.object({
             .min(1, "No minimo um caracter")
             .max(100, "No maximo 100 caracteres")
             .optional(),
-        )
+        ),
+    sortBy: z
+        .preprocess(
+            (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+            z.enum([
+                "name",
+                "balance",
+                // "createdAt",
+            ], "Valor escolhido invalido")
+            .optional()
+            .default("name")
+        ) 
 });
 
