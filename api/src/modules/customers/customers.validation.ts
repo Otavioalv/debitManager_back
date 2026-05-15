@@ -16,7 +16,10 @@ export const validateQuery = (
         throw "Erro name query AAAAAAAAAAA"
     }
 
-    req.query = result.data;
+    res.locals.validated.query = result.data;
+
+    console.log(res.locals.validated);
+    
     return next();
 };
 
