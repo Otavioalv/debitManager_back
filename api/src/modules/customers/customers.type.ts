@@ -6,3 +6,8 @@ interface customer {
     createdAt: Date,
     updatedAt: Date,
 }
+
+interface FilterListCustomerParams {
+    name?: string, 
+}
+

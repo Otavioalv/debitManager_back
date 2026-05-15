@@ -6,7 +6,7 @@ export class CustomersRepository {
         private prisma: PrismaClient
     ) {}
 
-    public async listCustomers(): Promise<Customer[]>{
+    public async listCustomers(filter:FilterListCustomerParams): Promise<Customer[]>{
 
         // const nomes = ["Ana", "Carlos", "João", "Maria", "Pedro", "Julia", "Lucas", "Mariana"];
         // const sobrenomes = ["Silva", "Souza", "Oliveira", "Santos", "Rodrigues", "Ferreira"];
@@ -26,6 +26,14 @@ export class CustomersRepository {
 
 
         return await this.prisma.customer.findMany({
+            where: {
+                ...(filter.name && {
+                    name: {
+                        contains: filter.name,
+                        mode: "insensitive"
+                    }
+                })
+            },
             orderBy: {
                 name: "asc"
             }

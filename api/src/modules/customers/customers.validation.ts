@@ -24,7 +24,7 @@ export const validateQuery = (
 
     res.locals.validated.query = result.data;
 
-    console.log(res.locals.validated);
+    // console.log(res.locals.validated);
     
     return next();
 };

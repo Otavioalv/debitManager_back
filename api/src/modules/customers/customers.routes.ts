@@ -7,7 +7,7 @@ const customersRouter = Router();
 
 customersRouter.get("/",
     validateQuery,
-    customersController.listCustomers
+    customersController.listCustomers,
 );
 
 

@@ -10,7 +10,9 @@ export class CustomersController {
 
     // list customers
     public listCustomers = async (req: Request, res: Response):Promise<ApiResponse> => {
-        const data:CustomerResponseDTO[] = await this.customerService.listCustomers();
+        const filter:FilterListCustomerParams = res.locals.validated.query as FilterListCustomerParams;
+
+        const data:CustomerResponseDTO[] = await this.customerService.listCustomers(filter);
 
         return ApiResponse.success(res, {
             message: "Products fetched successfully",
