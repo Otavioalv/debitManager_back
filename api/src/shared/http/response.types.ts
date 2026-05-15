@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export interface Pagination {
     nextCursor: string | null,
     previousCursor: string | null,
@@ -7,6 +9,13 @@ export interface Pagination {
 
 export interface Meta {
     pagination?: Pagination,
+}
+
+
+
+export type ZodTreeError = ReturnType<typeof z.treeifyError>;
+export interface Details {
+    zod?: ZodTreeError
 }
 
 // PARAMS
@@ -22,7 +31,7 @@ export interface SuccessOptionsParams<T> extends BaseResponseOptions {
 
 export interface ErrorOptionsParams extends BaseResponseOptions {
     code: string,
-    details?: unknown, // Definir tipo depois
+    details?: Details, // Definir tipo depois
 }
 
 
