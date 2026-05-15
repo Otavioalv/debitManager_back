@@ -17,7 +17,10 @@ export class CustomersController {
 
         return ApiResponse.success(res, {
             message: "Products fetched successfully",
-            data
+            data,
+            meta: {
+                filters: filter
+            }
         });
     }
 

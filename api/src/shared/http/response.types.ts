@@ -9,8 +9,8 @@ export interface Pagination {
 
 export interface Meta {
     pagination?: Pagination,
+    filters?: Record<string, unknown>,
 }
-
 
 
 export type ZodTreeError = ReturnType<typeof z.treeifyError>;
