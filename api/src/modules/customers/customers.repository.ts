@@ -1,32 +1,29 @@
-import { Customer, PrismaClient } from "@generated/prisma/client";
+import { Customer } from "@generated/prisma/client";
 import { FilterListCustomerParams } from "./customers.type";
 import {DataWithPagination} from "./customers.dto";
-import { Pagination } from "@/shared/http/response.types";
+import { ExtendedPrismaClient } from "@/shared/database/prisma";
 import { buildPaginatedResponse } from "@/shared/utils/pagination.utils";
 
 
 export class CustomersRepository {
     constructor(
-        private prisma: PrismaClient
+        private prisma: ExtendedPrismaClient
     ) {}
 
     public async listCustomers(filter:FilterListCustomerParams): Promise<DataWithPagination<Customer[]>>{
 
         /* 
-        pagination
-        cursor
-        nextCursor
-        previousCursor
-        hasNextPage
-        limit
-        
-        return {
-            customers: items,
-            pagination,
-        };
-        
+        [`${sortBy}_id`]: {
+            [sortBy]:
+                sortBy === "balance"
+                    ? BigInt(filter.cursor.value)
+                    : filter.cursor.value,
+
+            id: filter.cursor.id,
+        },
         */
-        const customers:Customer[] = await this.prisma.customer.findMany({
+
+        const dataPaginated = await this.prisma.customer.findMany({
             where: {
                 ...(filter.name && {
                     name: {
@@ -43,17 +40,34 @@ export class CustomersRepository {
                     id: "asc",
                 }
             ],
-            take: filter.limit + 1,
-
-            ...(filter.cursor && {
-                cursor: {
-                    id: filter.cursor
-                },
-
-                skip: 1,
-            }),
+            cursor: {
+                // id: filter.cursor ?? undefined,
+                ["phoneNumber"]: filter.cursor ?? undefined
+            },
+            take: filter.limit ? filter.limit + 1 : undefined, 
         });
 
-        return buildPaginatedResponse(customers, filter.limit, filter.cursor);
+        // console.log(dataPaginated);
+
+        // const normalizedCustomers = isBackward
+        //     ? customers.reverse()
+        //     : customers;
+
+        // console.log("normalized repository: ", customers);
+
+        return buildPaginatedResponse(dataPaginated, filter.limit, filter.cursor);
+        // const [customers, pagination] = dataPaginated;
+
+        // return {
+        //     data: dataPaginated,
+        //     pagination: {
+        //         cursor: "",
+        //         hasNextPage: false,
+        //         hasPreviousPage: false,
+        //         limit: filter.limit ?? 10,
+        //         startCursor: "",
+        //         endCursor: "",
+        //     }
+        // }
     }
 }

@@ -2,10 +2,13 @@ import { z } from "zod";
 
 export interface Pagination {
     cursor: string | null,
-    nextCursor: string | null,
-    previousCursor: string | null,
+    limit: number,
+    
     hasNextPage: boolean
-    limit: number
+    hasPreviousPage: boolean,
+    
+    startCursor: string | null,
+    endCursor: string | null,
 }
 
 export interface Meta {
