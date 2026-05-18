@@ -1,3 +1,5 @@
+import { Pagination } from "@/shared/http/response.types";
+
 
 /* 
 name: string;
@@ -8,6 +10,7 @@ createdAt: Date;
 updatedAt: Date
 */
 
+
 export interface CustomerResponseDTO {
     name: string;
     id: string;
@@ -15,4 +18,9 @@ export interface CustomerResponseDTO {
     phoneNumber: string;
     createdAt: string;
     updatedAt: string;
+}
+
+export interface DataWithPagination<T> {
+    data: T,
+    pagination: Pagination,
 }

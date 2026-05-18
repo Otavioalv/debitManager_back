@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { ApiResponse } from "@/shared/http/ApiResponse";
 import { CustomersService } from "./customers.service";
-import { CustomerResponseDTO } from "./customers.dto";
+import { CustomerResponseDTO, DataWithPagination } from "./customers.dto";
 import { FilterListCustomerParams } from "./customers.type";
 
 export class CustomersController {
@@ -13,16 +13,15 @@ export class CustomersController {
     public listCustomers = async (req: Request, res: Response):Promise<ApiResponse> => {
         const filter:FilterListCustomerParams = res.locals.validated.query as FilterListCustomerParams;
 
-        const data:CustomerResponseDTO[] = await this.customerService.listCustomers(filter);
+        const data:DataWithPagination<CustomerResponseDTO[]> = await this.customerService.listCustomers(filter);
 
         return ApiResponse.success(res, {
             message: "Products fetched successfully",
-            data,
+            data: data.data,
             meta: {
-                filters: filter
+                filters: filter,
+                pagination: data.pagination,
             }
         });
     }
-
-    // list customers by id
 }

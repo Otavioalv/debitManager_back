@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export interface Pagination {
+    cursor: string | null,
     nextCursor: string | null,
     previousCursor: string | null,
     hasNextPage: boolean
