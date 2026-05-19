@@ -65,3 +65,5 @@ export const createCustomerBodySchema = z.object({
         .number("Campo precisa conter um numero valido")
         .nonnegative("Campo precisa conter um numero positivo"),
 });
+
+export const updateCustomerBodySchema = createCustomerBodySchema.partial();

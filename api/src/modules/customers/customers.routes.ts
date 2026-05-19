@@ -2,6 +2,7 @@ import { Router } from 'express';
 
 import { customersController } from './customers.container';
 import { validateBody, validateParams, validateQuery } from './customers.validation';
+import { createCustomerBodySchema, updateCustomerBodySchema } from './customers.schema';
 
 const customersRouter = Router();
 
@@ -22,11 +23,24 @@ customersRouter.get(
 // create customer
 customersRouter.post(
     "/",
-    validateBody,
+    validateBody(createCustomerBodySchema),
     customersController.createCustomer,
 );
 
+// update customer
+customersRouter.put(
+    "/:id",
+    validateParams,
+    validateBody(updateCustomerBodySchema),
+    customersController.updateCustomer,
+);
 
+// delete customer
+// customersRouter.delete(
+//     "/:id",
+//     validateParams,
+//     customersController.deleteCustomer,
+// );
 
 export default customersRouter;
 

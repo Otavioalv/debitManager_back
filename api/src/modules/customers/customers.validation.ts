@@ -54,26 +54,31 @@ export const validateParams = (
 }
 
 
-export const validateBody = (
-    req: Request, 
-    res: Response<ApiResponse>, 
-    next: NextFunction
-) => {
-    const result = createCustomerBodySchema.safeParse(req.body);
+export const validateBody = (schema: z.ZodTypeAny) => {
+    return (
+        req: Request,
+        res: Response<ApiResponse>,
+        next: NextFunction,
+    ) => {
+        const result = schema.safeParse(req.body);
 
-    if(!result.success){
-        return ApiResponse.error(res, {
-            code: "ERROR_BODY",
-            message: "Erro com dados do corpo da requisição",
-            statusCode: 400,
-            details: {
-                zod: z.treeifyError(result.error)
-            }
-        });
-    }
+        if(!result.success) {
+            return ApiResponse.error(
+                res,
+                {
+                    code: "ERROR_BODY",
+                    message:"Invalid request body",
+                    statusCode:400,
+                    details: {
+                        zod:z.treeifyError(result.error),
+                    },
+                }
+            );
+        }
 
-    res.locals.validated.body = result.data;
+        res.locals.validated.body = result.data;
 
-    return next();
-}
+        return next();
+    };
+};
 

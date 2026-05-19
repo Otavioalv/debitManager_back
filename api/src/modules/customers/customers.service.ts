@@ -1,7 +1,7 @@
 import { CustomersRepository } from "./customers.repository";
 import { CustomersMapper } from "./customers.mapper";
 import { CustomerResponseDTO, DataWithPagination } from "./customers.dto";
-import { FilterListCustomerParams } from "./customers.type";
+import { CreateCustomerBody, FilterListCustomerParams, UpdateCustomerBody } from "./customers.type";
 import { AppError } from "@/shared/http/AppError";
 
 
@@ -32,8 +32,13 @@ export class CustomersService {
         return CustomersMapper.toResponse(customer);
     }
 
-    public async createCustomer(name: string, phoneNumber: string, balance: number): Promise<CustomerResponseDTO> {
-        const customer = await this.customersRepository.createCustomer(name, phoneNumber, balance);
+    public async createCustomer(data: CreateCustomerBody): Promise<CustomerResponseDTO> {
+        const customer = await this.customersRepository.createCustomer(data);
+        return CustomersMapper.toResponse(customer);
+    }
+
+    public async updateCustomer(id: string, data: UpdateCustomerBody): Promise<CustomerResponseDTO> {
+        const customer = await this.customersRepository.updateCustomer(id, data);
         return CustomersMapper.toResponse(customer);
     }
 }

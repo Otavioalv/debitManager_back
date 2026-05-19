@@ -1,5 +1,5 @@
 import { Customer } from "@generated/prisma/client";
-import { FilterListCustomerParams } from "./customers.type";
+import { CreateCustomerBody, FilterListCustomerParams, UpdateCustomerBody } from "./customers.type";
 import {DataWithPagination} from "./customers.dto";
 import { ExtendedPrismaClient } from "@/shared/database/prisma";
 import { buildPaginatedResponse } from "@/shared/utils/pagination.utils";
@@ -49,12 +49,27 @@ export class CustomersRepository {
         });
     }
 
-    public async createCustomer(name: string, phoneNumber: string, balance: number): Promise<Customer> {
+    public async createCustomer(data: CreateCustomerBody): Promise<Customer> {
         return this.prisma.customer.create({
+            data
+        });
+    }
+
+    public async updateCustomer(id: string, data: UpdateCustomerBody): Promise<Customer> {
+        return this.prisma.customer.update({
+            where: {
+                id,
+            },
             data: {
-                name,
-                phoneNumber,
-                balance,
+                ...(data.name !== undefined && { 
+                    name: data.name 
+                }),
+                ...(data.phoneNumber !== undefined && { 
+                    phoneNumber: data.phoneNumber 
+                }),
+                ...(data.balance !== undefined && { 
+                    balance: data.balance 
+                }),
             },
         });
     }

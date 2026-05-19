@@ -4,9 +4,9 @@ declare global {
     namespace Express {
         interface Locals {
             validated: {
-                query: {} | null;
-                body: {} | null;
-                params: {} | null;
+                query:unknown;
+                body:unknown;
+                params:unknown;
             };
         }
     }
