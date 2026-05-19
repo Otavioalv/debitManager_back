@@ -42,12 +42,4 @@ export const listCustomersQuerySchema = z.object({
             .optional()
             .default(2),
         ),
-    
-    direction: z
-        .preprocess(
-            (v)  => (typeof v === "string" && v.trim() === "" ? undefined : v),
-            z
-            .enum(["forward", "backward"],"Insira valor valido")
-            .default("forward")
-        )
 });

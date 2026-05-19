@@ -44,9 +44,9 @@ model Customer {
   @@index([balance])
   @@index([createdAt])
   
-  // filters
-  @@unique([name, id])
-  @@unique([balance, id])
+  
+  // @@unique([name, id])
+  // @@unique([balance, id])
   // money type
   // foreight keys .....
 

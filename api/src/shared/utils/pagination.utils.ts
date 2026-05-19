@@ -25,19 +25,19 @@ export function buildPaginatedResponse<T extends { id: string }>(
 ): PaginatedResult<T> {
     
     const hasNextPage = itemsFromDb.length > limit;
-    
     const data = hasNextPage ? itemsFromDb.slice(0, -1) : itemsFromDb;
 
-    console.log("itemsFromDb: ", itemsFromDb);
-    console.log("data: ", data);
-
-    const endCursor = hasNextPage 
+    const endCursor = data.length > 0 
         ? data[data.length - 1]?.id
         : null;
+    
 
-    const startCursor = currentCursor && data.length > 0 
+    const startCursor = data.length > 0 
         ? data[0].id 
         : null;
+    
+        
+    const hasPreviousPage:boolean = !!currentCursor;
 
     return {
         data,
@@ -45,7 +45,7 @@ export function buildPaginatedResponse<T extends { id: string }>(
             cursor: currentCursor ?? "",
             limit,
             hasNextPage,
-            hasPreviousPage: !!startCursor,
+            hasPreviousPage,
             endCursor,
             startCursor,
         }
