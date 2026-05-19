@@ -46,22 +46,22 @@ export const listCustomersQuerySchema = z.object({
 
 
 export const customerParamsSchema = z.object({
-    id: z.uuid(),
+    id: z.uuid("Parametro invalido"),
 });
 
 
 export const createCustomerBodySchema = z.object({
     name: z
-        .string()
+        .string("Campo precisa conter caracteres validos")
         .trim()
-        .min(1)
-        .max(255),
+        .min(1, "No minimo um caracter")
+        .max(500, "No maximo 500 caracteres"),
 
     phoneNumber: z
-        .string()
+        .string("Campo precisa conter caracteres validos")
         .trim(),
 
     balance: z
-        .number()
-        .nonnegative(),
+        .number("Campo precisa conter um numero valido")
+        .nonnegative("Campo precisa conter um numero positivo"),
 });
