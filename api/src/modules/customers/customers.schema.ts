@@ -62,8 +62,14 @@ export const createCustomerBodySchema = z.object({
         .trim(),
 
     balance: z
-        .number("Campo precisa conter um numero valido")
-        .nonnegative("Campo precisa conter um numero positivo"),
+        .string("Campo precisa conter caracteres validos")
+        .regex(
+            /^\d+$/,
+            "Campo deve conter apenas numeros positivos inteiros representando centavos",
+        )
+        .transform(
+            (v) => BigInt(v),
+        ),
 });
 
 export const updateCustomerBodySchema = createCustomerBodySchema.partial();
