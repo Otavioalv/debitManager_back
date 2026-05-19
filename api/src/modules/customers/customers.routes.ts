@@ -1,13 +1,22 @@
 import { Router } from 'express';
 
 import { customersController } from './customers.container';
-import { validateQuery } from './customers.validation';
+import { validateParams, validateQuery } from './customers.validation';
 
 const customersRouter = Router();
 
-customersRouter.get("/",
+// list many
+customersRouter.get(
+    "/",
     validateQuery,
     customersController.listCustomers,
+);
+
+// list by id
+customersRouter.get(
+    "/:id",
+    validateParams,
+    customersController.getCustomerById,
 );
 
 

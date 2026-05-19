@@ -40,4 +40,12 @@ export class CustomersRepository {
 
         return buildPaginatedResponse(dataPaginated, filter.limit, filter.cursor);
     }
+
+    public async getCustomerById(id: string): Promise<Customer | null> {
+        return this.prisma.customer.findUnique({
+            where: {
+                id,
+            },
+        });
+    }
 }

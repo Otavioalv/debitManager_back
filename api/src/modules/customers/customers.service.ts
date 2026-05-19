@@ -20,4 +20,14 @@ export class CustomersService {
 
         return resList;
     }
+
+    public async getCustomerById(id: string): Promise<CustomerResponseDTO> {
+        const customer = await this.customersRepository.getCustomerById(id);
+
+        if(!customer) {
+            throw new Error("Customer not found");
+        }
+
+        return CustomersMapper.toResponse(customer);
+    }
 }

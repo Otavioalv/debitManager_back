@@ -24,4 +24,17 @@ export class CustomersController {
             }
         });
     }
+
+    public getCustomerById = async (req: Request, res: Response):Promise<ApiResponse> => {
+        const { id } = res.locals.validated.params as { id: string };
+
+        const data:CustomerResponseDTO = await this.customerService.getCustomerById(id);
+
+        // const data:CustomerResponseDTO = await this.customerService.getCustomerById(id);
+
+        return ApiResponse.success(res, {
+            message: "Customer fetched successfully",
+            data,
+        });
+    }
 }

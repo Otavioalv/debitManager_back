@@ -43,3 +43,8 @@ export const listCustomersQuerySchema = z.object({
             .default(2),
         ),
 });
+
+
+export const customerParamsSchema = z.object({
+    id: z.uuid(),
+});
