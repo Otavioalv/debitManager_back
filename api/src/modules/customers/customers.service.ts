@@ -26,10 +26,14 @@ export class CustomersService {
         const customer = await this.customersRepository.getCustomerById(id);
 
         if(!customer) {
-            // throw new Error("Customer not found");
             throw AppError.notFound("Customer not found");
         }
 
+        return CustomersMapper.toResponse(customer);
+    }
+
+    public async createCustomer(name: string, phoneNumber: string, balance: number): Promise<CustomerResponseDTO> {
+        const customer = await this.customersRepository.createCustomer(name, phoneNumber, balance);
         return CustomersMapper.toResponse(customer);
     }
 }

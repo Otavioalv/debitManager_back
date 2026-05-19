@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { customerParamsSchema, listCustomersQuerySchema } from "./customers.schema";
+import { createCustomerBodySchema, customerParamsSchema, listCustomersQuerySchema } from "./customers.schema";
 import { ApiResponse } from "@/shared/http/ApiResponse";
 import z from "zod";
 
@@ -53,4 +53,27 @@ export const validateParams = (
     return next();
 }
 
+
+export const validateBody = (
+    req: Request, 
+    res: Response<ApiResponse>, 
+    next: NextFunction
+) => {
+    const result = createCustomerBodySchema.safeParse(req.body);
+
+    if(!result.success){
+        return ApiResponse.error(res, {
+            code: "ERROR_BODY",
+            message: "Erro com dados do corpo da requisição",
+            statusCode: 400,
+            details: {
+                zod: z.treeifyError(result.error)
+            }
+        });
+    }
+
+    res.locals.validated.body = result.data;
+
+    return next();
+}
 

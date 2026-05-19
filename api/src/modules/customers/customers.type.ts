@@ -1,5 +1,5 @@
 import z from "zod";
-import { customerParamsSchema, listCustomersQuerySchema } from "./customers.schema";
+import { createCustomerBodySchema, customerParamsSchema, listCustomersQuerySchema } from "./customers.schema";
 
 interface customer {
     id: string,
@@ -12,4 +12,4 @@ interface customer {
 
 export type FilterListCustomerParams = z.infer<typeof listCustomersQuerySchema>;
 export type CustomerParams = z.infer<typeof customerParamsSchema>;
-
+export type CreateCustomerBody = z.infer<typeof createCustomerBodySchema>;

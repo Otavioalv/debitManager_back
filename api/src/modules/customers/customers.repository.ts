@@ -48,4 +48,14 @@ export class CustomersRepository {
             },
         });
     }
+
+    public async createCustomer(name: string, phoneNumber: string, balance: number): Promise<Customer> {
+        return this.prisma.customer.create({
+            data: {
+                name,
+                phoneNumber,
+                balance,
+            },
+        });
+    }
 }

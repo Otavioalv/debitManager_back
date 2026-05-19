@@ -48,3 +48,20 @@ export const listCustomersQuerySchema = z.object({
 export const customerParamsSchema = z.object({
     id: z.uuid(),
 });
+
+
+export const createCustomerBodySchema = z.object({
+    name: z
+        .string()
+        .trim()
+        .min(1)
+        .max(255),
+
+    phoneNumber: z
+        .string()
+        .trim(),
+
+    balance: z
+        .number()
+        .nonnegative(),
+});
