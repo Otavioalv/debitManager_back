@@ -2,6 +2,7 @@ import { CustomersRepository } from "./customers.repository";
 import { CustomersMapper } from "./customers.mapper";
 import { CustomerResponseDTO, DataWithPagination } from "./customers.dto";
 import { FilterListCustomerParams } from "./customers.type";
+import { AppError } from "@/shared/http/AppError";
 
 
 export class CustomersService {
@@ -25,7 +26,8 @@ export class CustomersService {
         const customer = await this.customersRepository.getCustomerById(id);
 
         if(!customer) {
-            throw new Error("Customer not found");
+            // throw new Error("Customer not found");
+            throw AppError.notFound("Customer not found");
         }
 
         return CustomersMapper.toResponse(customer);
