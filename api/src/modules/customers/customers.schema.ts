@@ -73,3 +73,14 @@ export const createCustomerBodySchema = z.object({
 });
 
 export const updateCustomerBodySchema = createCustomerBodySchema.partial();
+
+export const deleteManyCustomersBodySchema = z.object({
+    ids: z
+        .array(z.uuid("Parametro invalido"))
+        .min(1, "No minimo um item")
+        .max(100, "No maximo 100 itens")
+        .refine((arr) => 
+            new Set(arr).size  === arr.length,
+            "Itens duplicados não são permitidos"
+        ),
+})

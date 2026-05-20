@@ -81,4 +81,18 @@ export class CustomersRepository {
             },
         });
     }
+
+    public async deleteManyCustomers(ids: string[]): Promise<number> {
+        const result = await this.prisma.customer.deleteMany({
+            where: {
+                id: {
+                    in: ids,
+                },
+            },
+        });
+
+        return result.count;
+    }
+
+    // public async countCustomers(): Promise<number>
 }

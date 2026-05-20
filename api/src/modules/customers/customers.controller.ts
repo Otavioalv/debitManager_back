@@ -75,4 +75,19 @@ export class CustomersController {
             data: null,
         });
     }
+
+    public deleteManyCustomers = async (req: Request, res: Response):Promise<ApiResponse> => {
+        const { ids } = res.locals.validated.body as { ids: string[] };
+
+        const deleted:number = await this.customerService.deleteManyCustomers(ids);
+
+        
+        return ApiResponse.success(res, {
+            statusCode: 200,
+            message: "Customers deleted successfully",
+            data: {
+                deleted
+            },
+        });
+    }
 }

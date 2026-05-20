@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import { customersController } from './customers.container';
 import { validateBody, validateParams, validateQuery } from './customers.validation';
-import { createCustomerBodySchema, updateCustomerBodySchema } from './customers.schema';
+import { createCustomerBodySchema, deleteManyCustomersBodySchema, updateCustomerBodySchema } from './customers.schema';
 
 const customersRouter = Router();
 
@@ -40,6 +40,13 @@ customersRouter.delete(
     "/:id",
     validateParams,
     customersController.deleteCustomer,
+);
+
+// delete many customers
+customersRouter.delete(
+    "/",
+    validateBody(deleteManyCustomersBodySchema),
+    customersController.deleteManyCustomers,
 );
 
 export default customersRouter;
