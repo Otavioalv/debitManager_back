@@ -2,7 +2,11 @@ import { Router } from 'express';
 
 import { customersController } from './customers.container';
 import { validateBody, validateParams, validateQuery } from './customers.validation';
-import { createCustomerBodySchema, deleteManyCustomersBodySchema, updateCustomerBodySchema } from './customers.schema';
+import { 
+    createCustomerBodySchema, 
+    deleteManyCustomersBodySchema, 
+    updateCustomerBodySchema 
+} from './customers.schema';
 
 const customersRouter = Router();
 

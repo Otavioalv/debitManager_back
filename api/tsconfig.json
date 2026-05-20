@@ -10,7 +10,7 @@
 
     
     "sourceMap": true,
-    
+    "types": ["vitest/globals", "node"],
 
 
     // "noUncheckedSideEffectImports": true,
