@@ -35,4 +35,33 @@ export class ApiResponse {
         }
         return res.status(options.statusCode ?? 500).json(response);
     }
+
+    
+    static ok<T>(
+        res: Response,
+        data?: T,
+        message = "Success",
+    ) {
+        return this.success(
+            res,
+            {
+                statusCode: 200,
+                message,
+                data,
+            }
+        );
+    }
+
+    static created<T>(
+        res: Response,
+        data?: T,
+        message = "Created successfully",
+    ): Response<SuccessApiResponse<T>> {
+
+        return this.success(res, {
+            statusCode: 201,
+            message,
+            data,
+        });
+    }
 }

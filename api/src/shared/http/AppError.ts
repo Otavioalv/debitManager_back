@@ -10,7 +10,7 @@ export class AppError extends Error {
         public readonly statusCode: number,
         public readonly code: string,
         public readonly message: string,
-        public readonly details?: Details // /definir tipo do details
+        public readonly details?: Details 
     ) {
         super(message);
     }

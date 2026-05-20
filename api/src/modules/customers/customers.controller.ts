@@ -15,14 +15,7 @@ export class CustomersController {
 
         const data:DataWithPagination<CustomerResponseDTO[]> = await this.customerService.listCustomers(filter);
 
-        return ApiResponse.success(res, {
-            message: "Products fetched successfully",
-            data: data.data,
-            meta: {
-                filters: filter,
-                pagination: data.pagination,
-            }
-        });
+        return ApiResponse.ok(res, data, "Customers fetched successfully");
     }
 
     public getCustomerById = async (req: Request, res: Response):Promise<ApiResponse> => {
@@ -30,13 +23,7 @@ export class CustomersController {
 
         const data:CustomerResponseDTO = await this.customerService.getCustomerById(id);
 
-        // const data:CustomerResponseDTO = await this.customerService.getCustomerById(id);
-
-        return ApiResponse.success(res, {
-            statusCode: 200,
-            message: "Customer fetched successfully",
-            data,
-        });
+        return ApiResponse.ok(res, data, "Customer fetched successfully");
     }
 
     public createCustomer = async (req: Request, res: Response):Promise<ApiResponse> => {
@@ -44,11 +31,7 @@ export class CustomersController {
 
         const data:CustomerResponseDTO = await this.customerService.createCustomer(createData);
 
-        return ApiResponse.success(res, {
-            statusCode: 201,                
-            message: "Customer created successfully",
-            data,
-        });
+        return ApiResponse.created(res, data, "Customer created successfully");
     }
 
     public updateCustomer = async (req: Request, res: Response):Promise<ApiResponse> => {
@@ -57,11 +40,7 @@ export class CustomersController {
 
         const data:CustomerResponseDTO = await this.customerService.updateCustomer(id, updateData);
 
-        return ApiResponse.success(res, {
-            statusCode: 200,
-            message: "Customer updated successfully",
-            data,
-        });
+        return ApiResponse.ok(res, data, "Customer updated successfully");
     }
 
     public deleteCustomer = async (req: Request, res: Response):Promise<ApiResponse> => {
@@ -69,11 +48,7 @@ export class CustomersController {
 
         await this.customerService.deleteCustomer(id);
 
-        return ApiResponse.success(res, {
-            statusCode: 200,
-            message: "Customer deleted successfully",
-            data: null,
-        });
+        return ApiResponse.ok(res, null, "Customer deleted successfully");
     }
 
     public deleteManyCustomers = async (req: Request, res: Response):Promise<ApiResponse> => {
@@ -81,13 +56,6 @@ export class CustomersController {
 
         const deleted:number = await this.customerService.deleteManyCustomers(ids);
 
-        
-        return ApiResponse.success(res, {
-            statusCode: 200,
-            message: "Customers deleted successfully",
-            data: {
-                deleted
-            },
-        });
+        return ApiResponse.ok(res, { deleted }, "Customers deleted successfully");
     }
 }
