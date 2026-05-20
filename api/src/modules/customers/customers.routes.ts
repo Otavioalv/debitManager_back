@@ -36,11 +36,11 @@ customersRouter.put(
 );
 
 // delete customer
-// customersRouter.delete(
-//     "/:id",
-//     validateParams,
-//     customersController.deleteCustomer,
-// );
+customersRouter.delete(
+    "/:id",
+    validateParams,
+    customersController.deleteCustomer,
+);
 
 export default customersRouter;
 

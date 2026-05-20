@@ -21,7 +21,7 @@ export class AppError extends Error {
     ){
         return new AppError(
             404,
-            "NOT_FOUND",
+            "RESOURCE_NOT_FOUND",
             message,
             details
         )

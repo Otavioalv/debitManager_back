@@ -43,4 +43,8 @@ export class CustomersService {
         const customer:Customer = await this.customersRepository.updateCustomer(id, data);
         return CustomersMapper.toResponse(customer);
     }
+
+    public async deleteCustomer(id: string): Promise<void> {
+        await this.customersRepository.deleteCustomer(id);
+    }
 }

@@ -2,9 +2,11 @@ import { Request, Response, NextFunction } from "express";
 
 import { AppError } from "./AppError";
 import { ApiResponse } from "./ApiResponse";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/client";
 
 
-// Definir tipo do retorno
+
+// Define tipes to return
 export function errorMiddleware(
     err: Error,
     req: Request,
@@ -13,6 +15,7 @@ export function errorMiddleware(
 ){
     console.error("[API RESPONSE]: ", err);
 
+
     if(err instanceof AppError) {
         return ApiResponse.error(res, {
             statusCode: err.statusCode,
@@ -20,6 +23,30 @@ export function errorMiddleware(
             code: err.code,
             details: err.details
         });
+    }
+
+    // Handle known Prisma errors and convert them to appropriate API responses
+    if(err instanceof PrismaClientKnownRequestError) {
+        switch(err.code) {
+            case "P2025":
+                return ApiResponse.error(
+                    res,
+                    {
+                        statusCode: 404,
+                        code: "RESOURCE_NOT_FOUND",
+                        message:"Resource not found",
+                    }
+                );
+            case "P2002":
+                return ApiResponse.error(
+                    res,
+                    {
+                        statusCode: 409,
+                        code:"UNIQUE_CONSTRAINT",
+                        message:"Resource already exists",
+                    }
+                );
+        }
     }
 
     return ApiResponse.error(res, {

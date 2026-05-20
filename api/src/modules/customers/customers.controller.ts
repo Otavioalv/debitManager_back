@@ -63,4 +63,16 @@ export class CustomersController {
             data,
         });
     }
+
+    public deleteCustomer = async (req: Request, res: Response):Promise<ApiResponse> => {
+        const { id } = res.locals.validated.params as { id: string };
+
+        await this.customerService.deleteCustomer(id);
+
+        return ApiResponse.success(res, {
+            statusCode: 200,
+            message: "Customer deleted successfully",
+            data: null,
+        });
+    }
 }
