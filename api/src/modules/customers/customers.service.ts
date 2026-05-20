@@ -3,6 +3,7 @@ import { CustomersMapper } from "./customers.mapper";
 import { CustomerResponseDTO, DataWithPagination } from "./customers.dto";
 import { CreateCustomerBody, FilterListCustomerParams, UpdateCustomerBody } from "./customers.type";
 import { AppError } from "@/shared/http/AppError";
+import { Customer } from "@generated/prisma/client";
 
 
 export class CustomersService {
@@ -11,7 +12,7 @@ export class CustomersService {
     ) {}
 
     public async listCustomers(filter: FilterListCustomerParams): Promise<DataWithPagination<CustomerResponseDTO[]>> {
-        const response = await this.customersRepository.listCustomers(filter);
+        const response:DataWithPagination<Customer[]> = await this.customersRepository.listCustomers(filter);
         const {data, pagination} = response;
 
         const resList: DataWithPagination<CustomerResponseDTO[]> = {
@@ -23,8 +24,9 @@ export class CustomersService {
     }
 
     public async getCustomerById(id: string): Promise<CustomerResponseDTO> {
-        const customer = await this.customersRepository.getCustomerById(id);
+        const customer:Customer | null = await this.customersRepository.getCustomerById(id);
 
+        // If customer is not found, throw a 404 error
         if(!customer) {
             throw AppError.notFound("Customer not found");
         }
@@ -33,12 +35,12 @@ export class CustomersService {
     }
 
     public async createCustomer(data: CreateCustomerBody): Promise<CustomerResponseDTO> {
-        const customer = await this.customersRepository.createCustomer(data);
+        const customer:Customer = await this.customersRepository.createCustomer(data);
         return CustomersMapper.toResponse(customer);
     }
 
     public async updateCustomer(id: string, data: UpdateCustomerBody): Promise<CustomerResponseDTO> {
-        const customer = await this.customersRepository.updateCustomer(id, data);
+        const customer:Customer = await this.customersRepository.updateCustomer(id, data);
         return CustomersMapper.toResponse(customer);
     }
 }
