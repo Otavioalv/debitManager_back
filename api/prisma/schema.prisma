@@ -103,5 +103,3 @@ model Contract {
 
   @@map("contract") // Mapeia a tabela para "contract" no banco de dados
 }
-
-
