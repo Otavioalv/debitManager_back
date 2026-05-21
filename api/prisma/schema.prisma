@@ -14,32 +14,44 @@ datasource db {
 
 
 
-
-/* https://www.gravatar.com/avatar/5828475687d36bc0d0bafe58d3c8d49e?s=64&d=robohash
-Clientes	
-Listar clientes	
-Consultar dados e histórico dos clientes 
-filtro: Nome, saldo, campo de busca	
-Lista com campos: nome, saldo e numero do cliente	
-
-model Post {
-  id       String @id @default(uuid()) @db.Uuid
-  user_id  String @db.Uuid
-
-  user User @relation(fields: [user_id], references: [id])
-
-  @@index([user_id])
+// Período de aplicação dos juros: diário, mensal, anual
+enum InterestPeriod {
+  DAILY       // Juros aplicados diariamente
+  MONTHLY     // Juros aplicados mensalmente
+  ANNUALLY    // Juros aplicados anualmente
 }
-*/
+
+// Status do contrato: ativo, finalizado, cancelado, inadimplente
+enum ContractStatus { 
+  ACTIVE      // Contrato ativo, em andamento
+  FINISHED    // Contrato finalizado, todas as parcelas pagas
+  CANCELED    // Contrato cancelado, não mais válido
+  DEFAULTED   // Contrato inadimplente, com parcelas vencidas e não pagas
+}
+
+// Frequência de vencimento das parcelas: diária, semanal, quinzenal, mensal, anual
+enum InstallmentFrequency {
+  DAILY         // Vencimentos diários
+  WEEKLY        // Vencimentos semanais
+  BIWEEKLY      // Vencimentos quinzenais
+  MONTHLY       // Vencimentos mensais
+  ANNUALLY      // Vencimentos anuais
+}
+
+
+
 
 model Customer {
   id String @id @default(uuid()) @db.Uuid
   name String
   balance BigInt
-  phoneNumber String
+  phoneNumber String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
  
+  contracts Contract[]
+
+  // Filters
   @@index([name])
   @@index([balance])
   @@index([createdAt])
@@ -49,8 +61,47 @@ model Customer {
   // @@unique([balance, id])
   // money type
   // foreight keys .....
-
+  
   @@map("customer")
+}
+
+
+model Contract {
+  id String @id @default(uuid()) @db.Uuid
+
+  title String
+  description String?
+
+  customerId String @db.Uuid
+  customer Customer @relation(fields: [customerId], references: [id])
+  
+  totalAmount BigInt          // Valor total do contrato
+  installmentCount Int        // Quantidade de parcelas
+  installmentFrequency InstallmentFrequency   // Intervalo entre vencimentos
+  interestRate Decimal @db.Decimal(6,2)       // Juros em porcentagem
+
+  interestPeriod InterestPeriod           // Período de aplicação dos juros (diário, mensal, etc.)
+  startDate DateTime                      // Data de início do contrato
+
+  // Configurações para pular sábados, domingos e feriados
+  skipSaturday Boolean @default(false)    
+  skipSunday Boolean @default(false)
+  // skipHoliday Boolean @default(false)
+
+  status ContractStatus @default(ACTIVE)    // Status do contrato (ativo, finalizado, cancelado)
+
+  createdAt DateTime @default(now()) 
+  updatedAt DateTime @updatedAt
+
+  // Relação com as parcelas do contrato
+  // installments Installment[]
+
+  // Índices para otimizar consultas
+  @@index([customerId])
+  @@index([startDate])
+  @@index([status])
+
+  @@map("contract") // Mapeia a tabela para "contract" no banco de dados
 }
 
 
