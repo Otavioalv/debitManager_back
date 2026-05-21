@@ -1,9 +1,10 @@
 import { CustomersRepository } from "./customers.repository";
 import { CustomersMapper } from "./customers.mapper";
-import { CustomerResponseDTO, DataWithPagination } from "./customers.dto";
+import { CustomerResponseDTO } from "./customers.dto";
 import { CreateCustomerBody, FilterListCustomerParams, UpdateCustomerBody } from "./customers.type";
 import { AppError } from "@/shared/http/AppError";
 import { Customer } from "@generated/prisma/client";
+import { DataWithPagination } from "@/shared/http/response.types";
 
 
 export class CustomersService {

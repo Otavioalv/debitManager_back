@@ -16,6 +16,10 @@ export interface Meta {
     filters?: Record<string, unknown>,
 }
 
+export interface DataWithPagination<T> {
+    data: T,
+    pagination: Pagination,
+}
 
 export type ZodTreeError = ReturnType<typeof z.treeifyError>;
 export interface Details {

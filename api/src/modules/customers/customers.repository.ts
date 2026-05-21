@@ -1,8 +1,8 @@
 import { Customer } from "@generated/prisma/client";
 import { CreateCustomerBody, FilterListCustomerParams, UpdateCustomerBody } from "./customers.type";
-import {DataWithPagination} from "./customers.dto";
 import { ExtendedPrismaClient } from "@/shared/database/prisma";
 import { buildPaginatedResponse } from "@/shared/utils/pagination.utils";
+import { DataWithPagination } from "@/shared/http/response.types";
 
 
 export class CustomersRepository {

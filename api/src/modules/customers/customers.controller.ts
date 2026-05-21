@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import { ApiResponse } from "@/shared/http/ApiResponse";
 import { CustomersService } from "./customers.service";
-import { CustomerResponseDTO, DataWithPagination } from "./customers.dto";
+import { CustomerResponseDTO } from "./customers.dto";
 import { CreateCustomerBody, FilterListCustomerParams, UpdateCustomerBody } from "./customers.type";
+import { DataWithPagination } from "@/shared/http/response.types";
 
 export class CustomersController {
     constructor(

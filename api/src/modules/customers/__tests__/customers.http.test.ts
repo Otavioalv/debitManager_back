@@ -182,39 +182,17 @@ describe("Customers API testing", () => {
             };
 
             const created = await Promise.all([
-                request(app)
-                    .post("/api/customers")
-                    .send(customer),
-
-                request(app)
-                    .post("/api/customers")
-                    .send(customer),
-
-                request(app)
-                    .post("/api/customers")
-                    .send(customer),
+                request(app).post("/api/customers").send(customer),
+                request(app).post("/api/customers").send(customer),
+                request(app).post("/api/customers").send(customer),
             ]);
 
-            const ids = created.map(
-                (res) => res.body.data.id,
-            );
+            const ids = created.map((res) => res.body.data.id);
+            const deleteRes = await request(app).delete("/api/customers").send({ids});
 
-            const deleteRes =
-                await request(app)
-                    .delete("/api/customers")
-                    .send({
-                        ids,
-                    });
+            expect(deleteRes.status).toBe(200);
 
-            expect(
-                deleteRes.status,
-            )
-            .toBe(200);
-
-            expect(
-                deleteRes.body,
-            )
-            .toMatchObject({
+            expect(deleteRes.body,).toMatchObject({
                 success: true,
                 message: expect.any(String),
                 data: {

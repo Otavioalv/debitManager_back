@@ -1,4 +1,4 @@
-import { Pagination } from "@/shared/http/response.types";
+
 
 
 /* 
@@ -18,9 +18,4 @@ export interface CustomerResponseDTO {
     phoneNumber: string;
     createdAt: string;
     updatedAt: string;
-}
-
-export interface DataWithPagination<T> {
-    data: T,
-    pagination: Pagination,
 }
