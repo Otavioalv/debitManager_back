@@ -74,6 +74,14 @@ model Contract {
 
   customerId String @db.Uuid
   customer Customer @relation(fields: [customerId], references: [id])
+
+  /* 
+  customer Customer @relation(
+  fields: [customerId],
+  references: [id],
+  onDelete: Restrict
+)
+   */
   
   totalAmount BigInt          // Valor total do contrato
   installmentCount Int        // Quantidade de parcelas
