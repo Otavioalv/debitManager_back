@@ -19,4 +19,7 @@ export type FilterListCustomerParams = z.infer<typeof listCustomersQuerySchema>;
 export type CustomerParams = z.infer<typeof customerParamsSchema>;
 
 export type CreateCustomerBody = z.infer<typeof createCustomerBodySchema>;
+export type CreateCustomerInputBody = z.input<typeof createCustomerBodySchema>;
+
 export type UpdateCustomerBody = z.infer<typeof updateCustomerBodySchema>;
+

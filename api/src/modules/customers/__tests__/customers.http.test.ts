@@ -1,114 +1,228 @@
 import request from "supertest";
 import app from "@/app";
+import { CreateCustomerInputBody } from "../customers.type";
 
 
 describe("Customers API testing", () => {
-    describe("GET /customers (status) - 200", () => {
+    describe("GET api/customers (status) - 200", () => {
         it("should return all customers", async () => {
             const res = await request(app).get("/api/customers");
 
             expect(res.status).toBe(200);
             expect(res.body).toMatchObject({
-                success: expect.any(Boolean),
+                success: true,
                 message: expect.any(String),
-                data: expect.any(Array),
+                data: {
+                    data: expect.any(Array),
+                    pagination: expect.any(Object),
+                },
+                meta: null, 
+                error: null,
             });
         })
-    })
-})
+    });
 
-//     describe("POST /customers (status) - 201", () => {
-//         it("should create new customer", async () => {
-//             const customer = {
-//                 name: "Customer Test",
-//                 document: "12345678900",
-//                 email: "cust@test.local",
-//                 phone: "+5511999999999",
-//             };
+    describe("GET api/customers/:id (status) - 200", () => {
+        it("should return a customer by id", async () => {
+            const list = await request(app).get("/api/customers");
 
-//             const res = await request(app).post("/api/customers").send(customer);
+            const id = list.body.data.data[0].id;
 
-//             expect(res.status).toBe(201);
-//             expect(res.body.data).toMatchObject({
-//                 id: expect.any(Number),
-//                 name: expect.any(String),
-//                 document: expect.any(String),
-//                 email: expect.any(String),
-//                 phone: expect.any(String),
-//             });
-//         });
-//     });
 
-//     describe("PUT /customers/:id (status) - 200", () => {
-//         it("should update a customer", async () => {
-//             const oldCustomer = {
-//                 name: "Old Customer",
-//                 document: "98765432100",
-//                 email: "old@test.local",
-//                 phone: "+5511988888888",
-//             };
+            const res = await request(app).get(`/api/customers/${id}`);
 
-//             const createRes = await request(app).post("/api/customers").send(oldCustomer);
+            expect(res.status).toBe(200);
+            expect(res.body).toMatchObject({
+                success: true,
+                message: expect.any(String),
+                data: {
+                    id: expect.any(String),
+                    name: expect.any(String),
+                    balance: expect.any(String),
+                    phoneNumber: expect.any(String),
+                },
+                meta: null,
+                error: null,
+            });
 
-//             expect(createRes.status).toBe(201);
-//             expect(createRes.body.data).toMatchObject({
-//                 id: expect.any(Number),
-//                 name: expect.any(String),
-//                 document: expect.any(String),
-//                 email: expect.any(String),
-//                 phone: expect.any(String),
-//             });
+           expect(res.body.data.id).toBe(id);
+        });
+    });
 
-//             const customerId = createRes.body.data.id;
-//             const newCustomer = {
-//                 name: "New Customer",
-//                 document: "11122233344",
-//                 email: "new@test.local",
-//                 phone: "+5511977777777",
-//             };
+    describe("POST api/customers (status) - 201", () => {
+        it("should create new customer", async () => {
+            const customer:CreateCustomerInputBody = {
+                balance: "12334",
+                name: "Customer Test",
+                phoneNumber: "+5511999999999",
+            };
 
-//             const updateRes = await request(app).put(`/api/customers/${customerId}`).send(newCustomer);
+            const res = await request(app).post("/api/customers").send(customer);
+                
+            expect(res.status).toBe(201);
+            expect(res.body).toMatchObject({
+                success: true,
+                message: expect.any(String),
+                data: {
+                    id: expect.any(String),
+                    name: expect.any(String),
+                    balance: expect.any(String),
+                    phoneNumber: expect.any(String),
+                    createdAt: expect.any(String),
+                    updatedAt: expect.any(String),
+                },
+                meta: null,
+                error: null,
+            });
+        });
+    });
 
-//             expect(updateRes.status).toBe(200);
-//             expect(updateRes.body.data).toEqual(
-//                 expect.objectContaining({
-//                     id: customerId,
-//                     ...newCustomer,
-//                 })
-//             );
-//         });
-//     });
+    describe("PUT api/customers/:id (status) - 200", () => {
+        it("should update a customer", async () => {
+            const oldCustomer:CreateCustomerInputBody = {
+                balance: "12334",
+                name: "Customer Test",
+                phoneNumber: "+5511999999999",
+            };
 
-//     describe("DELETE /customers/:id (status) - 200", () => {
-//         it("should delete customer", async () => {
-//             const customer = {
-//                 name: "Delete Customer",
-//                 document: "55566677788",
-//                 email: "del@test.local",
-//                 phone: "+5511966666666",
-//             };
+            const createRes = await request(app).post("/api/customers").send(oldCustomer);
 
-//             const createRes = await request(app).post("/api/customers").send(customer);
-            
-//             expect(createRes.status).toBe(201);
-//             expect(createRes.body.data).toMatchObject({
-//                 id: expect.any(Number),
-//                 name: expect.any(String),
-//                 document: expect.any(String),
-//                 email: expect.any(String),
-//                 phone: expect.any(String),
-//             });
+            expect(createRes.status).toBe(201);
+            expect(createRes.body).toMatchObject({
+                success: true,
+                message: expect.any(String),
+                data: {
+                    id: expect.any(String),
+                    name: expect.any(String),
+                    balance: expect.any(String),
+                    phoneNumber: expect.any(String),
+                    createdAt: expect.any(String),
+                    updatedAt: expect.any(String),
+                },
+                meta: null,
+                error: null,
+            });
 
-//             const customerId = createRes.body.data.id;
-//             const deleteRes = await request(app).delete(`/api/customers/${customerId}`);
+            const customerId = createRes.body.data.id;
+            const newCustomer:CreateCustomerInputBody = {
+                name: "New Customer",
+                balance: "4321",
+                phoneNumber: "+5511977777777",
+            };
 
-//             expect(deleteRes.status).toBe(200);
-//             expect(deleteRes.body.data).toEqual(
-//             expect.objectContaining({
-//                 id: customerId,
-//                     ...customer,
-//                 })
-//             );
-//         });
-//     });
-// });
+            const updateRes = await request(app).put(`/api/customers/${customerId}`).send(newCustomer);
+
+            expect(updateRes.status).toBe(200);
+            expect(updateRes.body).toMatchObject({
+                success: true,
+                message: expect.any(String),
+                data: {
+                    id: expect.any(String),
+                    name: expect.any(String),
+                    balance: expect.any(String),
+                    phoneNumber: expect.any(String),
+                    createdAt: expect.any(String),
+                    updatedAt: expect.any(String),
+                },
+                meta: null,
+                error: null,
+            });
+
+        })
+    });
+
+    describe("DELETE api/customers/:id (status) - 200", () => {
+        it("should delete a customer", async () => {
+            const customer:CreateCustomerInputBody = {
+                balance: "12334",
+                name: "Customer Test",
+                phoneNumber: "+5511999999999",
+            };
+
+            const createRes = await request(app).post("/api/customers").send(customer);
+
+            expect(createRes.status).toBe(201);
+            expect(createRes.body).toMatchObject({
+                success: true,
+                message: expect.any(String),
+                data: {
+                    id: expect.any(String),
+                    name: expect.any(String),
+                    balance: expect.any(String),
+                    phoneNumber: expect.any(String),
+                    createdAt: expect.any(String),
+                    updatedAt: expect.any(String),
+                },
+                meta: null,
+                error: null,
+            });
+
+            const customerId = createRes.body.data.id;
+
+            const deleteRes = await request(app).delete(`/api/customers/${customerId}`);
+
+            expect(deleteRes.status).toBe(200);
+            expect(deleteRes.body).toMatchObject({
+                success: true,
+                message: expect.any(String),
+                data: null,
+                meta: null,
+                error: null,
+            });
+        });
+    });
+
+    describe("DELETE /api/customers (status - 200)", () => {
+        it("should delete many customers", async () => {
+
+            const customer: CreateCustomerInputBody = {
+                balance: "12334",
+                name: "Customer Test",
+                phoneNumber: "+5511999999999",
+            };
+
+            const created = await Promise.all([
+                request(app)
+                    .post("/api/customers")
+                    .send(customer),
+
+                request(app)
+                    .post("/api/customers")
+                    .send(customer),
+
+                request(app)
+                    .post("/api/customers")
+                    .send(customer),
+            ]);
+
+            const ids = created.map(
+                (res) => res.body.data.id,
+            );
+
+            const deleteRes =
+                await request(app)
+                    .delete("/api/customers")
+                    .send({
+                        ids,
+                    });
+
+            expect(
+                deleteRes.status,
+            )
+            .toBe(200);
+
+            expect(
+                deleteRes.body,
+            )
+            .toMatchObject({
+                success: true,
+                message: expect.any(String),
+                data: {
+                    deleted: 3
+                },
+                meta: null,
+                error: null,
+            });
+        });
+    });
+});
