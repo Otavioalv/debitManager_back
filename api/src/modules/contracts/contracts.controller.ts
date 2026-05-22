@@ -15,6 +15,7 @@ export class ContractsController {
             ...contract,
             totalAmount: contract.totalAmount.toString()
         }));
+        
         return ApiResponse.ok(res, response, "Contracts fetched successfully");
     }
 }

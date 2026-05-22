@@ -8,8 +8,8 @@ export class ContractsRepository {
     ){}
 
     public async listContracts() {
-        // criar muitos contratos para teste
-        // for(let i = 1; i <= 1; i++) {
+        // // criar muitos contratos para teste
+        // for(let i = 1; i <= 100; i++) {
         //     // pegar id aleatorio de uma lista de customers
         //     const customers = await this.prisma.customer.findMany();
         //     const randomCustomer = customers[Math.floor(Math.random() * customers.length)];
@@ -20,14 +20,14 @@ export class ContractsRepository {
         //             description: `Description for Contract ${i}`,
         //             installmentCount: 12,
         //             customerId: randomCustomer.id,
-        //             installmentFrequency: ["DAILY", "WEEKLY", "BIWEEKLY", "MONTHLY", "ANNUALLY"][Math.floor(Math.random() * 3)] as InstallmentFrequency,
+        //             installmentFrequency: ["DAILY", "WEEKLY", "BIWEEKLY", "MONTHLY", "ANNUALLY"][Math.floor(Math.random() * 5)] as InstallmentFrequency,
         //             totalAmount: Math.floor(Math.random() * 10000) + 1000,
         //             interestPeriod: ["DAILY", "MONTHLY", "ANNUALLY"][Math.floor(Math.random() * 3)] as InterestPeriod, 
         //             interestRate: parseFloat((Math.random() * 20).toFixed(2)),
         //             startDate: new Date(),
         //             skipSaturday: Math.random() < 0.5,
         //             skipSunday: Math.random() < 0.5,
-        //             status: ["ACTIVE", "FINISHED", "CANCELED", "DEFAULTED"][Math.floor(Math.random() * 3)] as ContractStatus
+        //             status: ["ACTIVE", "FINISHED", "CANCELED", "DEFAULTED"][Math.floor(Math.random() * 4)] as ContractStatus
         //         }
         //     });
         // }
