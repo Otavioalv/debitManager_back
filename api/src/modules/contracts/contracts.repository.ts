@@ -1,5 +1,7 @@
 import { ExtendedPrismaClient } from "@/shared/database/prisma";
 import { ContractStatus, InstallmentFrequency, InterestPeriod } from "@generated/prisma/enums";
+import { FilterListContractsParams } from "./contracts.types";
+import { Prisma } from "@generated/prisma/client";
 
 
 export class ContractsRepository {
@@ -7,7 +9,7 @@ export class ContractsRepository {
         private prisma: ExtendedPrismaClient
     ){}
 
-    public async listContracts() {
+    public async listContracts(filter: FilterListContractsParams) {
         // // criar muitos contratos para teste
         // for(let i = 1; i <= 100; i++) {
         //     // pegar id aleatorio de uma lista de customers
@@ -32,7 +34,100 @@ export class ContractsRepository {
         //     });
         // }
 
-        const contracts = await this.prisma.contract.findMany();
+        /* 
+        return await this.prisma.contract.findMany({
+    where: query.search
+        ? {
+            OR: [
+                {
+                    customer: {
+                        name: {
+                            contains: query.search,
+                            mode: "insensitive",
+                        },
+                    },
+                },
+
+                {
+                    title: {
+                        contains: query.search,
+                        mode: "insensitive",
+                    },
+                },
+            ],
+        }
+        : undefined,
+
+    orderBy:
+        query.sortBy === "customerName"
+            ? {
+                customer: {
+                    name: "asc",
+                },
+            }
+            : {
+                startDate: "desc",
+            },
+
+    take: query.limit,
+});
+        */
+        
+        // deixar global
+        type OrderByMap<T> = 
+            Record<
+                NonNullable<
+                    
+                >,
+                Prisma.ContractOrderByWithRelationInput
+            >;
+
+        const orderByMap:OrderByMap = {
+            customerName: {
+                customer: {
+                    name: "asc",
+                },
+            },
+            startDate: {
+                startDate: "desc",
+            },
+
+            title: {
+                title: "asc",
+            },
+        };
+
+
+        const contracts = await this.prisma.contract.findMany({
+            where: {
+                ...(filter.search && {
+                    OR: [
+                        {
+                            customer: {
+                                name: {
+                                    contains: filter.search,
+                                    mode: "insensitive",
+                                },
+                            },
+                        },
+
+                        {
+                            title: {
+                                contains: filter.search,
+                                mode: "insensitive",
+                            },
+                        },
+                    ],
+                }),
+            },
+            orderBy: [
+                orderByMap[filter.sortBy ?? "customerName"],
+                {
+                    id: "asc",
+                }
+            ],
+            take: filter.limit + 1,
+        });
         return contracts;
     }
 }

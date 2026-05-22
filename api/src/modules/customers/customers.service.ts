@@ -11,7 +11,7 @@ export class CustomersService {
     constructor(
         private customersRepository: CustomersRepository,
     ) {}
-
+    
     public async listCustomers(filter: FilterListCustomerParams): Promise<DataWithPagination<CustomerResponseDTO[]>> {
         const response:DataWithPagination<Customer[]> = await this.customersRepository.listCustomers(filter);
         const {data, pagination} = response;

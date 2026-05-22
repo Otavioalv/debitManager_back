@@ -19,6 +19,6 @@ export const paginationSchema = z.object({
             .min(1, "Tem que ser maior que 1")
             .max(100, "Tem que ser menor que 100")
             .optional()
-            .default(2),
+            .default(15),
         ),
 });
