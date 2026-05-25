@@ -2,6 +2,7 @@ import { ExtendedPrismaClient } from "@/shared/database/prisma";
 import { ContractStatus, InstallmentFrequency, InterestPeriod } from "@generated/prisma/enums";
 import { FilterListContractsParams } from "./contracts.types";
 import { Prisma } from "@generated/prisma/client";
+import { OrderByMap } from "@/shared/types";
 
 
 export class ContractsRepository {
@@ -34,55 +35,10 @@ export class ContractsRepository {
         //     });
         // }
 
-        /* 
-        return await this.prisma.contract.findMany({
-    where: query.search
-        ? {
-            OR: [
-                {
-                    customer: {
-                        name: {
-                            contains: query.search,
-                            mode: "insensitive",
-                        },
-                    },
-                },
-
-                {
-                    title: {
-                        contains: query.search,
-                        mode: "insensitive",
-                    },
-                },
-            ],
-        }
-        : undefined,
-
-    orderBy:
-        query.sortBy === "customerName"
-            ? {
-                customer: {
-                    name: "asc",
-                },
-            }
-            : {
-                startDate: "desc",
-            },
-
-    take: query.limit,
-});
-        */
-        
-        // deixar global
-        type OrderByMap<T> = 
-            Record<
-                NonNullable<
-                    
-                >,
-                Prisma.ContractOrderByWithRelationInput
-            >;
-
-        const orderByMap:OrderByMap = {
+        const orderByMap:OrderByMap<
+            FilterListContractsParams["sortBy"], 
+            Prisma.ContractOrderByWithRelationInput
+        > = {
             customerName: {
                 customer: {
                     name: "asc",
@@ -91,7 +47,6 @@ export class ContractsRepository {
             startDate: {
                 startDate: "desc",
             },
-
             title: {
                 title: "asc",
             },
