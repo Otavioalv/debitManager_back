@@ -1,8 +1,9 @@
-import { Customer } from "@generated/prisma/client";
+import { Customer, Prisma } from "@generated/prisma/client";
 import { CreateCustomerBody, FilterListCustomerParams, UpdateCustomerBody } from "./customers.type";
 import { ExtendedPrismaClient } from "@/shared/database/prisma";
 import { buildPaginatedResponse } from "@/shared/utils/pagination.utils";
 import { DataWithPagination } from "@/shared/http/response.types";
+import { OrderByMap } from "@/shared/types";
 
 
 export class CustomersRepository {
@@ -12,6 +13,18 @@ export class CustomersRepository {
 
     
     public async listCustomers(filter:FilterListCustomerParams): Promise<DataWithPagination<Customer[]>>{
+        const orderByMap: OrderByMap<
+            FilterListCustomerParams["sortBy"],
+            Prisma.CustomerOrderByWithRelationInput
+        > = {
+            name: {
+                name: "asc",
+            },
+            balance: {
+                balance: "asc",
+            },
+        }
+
         const dataPaginated = await this.prisma.customer.findMany({
             where: {
                 ...(filter.name && {
@@ -22,9 +35,7 @@ export class CustomersRepository {
                 }),
             },
             orderBy: [
-                {
-                    [filter.sortBy ?? "name"]: "asc",
-                },
+                orderByMap[filter.sortBy ?? "name"],
                 {
                     id: "asc",
                 }
