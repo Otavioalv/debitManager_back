@@ -11,7 +11,6 @@ export class CustomersRepository {
         private prisma: ExtendedPrismaClient
     ) {}
 
-    
     public async listCustomers(filter:FilterListCustomerParams): Promise<DataWithPagination<Customer[]>>{
         const orderByMap: OrderByMap<
             FilterListCustomerParams["sortBy"],
@@ -34,18 +33,18 @@ export class CustomersRepository {
                     }
                 }),
             },
-            orderBy: [
-                orderByMap[filter.sortBy ?? "name"],
-                {
-                    id: "asc",
-                }
-            ],
             ...(filter.cursor && {
                 cursor: {
                     id: filter.cursor,
                 },
                 skip: 1,
             }),
+            orderBy: [
+                orderByMap[filter.sortBy ?? "name"],
+                {
+                    id: "asc",
+                }
+            ],
             take: filter.limit + 1, 
         });
 

@@ -81,4 +81,20 @@ export class ContractsRepository {
 
         return buildPaginatedResponse(dataPaginated, filter.limit, filter.cursor);
     }
+
+    public async getContractById(id: string): Promise<ContractWithCustomer | null> {
+        return this.prisma.contract.findUnique({
+            where: {
+                id,
+            },
+            include: {
+                customer: {
+                    select:  {
+                        id: true, 
+                        name: true,
+                    }
+                }
+            },
+        })
+    }
 }

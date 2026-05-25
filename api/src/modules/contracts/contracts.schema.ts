@@ -27,3 +27,7 @@ export const listContractsQuerySchema = z.object({
         )
 
 }).extend(paginationSchema.shape);
+
+export  const contractParamsSchema = z.object({
+    id: z.uuid("Parametro invalido"),
+});

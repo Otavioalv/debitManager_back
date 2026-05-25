@@ -80,8 +80,7 @@ model Contract {
   fields: [customerId],
   references: [id],
   onDelete: Restrict
-)
-   */
+  */
   
   totalAmount BigInt          // Valor total do contrato
   installmentCount Int        // Quantidade de parcelas

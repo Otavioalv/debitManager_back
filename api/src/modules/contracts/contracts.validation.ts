@@ -1,6 +1,6 @@
 import { ApiResponse } from "@/shared/http/ApiResponse";
 import { NextFunction, Request, Response } from "express";
-import { listContractsQuerySchema } from "./contracts.schema";
+import { contractParamsSchema, listContractsQuerySchema } from "./contracts.schema";
 import z from "zod";
 
 
@@ -28,3 +28,28 @@ export const validateQuery = (
 
     return next();
 };
+
+export const validateParams = (
+    req: Request,
+    res: Response<ApiResponse>,
+    next: NextFunction
+) => {
+    const result = contractParamsSchema.safeParse(req.params);
+
+    if(!result.success){
+        return ApiResponse.error(res, {
+            code: "ERROR_PARAMS",
+            message: "Erro com parametros da rota",
+            statusCode: 400,
+            details: {
+                zod: z.treeifyError(result.error)
+            }
+        })
+    }
+
+    res.locals.validated.params = result.data;
+
+    // console.log("[VALIDATED PARAMS - contracts.validation]: ", res.locals.validated.params);
+
+    return next();
+}

@@ -3,6 +3,7 @@ import { ContractsRepository } from "./contracts.repository";
 import { ContractWithCustomer, FilterListContractsParams } from "./contracts.types";
 import { ContractDetailsResponseDTO } from "./contracts.dto";
 import { ContractsMapper } from "./contracts.mapper";
+import { AppError } from "@/shared/http/AppError";
 
 
 export class ContractsService {
@@ -21,4 +22,15 @@ export class ContractsService {
 
         return resList;
     }
+
+    public async getContractById(id: string): Promise<ContractDetailsResponseDTO> {
+        const contract = await this.contractsRepository.getContractById(id);
+        
+        if(!contract) {
+            throw AppError.notFound("Contract not found");
+        }
+
+        return ContractsMapper.toDetailsResponse(contract);
+    }
+
 }

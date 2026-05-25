@@ -15,4 +15,13 @@ export class ContractsController {
 
         return ApiResponse.ok(res, contracts, "Contracts fetched successfully");
     }
+
+    public getContractById = async (req: Request, res: Response) => {
+        const {id} = res.locals.validated.params as { id: string };
+
+        const data = await this.contractService.getContractById(id);
+
+        return ApiResponse.ok(res, data, "Contract fetched successfully");
+    }
+
 }
