@@ -8,6 +8,28 @@ const adapter = new PrismaPg({
 });
 
 
-export const prisma = new PrismaClient({adapter});
+export const prisma = new PrismaClient({
+    adapter,
+     log: [
+        "query",
+        "info",
+        "warn",
+        "error",
+    ],
+});
+
+
+// Log every query made by Prisma
+prisma.$on("query", (e) => {
+    console.log("\nSQL:");
+    console.log(e.query);
+
+    console.log("\nPARAMS:");
+    console.log(e.params);
+
+    console.log("\nDURATION:");
+    console.log(e.duration);
+});
+
 export type ExtendedPrismaClient = typeof prisma;
 

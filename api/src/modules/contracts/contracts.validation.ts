@@ -24,7 +24,7 @@ export const validateQuery = (
 
     res.locals.validated.query = result.data;
 
-    console.log("[VALIDATED QUERY - contracts.validation]: ", res.locals.validated.query);
+    // console.log("[VALIDATED QUERY - contracts.validation]: ", res.locals.validated.query);
 
     return next();
 };
