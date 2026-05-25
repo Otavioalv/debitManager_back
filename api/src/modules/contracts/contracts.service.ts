@@ -1,6 +1,6 @@
 import { DataWithPagination } from "@/shared/http/response.types";
 import { ContractsRepository } from "./contracts.repository";
-import { ContractWithCustomer, CreateContractBody, FilterListContractsParams } from "./contracts.types";
+import { ContractWithCustomer, CreateContractBody, FilterListContractsParams, UpdateContractBody } from "./contracts.types";
 import { ContractDetailsResponseDTO } from "./contracts.dto";
 import { ContractsMapper } from "./contracts.mapper";
 import { AppError } from "@/shared/http/AppError";
@@ -35,6 +35,11 @@ export class ContractsService {
 
     public async createContract(data: CreateContractBody): Promise<ContractDetailsResponseDTO> {
         const contract = await this.contractsRepository.createContract(data);
+        return ContractsMapper.toDetailsResponse(contract);
+    }
+
+    public async updateContract(id: string, data: UpdateContractBody): Promise<ContractDetailsResponseDTO> {
+        const contract = await this.contractsRepository.updateContract(id, data);
         return ContractsMapper.toDetailsResponse(contract);
     }
 

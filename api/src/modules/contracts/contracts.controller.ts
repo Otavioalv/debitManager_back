@@ -1,7 +1,11 @@
 import { ApiResponse } from "@/shared/http/ApiResponse";
 import { ContractsService } from "./contracts.service";
 import { Request, Response } from "express";
-import { CreateContractBody, FilterListContractsParams } from "./contracts.types";
+import { 
+    CreateContractBody, 
+    FilterListContractsParams, 
+    UpdateContractBody 
+} from "./contracts.types";
 
 export class ContractsController {
     constructor (
@@ -30,6 +34,15 @@ export class ContractsController {
         const data = await this.contractService.createContract(createData);
 
         return ApiResponse.ok(res, data, "Contract created successfully");
+    }
+
+    public updateContract = async (req: Request, res: Response) => {
+        const { id } = res.locals.validated.params as { id: string };
+        const updateData = res.locals.validated.body as UpdateContractBody;
+
+        const data = await this.contractService.updateContract(id, updateData);
+
+        return ApiResponse.ok(res, data, "Contract updated successfully");
     }
 
 }

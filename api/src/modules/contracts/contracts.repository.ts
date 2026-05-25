@@ -1,5 +1,5 @@
 import { ExtendedPrismaClient } from "@/shared/database/prisma";
-import { ContractWithCustomer, CreateContractBody, FilterListContractsParams } from "./contracts.types";
+import { ContractWithCustomer, CreateContractBody, FilterListContractsParams, UpdateContractBody } from "./contracts.types";
 import { Prisma } from "@generated/prisma/client";
 import { buildPaginatedResponse } from "@/shared/utils/pagination.utils";
 import { DataWithPagination } from "@/shared/http/response.types";
@@ -111,41 +111,57 @@ export class ContractsRepository {
             }
         })
     }
-
-    /* 
-    ...(data.customerId !== undefined && {
-                    customerId: data.customerId,
-                }),
-                ...(data.description !== undefined && {
-                    description: data.description,
-                }),
-                ...(data.installmentCount !== undefined && {
-                    installmentCount: data.installmentCount,
-                }),
-                ...(data.installmentFrequency !== undefined && {
-                    installmentFrequency: data.installmentFrequency,
-                }),
-                ...(data.interestPeriod !== undefined && {
-                    interestPeriod: data.interestPeriod,
-                }),
-                ...(data.interestRate !== undefined && {
-                    interestRate: data.interestRate,
-                }),
-                ...(data.skipSaturday !== undefined && {
-                    skipSaturday: data.skipSaturday,
-                }),
-                ...(data.skipSunday !== undefined && {
-                    skipSunday: data.skipSunday,
-                }),
-                ...(data.startDate !== undefined && {
-                    startDate: data.startDate,
-                }),
-                ...(data.title !== undefined && {
-                    title: data.title,
-                }),
-                ...(data.totalAmount !== undefined && {
-                    totalAmount: data.totalAmount,
-                }),
-    */
+    
+    public async updateContract(id: string, data: Partial<UpdateContractBody>): Promise<ContractWithCustomer> {
+        return this.prisma.contract.update({
+            where: {
+                id,
+            },
+            include:  {
+                customer: {
+                    select: {
+                        id: true, 
+                        name: true,
+                    }
+                }
+            },
+            data,
+            // data: {
+            //     ...(data.customerId !== undefined && {
+            //         customerId: data.customerId,
+            //     }),
+            //     ...(data.description !== undefined && {
+            //         description: data.description,
+            //     }),
+            //     ...(data.installmentCount !== undefined && {
+            //         installmentCount: data.installmentCount,
+            //     }),
+            //     ...(data.installmentFrequency !== undefined && {
+            //         installmentFrequency: data.installmentFrequency,
+            //     }),
+            //     ...(data.interestPeriod !== undefined && {
+            //         interestPeriod: data.interestPeriod,
+            //     }),
+            //     ...(data.interestRate !== undefined && {
+            //         interestRate: data.interestRate,
+            //     }),
+            //     ...(data.skipSaturday !== undefined && {
+            //         skipSaturday: data.skipSaturday,
+            //     }),
+            //     ...(data.skipSunday !== undefined && {
+            //         skipSunday: data.skipSunday,
+            //     }),
+            //     ...(data.startDate !== undefined && {
+            //         startDate: data.startDate,
+            //     }),
+            //     ...(data.title !== undefined && {
+            //         title: data.title,
+            //     }),
+            //     ...(data.totalAmount !== undefined && {
+            //         totalAmount: data.totalAmount,
+            //     }),
+            // }
+        })
+    }
 
 }

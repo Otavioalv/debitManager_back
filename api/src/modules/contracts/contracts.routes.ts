@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { contractsController } from "./contracts.container";
 import { validateBody, validateParams, validateQuery } from "./contracts.validation";
-import { createContractBodySchema } from "./contracts.schema";
+import { createContractBodySchema, updateContractBodySchema } from "./contracts.schema";
 
 
 const contractsRouter = Router();
@@ -27,6 +27,13 @@ contractsRouter.post(
     contractsController.createContract,
 );
 
+// update
+contractsRouter.put(
+    "/:id",
+    validateParams,
+    validateBody(updateContractBodySchema),
+    contractsController.updateContract,
+);
 
 
 

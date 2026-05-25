@@ -74,3 +74,6 @@ export const createContractBodySchema = z.object({
         .boolean("Campo precisa conter um valor booleano")
         .default(false), 
 });
+
+
+export const updateContractBodySchema = createContractBodySchema.partial();
