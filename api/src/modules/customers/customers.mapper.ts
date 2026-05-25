@@ -8,7 +8,7 @@ export class CustomersMapper {
             id: customer.id.toString(),
             name: customer.name,
             balance: customer.balance.toString(),
-            phoneNumber: customer.phoneNumber,
+            phoneNumber: customer.phoneNumber || "",
             createdAt: customer.createdAt.toISOString(),
             updatedAt: customer.updatedAt.toISOString(),
         };

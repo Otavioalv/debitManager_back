@@ -13,12 +13,6 @@ export class ContractsController {
 
         const contracts = await this.contractService.listContracts(filter);
 
-        // converter bigint para string temporario
-        const  response = contracts.map(contract => ({
-            ...contract,
-            totalAmount: contract.totalAmount.toString()
-        }));
-
-        return ApiResponse.ok(res, response, "Contracts fetched successfully");
+        return ApiResponse.ok(res, contracts, "Contracts fetched successfully");
     }
 }
