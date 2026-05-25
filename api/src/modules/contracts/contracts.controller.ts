@@ -1,7 +1,7 @@
 import { ApiResponse } from "@/shared/http/ApiResponse";
 import { ContractsService } from "./contracts.service";
 import { Request, Response } from "express";
-import { FilterListContractsParams } from "./contracts.types";
+import { CreateContractBody, FilterListContractsParams } from "./contracts.types";
 
 export class ContractsController {
     constructor (
@@ -22,6 +22,14 @@ export class ContractsController {
         const data = await this.contractService.getContractById(id);
 
         return ApiResponse.ok(res, data, "Contract fetched successfully");
+    }
+
+    public createContract = async (req: Request, res: Response) => {
+        const createData = res.locals.validated.body as CreateContractBody;
+
+        const data = await this.contractService.createContract(createData);
+
+        return ApiResponse.ok(res, data, "Contract created successfully");
     }
 
 }

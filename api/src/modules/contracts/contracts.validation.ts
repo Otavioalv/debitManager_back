@@ -53,3 +53,33 @@ export const validateParams = (
 
     return next();
 }
+
+export const validateBody = <TSchema extends z.ZodType>(schema: TSchema)  => {
+    return (
+        req: Request,
+        res: Response<ApiResponse>,
+        next: NextFunction,
+    ) => {
+        const result = schema.safeParse(req.body);
+        
+        console.log(result);
+        if(!result.success){
+            return ApiResponse.error(
+                res, 
+                {
+                    code: "ERROR_BODY",
+                    message: "Invalid request body",
+                    statusCode: 400,
+                    details: {
+                        zod: z.treeifyError(result.error)
+                    }
+                }
+            );
+        }
+
+        res.locals.validated.body = result.data;
+
+        return next();
+    };
+};
+

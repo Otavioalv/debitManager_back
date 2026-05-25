@@ -36,6 +36,17 @@ enum InstallmentFrequency {
   BIWEEKLY      // Vencimentos quinzenais
   MONTHLY       // Vencimentos mensais
   ANNUALLY      // Vencimentos anuais
+
+  /* 
+    DAILY
+    WEEKLY
+    BIWEEKLY
+    MONTHLY
+    BIMONTHLY
+    QUARTERLY
+    SEMIANNUALLY
+    ANNUALLY
+   */
 }
 
 

@@ -54,7 +54,7 @@ export const validateParams = (
 }
 
 
-export const validateBody = (schema: z.ZodTypeAny) => {
+export const validateBody = (schema: z.ZodType) => {
     return (
         req: Request,
         res: Response<ApiResponse>,

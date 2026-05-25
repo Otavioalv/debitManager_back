@@ -1,5 +1,5 @@
 import z from "zod";
-import { listContractsQuerySchema } from "./contracts.schema";
+import { createContractBodySchema, listContractsQuerySchema } from "./contracts.schema";
 import { Prisma } from "@generated/prisma/client";
 
 
@@ -17,3 +17,8 @@ export type ContractWithCustomer = Prisma.ContractGetPayload<{
         };
     };
 }>;
+
+
+export type CreateContractBody = z.infer<typeof createContractBodySchema>;
+export type CreateContractInputBody = z.input<typeof createContractBodySchema>;
+
