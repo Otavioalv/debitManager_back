@@ -43,4 +43,12 @@ export class ContractsService {
         return ContractsMapper.toDetailsResponse(contract);
     }
 
+    public async deleteContract(id: string): Promise<void>{
+        await this.contractsRepository.deleteContract(id);
+    }
+
+    public async deleteManyContracts(ids: string[]): Promise<number>{
+        return await this.contractsRepository.deleteManyContracts(ids);
+    }
+
 }

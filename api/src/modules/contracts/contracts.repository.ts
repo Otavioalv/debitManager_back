@@ -125,43 +125,28 @@ export class ContractsRepository {
                     }
                 }
             },
-            data,
-            // data: {
-            //     ...(data.customerId !== undefined && {
-            //         customerId: data.customerId,
-            //     }),
-            //     ...(data.description !== undefined && {
-            //         description: data.description,
-            //     }),
-            //     ...(data.installmentCount !== undefined && {
-            //         installmentCount: data.installmentCount,
-            //     }),
-            //     ...(data.installmentFrequency !== undefined && {
-            //         installmentFrequency: data.installmentFrequency,
-            //     }),
-            //     ...(data.interestPeriod !== undefined && {
-            //         interestPeriod: data.interestPeriod,
-            //     }),
-            //     ...(data.interestRate !== undefined && {
-            //         interestRate: data.interestRate,
-            //     }),
-            //     ...(data.skipSaturday !== undefined && {
-            //         skipSaturday: data.skipSaturday,
-            //     }),
-            //     ...(data.skipSunday !== undefined && {
-            //         skipSunday: data.skipSunday,
-            //     }),
-            //     ...(data.startDate !== undefined && {
-            //         startDate: data.startDate,
-            //     }),
-            //     ...(data.title !== undefined && {
-            //         title: data.title,
-            //     }),
-            //     ...(data.totalAmount !== undefined && {
-            //         totalAmount: data.totalAmount,
-            //     }),
-            // }
+            data
         })
+    }
+
+    public async deleteContract(id: string): Promise<void> {
+        await this.prisma.contract.delete({
+            where: {
+                id,
+            }
+        });
+    }
+
+    public async deleteManyContracts(ids: string[]): Promise<number> {
+        const result = await this.prisma.contract.deleteMany({
+            where: {
+                id: {
+                    in: ids,
+                }
+            }
+        })
+
+        return result.count;
     }
 
 }

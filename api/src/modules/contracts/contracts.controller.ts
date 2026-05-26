@@ -45,4 +45,19 @@ export class ContractsController {
         return ApiResponse.ok(res, data, "Contract updated successfully");
     }
 
+    public deleteContract = async (req: Request, res: Response) => {
+        const {id} = res.locals.validated.params as {id: string};
+
+        await this.contractService.deleteContract(id);
+
+        return ApiResponse.ok(res, null, "Contract deleted successfully");
+    }
+
+    public deleteManyContracts = async (req: Request, res: Response) => {
+        const { ids } = res.locals.validated.body as {ids: string[]};
+
+        const deleted = await this.contractService.deleteManyContracts(ids);
+
+        return ApiResponse.ok(res, {deleted}, "Contracts deleted successfully");
+    }
 }

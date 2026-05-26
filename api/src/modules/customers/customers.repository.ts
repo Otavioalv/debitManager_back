@@ -70,17 +70,7 @@ export class CustomersRepository {
             where: {
                 id,
             },
-            data: {
-                ...(data.name !== undefined && { 
-                    name: data.name 
-                }),
-                ...(data.phoneNumber !== undefined && { 
-                    phoneNumber: data.phoneNumber 
-                }),
-                ...(data.balance !== undefined && { 
-                    balance: data.balance 
-                }),
-            },
+            data
         });
     }
 

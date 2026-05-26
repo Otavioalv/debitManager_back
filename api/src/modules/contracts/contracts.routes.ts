@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { contractsController } from "./contracts.container";
 import { validateBody, validateParams, validateQuery } from "./contracts.validation";
-import { createContractBodySchema, updateContractBodySchema } from "./contracts.schema";
+import { createContractBodySchema, deleteManyContractsBodySchema, updateContractBodySchema } from "./contracts.schema";
 
 
 const contractsRouter = Router();
@@ -35,6 +35,18 @@ contractsRouter.put(
     contractsController.updateContract,
 );
 
+// delete
+contractsRouter.delete(
+    "/:id",
+    validateParams,
+    contractsController.deleteContract,
+)
 
+// delete many
+contractsRouter.delete(
+    "/",
+    validateBody(deleteManyContractsBodySchema),
+    contractsController.deleteManyContracts,
+)
 
 export default contractsRouter;
