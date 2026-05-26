@@ -169,6 +169,9 @@ describe("Customers API testing", () => {
                 meta: null,
                 error: null,
             });
+
+            const getRes = await request(app).get(`/api/customers/${customerId}`);
+            expect(getRes.status).toBe(404);
         });
     });
 

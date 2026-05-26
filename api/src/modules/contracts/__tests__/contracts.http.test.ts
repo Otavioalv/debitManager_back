@@ -98,5 +98,41 @@ describe("Contracts HTTP Tests", () => {
             expect(res.status).toBe(200);
             contractDataApiResponseSchema.parse(res.body);
         });
-    });     
+    });
+    
+    describe("DELETE /api/contracts/:id (status) - 200", () => {
+        it("should delete a contract", async () => {
+            const contract: CreateContractInputBody = {
+                customerId: "6e25d18d-2862-4b76-9ac9-54dc7791638d",
+                title: "contract to delete",
+                totalAmount: "123234",
+                installmentCount: 21,
+                installmentFrequency: "BIWEEKLY",
+                interestRate: "21",
+                interestPeriod: "ANNUALLY",
+                startDate: "2026-09-05T00:00:00.000Z",
+                description: "descrição",
+                skipSaturday: true,
+                skipSunday: true
+            };
+
+            const createRes = await request(app).post("/api/contracts").send(contract);
+
+            const id = createRes.body.data.id;
+
+            const res = await request(app).delete(`/api/contracts/${id}`);
+
+            expect(res.status).toBe(200);
+            expect(res.body).toMatchObject({
+                success: true,
+                message: expect.any(String),
+                data: null,
+                meta: null,
+                error: null,
+            });
+
+            const getRes = await request(app).get(`/api/contracts/${id}`);
+            expect(getRes.status).toBe(404);
+        });
+    });
 })
