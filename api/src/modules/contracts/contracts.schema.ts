@@ -60,12 +60,8 @@ export const createContractBodySchema = z.object({
         .transform(v => v ? parseFloat(v) : 0),
     interestPeriod: z
         .enum(InterestPeriod, "Valor escolhido invalido"),
-    startDate: z
-        .string("Campo precisa conter caracteres validos")
-        .refine(
-            (v) => !isNaN(Date.parse(v)),
-            "Campo deve ser uma data válida no formato ISO 8601"
-        )
+   startDate: z
+        .iso.datetime()
         .transform(v => new Date(v)),
     skipSaturday: z
         .boolean("Campo precisa conter um valor booleano")

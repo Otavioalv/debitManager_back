@@ -2,6 +2,7 @@ import request from "supertest";
 import app from "@/app";
 
 import { contractDataApiResponseSchema } from "./schemas/contractDataResponse.schema";
+import { CreateContractInputBody } from "../contracts.types";
 
 describe("Contracts HTTP Tests", () => {
     describe("GET api/contracts/ (status) - 200", () => {
@@ -23,7 +24,7 @@ describe("Contracts HTTP Tests", () => {
     });
 
     describe("GET /api/contracts/:id (status) - 200", () => {
-        it("should returl a contract by id", async() => {
+        it("should return a contract by id", async() => {
             const list = await request(app).get("/api/contracts");
 
             const id = list.body.data.data[0].id;
@@ -31,8 +32,31 @@ describe("Contracts HTTP Tests", () => {
             const res = await request(app).get(`/api/contracts/${id}`);
 
             expect(res.status).toBe(200);
-            
+
             contractDataApiResponseSchema.parse(res.body);
         })
+    });
+
+    describe("POST /api/contracts (status) - 201", () => {
+        it("should create a nuw contract", async () => {
+            const contract:CreateContractInputBody = {
+                customerId: "6e25d18d-2862-4b76-9ac9-54dc7791638d",
+                title: "titulo",
+                totalAmount: "123234",
+                installmentCount: 21,
+                installmentFrequency: "BIWEEKLY",
+                interestRate: "21",
+                interestPeriod: "ANNUALLY",
+                startDate: "2026-09-05T00:00:00.000Z",
+                description: "descrição",
+                skipSaturday: true,
+                skipSunday: true
+            };
+
+            const res = await request(app).post("/api/contracts").send(contract);
+
+            expect(res.status).toBe(201);
+            contractDataApiResponseSchema.parse(res.body);
+        });
     });
 })

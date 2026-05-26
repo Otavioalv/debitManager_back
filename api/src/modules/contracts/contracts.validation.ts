@@ -62,7 +62,7 @@ export const validateBody = <TSchema extends z.ZodType>(schema: TSchema)  => {
     ) => {
         const result = schema.safeParse(req.body);
         
-        console.log(result);
+        // console.log(result);
         if(!result.success){
             return ApiResponse.error(
                 res, 

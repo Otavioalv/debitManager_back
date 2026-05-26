@@ -33,7 +33,7 @@ export class ContractsController {
 
         const data = await this.contractService.createContract(createData);
 
-        return ApiResponse.ok(res, data, "Contract created successfully");
+        return ApiResponse.created(res, data, "Contract created successfully");
     }
 
     public updateContract = async (req: Request, res: Response) => {
