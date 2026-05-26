@@ -1,5 +1,5 @@
 import { paginationSchema } from "@/shared/schemas/pagination.schema";
-import { InstallmentFrequency, InterestPeriod } from "@generated/prisma/enums";
+import { ContractStatus, InstallmentFrequency, InterestPeriod } from "@generated/prisma/enums";
 import z from "zod";
 
 
@@ -87,4 +87,27 @@ export const deleteManyContractsBodySchema = z.object({
             new Set(arr).size  === arr.length,
             "Itens duplicados não são permitidos"
         ),
-})
+});
+
+// export const contractDetailsResponseSchema = z.object({
+//     id: z.string(),
+//     title: z.string(),
+//     description: z.string().nullable(),
+//     customer: z.object({
+//         id: z.string(),
+//         name: z.string(),
+//     }),
+//     totalAmount: z.string(),
+//     installmentCount: z.number(),
+//     installmentFrequency: z.enum(InstallmentFrequency),
+//     interestRate: z.string(),
+//     interestPeriod: z.enum(InterestPeriod),
+//     startDate: z.string(),
+//     skipSaturday: z.boolean(),
+//     skipSunday: z.boolean(),
+//     status: z.enum(ContractStatus),
+//     createdAt: z.string(),
+//     updatedAt:z.string(),
+// });
+
+

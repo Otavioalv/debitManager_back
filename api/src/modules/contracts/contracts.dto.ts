@@ -1,4 +1,5 @@
 import { ContractStatus, InstallmentFrequency, InterestPeriod } from "@generated/prisma/enums";
+import z from "zod";
 
 /* 
     id
@@ -52,4 +53,3 @@ export interface ContractDetailsResponseDTO {
     createdAt: string;
     updatedAt: string;
 }
-
