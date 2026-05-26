@@ -204,6 +204,11 @@ describe("Customers API testing", () => {
                 meta: null,
                 error: null,
             });
+
+            for(const id of ids) {
+                const getRes = await request(app).get(`/api/customers/${id}`);
+                expect(getRes.status).toBe(404);
+            }
         });
     });
 });
