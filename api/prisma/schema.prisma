@@ -50,6 +50,14 @@ enum InstallmentFrequency {
 }
 
 
+// Status da parcela: pendente, parcial, paga, vencida
+enum InstallmentStatus {
+  PENDING
+  PARTIAL
+  PAID
+  OVERDUE
+}
+
 
 
 model Customer {
@@ -84,14 +92,8 @@ model Contract {
   description String?
 
   customerId String @db.Uuid
-  customer Customer @relation(fields: [customerId], references: [id])
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Restrict)
 
-  /* 
-  customer Customer @relation(
-  fields: [customerId],
-  references: [id],
-  onDelete: Restrict
-  */
   
   totalAmount BigInt          // Valor total do contrato
   installmentCount Int        // Quantidade de parcelas
@@ -112,7 +114,7 @@ model Contract {
   updatedAt DateTime @updatedAt
 
   // Relação com as parcelas do contrato
-  // installments Installment[]
+  installments Installment[]
 
   // Índices para otimizar consultas
   @@index([customerId])
@@ -121,3 +123,36 @@ model Contract {
 
   @@map("contract") // Mapeia a tabela para "contract" no banco de dados
 }
+
+
+model Installment {
+  id String @id @default(uuid()) @db.Uuid
+  contractId String @db.Uuid
+
+  contract Contract @relation(fields: [contractId], references: [id])
+
+  number Int                          // Número da parcela (1, 2, 3, ...)
+  originalAmount BigInt               // Valor original da parcela
+  remainingAmount BigInt              // Valor restante a ser pago  
+
+  accruedInterest BigInt @default(0)      // Juros acumulados até o momento
+
+  dueDate DateTime         // Data de vencimento da parcela      
+  paidAt DateTime?         // Data de pagamento da parcela (null se não paga)
+
+  status InstallmentStatus @default(PENDING)      // Status da parcela (pendente, parcial, paga, vencida)
+
+  createdAt DateTime @default(now())              // Data de criação da parcela
+  updatedAt DateTime @updatedAt                   // Data de última atualização da parcela
+
+  // payments Payment[]
+
+  // Índices para otimizar consultas
+  @@unique([contractId, number])
+  @@index([contractId])
+  @@index([dueDate])
+  @@index([status])
+
+  @@map("installment")
+}
+
