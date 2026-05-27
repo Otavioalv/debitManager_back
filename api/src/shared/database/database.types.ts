@@ -6,4 +6,3 @@ export type ExtendedPrismaClient = typeof prisma;
 export type DbClient =
     | ExtendedPrismaClient
     | Prisma.TransactionClient;
-    

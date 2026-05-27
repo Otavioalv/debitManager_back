@@ -4,15 +4,18 @@ import { ContractWithCustomer, CreateContractBody, FilterListContractsParams, Up
 import { ContractDetailsResponseDTO } from "./contracts.dto";
 import { ContractsMapper } from "./contracts.mapper";
 import { AppError } from "@/shared/http/AppError";
+import { DatabaseService } from "@/shared/database/database.service";
 
 
 export class ContractsService {
     constructor (
-        private contractsRepository: ContractsRepository
+        private contractsRepository: ContractsRepository,
+        private databaseService: DatabaseService,
     ){}
 
-    public async listContracts(filter: FilterListContractsParams): Promise<DataWithPagination<ContractDetailsResponseDTO[]>>{        
-        const response:DataWithPagination<ContractWithCustomer[]> = await this.contractsRepository.listContracts(filter);
+    public async listContracts(filter: FilterListContractsParams): Promise<DataWithPagination<ContractDetailsResponseDTO[]>>{
+
+        const response:DataWithPagination<ContractWithCustomer[]> = await this.contractsRepository.listContracts(this.databaseService.client, filter);
         const {data, pagination} = response;
 
         const resList: DataWithPagination<ContractDetailsResponseDTO[]> = {
@@ -24,7 +27,7 @@ export class ContractsService {
     }
 
     public async getContractById(id: string): Promise<ContractDetailsResponseDTO> {
-        const contract = await this.contractsRepository.getContractById(id);
+        const contract = await this.contractsRepository.getContractById(this.databaseService.client, id);
         
         if(!contract) {
             throw AppError.notFound("Contract not found");
@@ -34,21 +37,21 @@ export class ContractsService {
     }
 
     public async createContract(data: CreateContractBody): Promise<ContractDetailsResponseDTO> {
-        const contract = await this.contractsRepository.createContract(data);
+        const contract = await this.contractsRepository.createContract(this.databaseService.client, data);
         return ContractsMapper.toDetailsResponse(contract);
     }
 
     public async updateContract(id: string, data: UpdateContractBody): Promise<ContractDetailsResponseDTO> {
-        const contract = await this.contractsRepository.updateContract(id, data);
+        const contract = await this.contractsRepository.updateContract(this.databaseService.client, id, data);
         return ContractsMapper.toDetailsResponse(contract);
     }
 
     public async deleteContract(id: string): Promise<void>{
-        await this.contractsRepository.deleteContract(id);
+        await this.contractsRepository.deleteContract(this.databaseService.client, id);
     }
 
     public async deleteManyContracts(ids: string[]): Promise<number>{
-        return await this.contractsRepository.deleteManyContracts(ids);
+        return await this.contractsRepository.deleteManyContracts(this.databaseService.client, ids);
     }
 
 }

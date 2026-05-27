@@ -1,4 +1,4 @@
-import { ExtendedPrismaClient } from "@/shared/database/database.types";
+import { DbClient, ExtendedPrismaClient } from "@/shared/database/database.types";
 import { ContractWithCustomer, CreateContractBody, FilterListContractsParams, UpdateContractBody } from "./contracts.types";
 import { Prisma } from "@generated/prisma/client";
 import { buildPaginatedResponse } from "@/shared/utils/pagination.utils";
@@ -7,12 +7,12 @@ import { OrderByMap } from "@/shared/types";
 
 
 export class ContractsRepository {
+    
     constructor (
-        private prisma: ExtendedPrismaClient
+        // private prisma: ExtendedPrismaClient
     ){}
 
-    public async listContracts(filter: FilterListContractsParams):Promise<DataWithPagination<ContractWithCustomer[]>> {
-
+    public async listContracts(db: DbClient, filter: FilterListContractsParams):Promise<DataWithPagination<ContractWithCustomer[]>> {
         // Separar o tipo, para arquivo types no mesmo modulo
         const orderByMap:OrderByMap<
             FilterListContractsParams["sortBy"], 
@@ -31,8 +31,7 @@ export class ContractsRepository {
             },
         };
 
-
-        const dataPaginated = await this.prisma.contract.findMany({
+        const dataPaginated = await db.contract.findMany({
             where: {
                 ...(filter.search && {
                     OR: [
@@ -82,8 +81,8 @@ export class ContractsRepository {
         return buildPaginatedResponse(dataPaginated, filter.limit, filter.cursor);
     }
 
-    public async getContractById(id: string): Promise<ContractWithCustomer | null> {
-        return this.prisma.contract.findUnique({
+    public async getContractById(db: DbClient, id: string): Promise<ContractWithCustomer | null> {
+        return db.contract.findUnique({
             where: {
                 id,
             },
@@ -98,8 +97,8 @@ export class ContractsRepository {
         })
     }
 
-    public async createContract(data: CreateContractBody): Promise<ContractWithCustomer> {
-        return this.prisma.contract.create({
+    public async createContract(db: DbClient, data: CreateContractBody): Promise<ContractWithCustomer> {
+        return db.contract.create({
             data,
             include: {
                 customer: {
@@ -112,8 +111,8 @@ export class ContractsRepository {
         })
     }
     
-    public async updateContract(id: string, data: Partial<UpdateContractBody>): Promise<ContractWithCustomer> {
-        return this.prisma.contract.update({
+    public async updateContract(db: DbClient, id: string, data: Partial<UpdateContractBody>): Promise<ContractWithCustomer> {
+        return db.contract.update({
             where: {
                 id,
             },
@@ -129,16 +128,16 @@ export class ContractsRepository {
         })
     }
 
-    public async deleteContract(id: string): Promise<void> {
-        await this.prisma.contract.delete({
+    public async deleteContract(db: DbClient, id: string): Promise<void> {
+        await db.contract.delete({
             where: {
                 id,
             }
         });
     }
 
-    public async deleteManyContracts(ids: string[]): Promise<number> {
-        const result = await this.prisma.contract.deleteMany({
+    public async deleteManyContracts(db: DbClient, ids: string[]): Promise<number> {
+        const result = await db.contract.deleteMany({
             where: {
                 id: {
                     in: ids,

@@ -1,17 +1,14 @@
 import { Customer, Prisma } from "@generated/prisma/client";
 import { CreateCustomerBody, FilterListCustomerParams, UpdateCustomerBody } from "./customers.type";
-import { ExtendedPrismaClient } from "@/shared/database/database.types";
+import { DbClient, ExtendedPrismaClient } from "@/shared/database/database.types";
 import { buildPaginatedResponse } from "@/shared/utils/pagination.utils";
 import { DataWithPagination } from "@/shared/http/response.types";
 import { OrderByMap } from "@/shared/types";
 
 
 export class CustomersRepository {
-    constructor(
-        private prisma: ExtendedPrismaClient
-    ) {}
 
-    public async listCustomers(filter:FilterListCustomerParams): Promise<DataWithPagination<Customer[]>>{
+    public async listCustomers(db: DbClient, filter:FilterListCustomerParams): Promise<DataWithPagination<Customer[]>>{
         const orderByMap: OrderByMap<
             FilterListCustomerParams["sortBy"],
             Prisma.CustomerOrderByWithRelationInput
@@ -24,7 +21,7 @@ export class CustomersRepository {
             },
         }
 
-        const dataPaginated = await this.prisma.customer.findMany({
+        const dataPaginated = await db.customer.findMany({
             where: {
                 ...(filter.name && {
                     name: {
@@ -51,22 +48,22 @@ export class CustomersRepository {
         return buildPaginatedResponse(dataPaginated, filter.limit, filter.cursor);
     }
 
-    public async getCustomerById(id: string): Promise<Customer | null> {
-        return this.prisma.customer.findUnique({
+    public async getCustomerById(db: DbClient, id: string): Promise<Customer | null> {
+        return db.customer.findUnique({
             where: {
                 id,
             },
         });
     }
 
-    public async createCustomer(data: CreateCustomerBody): Promise<Customer> {
-        return this.prisma.customer.create({
+    public async createCustomer(db: DbClient, data: CreateCustomerBody): Promise<Customer> {
+        return db.customer.create({
             data
         });
     }
 
-    public async updateCustomer(id: string, data: UpdateCustomerBody): Promise<Customer> {
-        return this.prisma.customer.update({
+    public async updateCustomer(db: DbClient, id: string, data: UpdateCustomerBody): Promise<Customer> {
+        return db.customer.update({
             where: {
                 id,
             },
@@ -74,16 +71,16 @@ export class CustomersRepository {
         });
     }
 
-    public async deleteCustomer(id: string): Promise<void> {
-        await this.prisma.customer.delete({
+    public async deleteCustomer(db: DbClient, id: string): Promise<void> {
+        await db.customer.delete({
             where: {
                 id,
             },
         });
     }
 
-    public async deleteManyCustomers(ids: string[]): Promise<number> {
-        const result = await this.prisma.customer.deleteMany({
+    public async deleteManyCustomers(db: DbClient, ids: string[]): Promise<number> {
+        const result = await db.customer.deleteMany({
             where: {
                 id: {
                     in: ids,
