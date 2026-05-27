@@ -31,5 +31,3 @@ prisma.$on("query", (e) => {
     console.log(e.duration);
 });
 
-export type ExtendedPrismaClient = typeof prisma;
-

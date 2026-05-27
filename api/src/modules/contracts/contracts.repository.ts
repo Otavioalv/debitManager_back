@@ -1,4 +1,4 @@
-import { ExtendedPrismaClient } from "@/shared/database/prisma";
+import { ExtendedPrismaClient } from "@/shared/database/database.types";
 import { ContractWithCustomer, CreateContractBody, FilterListContractsParams, UpdateContractBody } from "./contracts.types";
 import { Prisma } from "@generated/prisma/client";
 import { buildPaginatedResponse } from "@/shared/utils/pagination.utils";

@@ -1,6 +1,6 @@
 import { Customer, Prisma } from "@generated/prisma/client";
 import { CreateCustomerBody, FilterListCustomerParams, UpdateCustomerBody } from "./customers.type";
-import { ExtendedPrismaClient } from "@/shared/database/prisma";
+import { ExtendedPrismaClient } from "@/shared/database/database.types";
 import { buildPaginatedResponse } from "@/shared/utils/pagination.utils";
 import { DataWithPagination } from "@/shared/http/response.types";
 import { OrderByMap } from "@/shared/types";
