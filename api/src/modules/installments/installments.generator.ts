@@ -18,5 +18,7 @@ export function generateInstallmentsForContract(contractId: string, totalAmount:
         });
     }
 
+    console.log("RESULTADO PARCELAS : ", installments);
+
     return installments;
 }

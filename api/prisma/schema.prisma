@@ -95,7 +95,7 @@ model Contract {
   customer Customer @relation(fields: [customerId], references: [id], onDelete: Restrict)
 
   
-  totalAmount BigInt          // Valor total do contrato
+  totalAmount String          // Valor total do contrato
   installmentCount Int        // Quantidade de parcelas
   installmentFrequency InstallmentFrequency   // Intervalo entre vencimentos
   interestRate Decimal @db.Decimal(6,2)       // Juros em porcentagem
@@ -132,10 +132,10 @@ model Installment {
   contract Contract @relation(fields: [contractId], references: [id])
 
   number Int                          // Número da parcela (1, 2, 3, ...)
-  originalAmount BigInt               // Valor original da parcela
-  remainingAmount BigInt              // Valor restante a ser pago  
+  originalAmount String               // Valor original da parcela
+  remainingAmount String              // Valor restante a ser pago  
 
-  accruedInterest BigInt @default(0)      // Juros acumulados até o momento
+  accruedInterest String @default("0")      // Juros acumulados até o momento
 
   dueDate DateTime         // Data de vencimento da parcela      
   paidAt DateTime?         // Data de pagamento da parcela (null se não paga)

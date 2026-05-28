@@ -7,6 +7,7 @@ import { AppError } from "@/shared/http/AppError";
 import { DatabaseService } from "@/shared/database/database.service";
 import { InstallmentsRepository } from "../installments/installments.repository";
 import { CreateInstallmentBody } from "../installments/installments.type";
+import { generateInstallmentsForContract } from "../installments/installments.generator";
 
 
 export class ContractsService {
@@ -45,6 +46,8 @@ export class ContractsService {
 
             // const installmentsData = ContractsMapper.toInstallmentsData(contract);
             // await this.installmentsRepository.createManyInstallments(tx, installmentsData);
+
+            const installments = generateInstallmentsForContract(contract.id, data.totalAmount, data.installmentCount);
 
             const installmentsData: CreateInstallmentBody[] = [
                 {
