@@ -85,7 +85,7 @@ export class CustomersRepository {
                 id: {
                     in: ids,
                 },
-            },
+            }
         });
 
         return result.count;

@@ -5,11 +5,14 @@ import { ContractDetailsResponseDTO } from "./contracts.dto";
 import { ContractsMapper } from "./contracts.mapper";
 import { AppError } from "@/shared/http/AppError";
 import { DatabaseService } from "@/shared/database/database.service";
+import { InstallmentsRepository } from "../installments/installments.repository";
+import { CreateInstallmentBody } from "../installments/installments.type";
 
 
 export class ContractsService {
     constructor (
         private contractsRepository: ContractsRepository,
+        private installmentsRepository: InstallmentsRepository,
         private databaseService: DatabaseService,
     ){}
 
@@ -37,8 +40,33 @@ export class ContractsService {
     }
 
     public async createContract(data: CreateContractBody): Promise<ContractDetailsResponseDTO> {
-        const contract = await this.contractsRepository.createContract(this.databaseService.client, data);
-        return ContractsMapper.toDetailsResponse(contract);
+        return this.databaseService.transaction(async (tx) => {
+            const contract = await this.contractsRepository.createContract(tx, data);
+
+            // const installmentsData = ContractsMapper.toInstallmentsData(contract);
+            // await this.installmentsRepository.createManyInstallments(tx, installmentsData);
+
+            const installmentsData: CreateInstallmentBody[] = [
+                {
+                    contractId: contract.id,
+                    number: 1,
+                    originalAmount: BigInt(1000),
+                    dueDate: new Date(),
+                    remainingAmount: BigInt(1000),
+                },
+                {
+                    contractId: contract.id,
+                    number: 2,
+                    originalAmount: BigInt(1000),
+                    dueDate: new Date(),
+                    remainingAmount: BigInt(1000),  
+                }
+            ];
+
+            await this.installmentsRepository.createManyInstallments(tx, installmentsData);
+            
+            return ContractsMapper.toDetailsResponse(contract);
+        });
     }
 
     public async updateContract(id: string, data: UpdateContractBody): Promise<ContractDetailsResponseDTO> {
