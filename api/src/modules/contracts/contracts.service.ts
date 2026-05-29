@@ -53,16 +53,16 @@ export class ContractsService {
                 {
                     contractId: contract.id,
                     number: 1,
-                    originalAmount: BigInt(1000),
+                    originalAmount: "1000",
                     dueDate: new Date(),
-                    remainingAmount: BigInt(1000),
+                    remainingAmount: "1000",
                 },
                 {
                     contractId: contract.id,
                     number: 2,
-                    originalAmount: BigInt(1000),
+                    originalAmount: "1000",
                     dueDate: new Date(),
-                    remainingAmount: BigInt(1000),  
+                    remainingAmount: "1000",  
                 }
             ];
 

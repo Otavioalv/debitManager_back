@@ -46,8 +46,7 @@ export const createContractBodySchema = z.object({
     customerId: z.uuid("Campo precisa conter um UUID valido"),
     totalAmount: z
         .string("Campo precisa conter caracteres validos")
-        .regex(/^\d+$/, "Campo deve conter apenas numeros positivos inteiros representando centavos")
-        .transform(v => BigInt(v)),
+        .regex(/^\d+$/, "Campo deve conter apenas numeros positivos inteiros representando centavos"),
     installmentCount: z
         .number("Campo precisa conter um numero valido")
         .int("Campo deve ser um numero inteiro")

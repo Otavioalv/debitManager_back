@@ -17,9 +17,9 @@ remainingAmount,
 export interface CreateInstallmentBody {
     contractId: string;
     number: number;
-    originalAmount: bigint;
+    originalAmount: string;
     dueDate: Date;
-    remainingAmount: bigint;
+    remainingAmount: string;
     
     // payments Payment[]
 }
