@@ -10,24 +10,24 @@ const adapter = new PrismaPg({
 
 export const prisma = new PrismaClient({
     adapter,
-     log: [
-        "query",
-        "info",
-        "warn",
-        "error",
-    ],
+    //  log: [
+    //     "query",
+    //     "info",
+    //     "warn",
+    //     "error",
+    // ],
 });
 
 
 // Log every query made by Prisma
-prisma.$on("query", (e) => {
-    console.log("\nSQL:");
-    console.log(e.query);
+// prisma.$on("query", (e) => {
+//     console.log("\nSQL:");
+//     console.log(e.query);
 
-    console.log("\nPARAMS:");
-    console.log(e.params);
+//     console.log("\nPARAMS:");
+//     console.log(e.params);
 
-    console.log("\nDURATION:");
-    console.log(e.duration);
-});
+//     console.log("\nDURATION:");
+//     console.log(e.duration);
+// });
 
