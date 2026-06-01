@@ -48,9 +48,6 @@ export const createCustomerBodySchema = z.object({
             /^\d+$/,
             "Campo deve conter apenas numeros positivos inteiros representando centavos",
         )
-        .transform(
-            (v) => BigInt(v),
-        ),
 });
 
 export const updateCustomerBodySchema = createCustomerBodySchema.partial();

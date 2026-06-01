@@ -58,24 +58,24 @@ export class ContractsService {
                 // skipSunday: contract.skipSunday,
             });
 
-            const installmentsData: CreateInstallmentBody[] = [
-                {
-                    contractId: contract.id,
-                    installmentNumber: 1,
-                    originalAmount: "1000",
-                    dueDate: new Date(),
-                    remainingAmount: "1000",
-                },
-                {
-                    contractId: contract.id,
-                    installmentNumber: 2,
-                    originalAmount: "1000",
-                    dueDate: new Date(),
-                    remainingAmount: "1000",  
-                }
-            ];
+            // const installmentsData: CreateInstallmentBody[] = [
+            //     {
+            //         contractId: contract.id,
+            //         installmentNumber: 1,
+            //         originalAmount: "1000",
+            //         dueDate: new Date(),
+            //         remainingAmount: "1000",
+            //     },
+            //     {
+            //         contractId: contract.id,
+            //         installmentNumber: 2,
+            //         originalAmount: "1000",
+            //         dueDate: new Date(),
+            //         remainingAmount: "1000",  
+            //     }
+            // ];
 
-            await this.installmentsRepository.createManyInstallments(tx, installmentsData);
+            // await this.installmentsRepository.createManyInstallments(tx, installmentsData);
             
             return ContractsMapper.toDetailsResponse(contract);
         });

@@ -15,7 +15,7 @@ export interface CustomerResponseDTO {
     name: string;
     id: string;
     balance: string;
-    phoneNumber: string;
+    phoneNumber: string | null;
     createdAt: string;
     updatedAt: string;
 }

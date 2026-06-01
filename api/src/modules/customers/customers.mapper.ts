@@ -7,8 +7,8 @@ export class CustomersMapper {
         return {
             id: customer.id.toString(),
             name: customer.name,
-            balance: customer.balance.toString(),
-            phoneNumber: customer.phoneNumber || "",
+            balance: customer.balance,
+            phoneNumber: customer.phoneNumber,
             createdAt: customer.createdAt.toISOString(),
             updatedAt: customer.updatedAt.toISOString(),
         };
