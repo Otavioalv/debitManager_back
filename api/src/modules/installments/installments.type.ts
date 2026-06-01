@@ -2,13 +2,13 @@
 
 /* 
 contractId String @db.Uuid
-number Int                          // Número da parcela (1, 2, 3, ...)
+installmentNumber Int                          // Número da parcela (1, 2, 3, ...)
 originalAmount BigInt               // Valor original da parcela
 dueDate DateTime         // Data de vencimento da parcela
 // payments Payment[]
 
 contractId,
-number,
+installmentNumber,
 originalAmount
 dueDate,
 remainingAmount,
@@ -16,7 +16,7 @@ remainingAmount,
 
 export interface CreateInstallmentBody {
     contractId: string;
-    number: number;
+    installmentNumber: number;
     originalAmount: string;
     dueDate: Date;
     remainingAmount: string;

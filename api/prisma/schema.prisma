@@ -131,7 +131,7 @@ model Installment {
 
   contract Contract @relation(fields: [contractId], references: [id])
 
-  number Int                          // Número da parcela (1, 2, 3, ...)
+  installmentNumber Int                          // Número da parcela (1, 2, 3, ...)
   originalAmount String               // Valor original da parcela
   remainingAmount String              // Valor restante a ser pago  
 
@@ -148,7 +148,7 @@ model Installment {
   // payments Payment[]
 
   // Índices para otimizar consultas
-  @@unique([contractId, number])
+  @@unique([contractId, installmentNumber])
   @@index([contractId])
   @@index([dueDate])
   @@index([status])

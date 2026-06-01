@@ -48,9 +48,10 @@ export class ContractsService {
             // await this.installmentsRepository.createManyInstallments(tx, installmentsData);
 
             const installments = generateInstallmentsForContract({
-                contractId: contract.id,
+                id: contract.id,
                 totalAmount: contract.totalAmount,
                 installmentCount: contract.installmentCount,
+                startDate: contract.startDate,
                 // startDate: contract.startDate,
                 // installmentFrequency: contract.installmentFrequency,
                 // skipSaturday: contract.skipSaturday,
@@ -60,14 +61,14 @@ export class ContractsService {
             const installmentsData: CreateInstallmentBody[] = [
                 {
                     contractId: contract.id,
-                    number: 1,
+                    installmentNumber: 1,
                     originalAmount: "1000",
                     dueDate: new Date(),
                     remainingAmount: "1000",
                 },
                 {
                     contractId: contract.id,
-                    number: 2,
+                    installmentNumber: 2,
                     originalAmount: "1000",
                     dueDate: new Date(),
                     remainingAmount: "1000",  

@@ -6,7 +6,7 @@ import { GenerateInstallmentsForContractInput } from "./types";
 
 
 export function generateInstallmentsForContract(input: GenerateInstallmentsForContractInput): CreateInstallmentBody[] {
-    const { contractId, totalAmount, installmentCount } = input;
+    const { id, totalAmount, installmentCount, startDate } = input;
     
     const installments: CreateInstallmentBody[] = [];
 
@@ -19,16 +19,17 @@ export function generateInstallmentsForContract(input: GenerateInstallmentsForCo
     console.log("numberOfInstallments: ", installmentCount);
     console.log("remainder: ", remainder);
 
-    for(let i = 0; i < installmentCount; i++) {
+    for(let i = 1; i <= installmentCount; i++) {
         const amount = amountPerInstallment + (
-            i === installmentCount - 1 
+            i === installmentCount
                 ? remainder 
                 : BigInt(0));
-        
 
+        // Calcular date de vencimento com base na frequência e data de início do contrato
+        
         installments.push({
-            contractId,
-            number: i+1,
+            contractId: id,
+            installmentNumber: i,
             originalAmount: amount.toString(),
             remainingAmount: amount.toString(),
             dueDate: new Date(),
