@@ -47,35 +47,19 @@ export class ContractsService {
             // const installmentsData = ContractsMapper.toInstallmentsData(contract);
             // await this.installmentsRepository.createManyInstallments(tx, installmentsData);
 
-            const installments = generateInstallmentsForContract({
+            const installmentsData = generateInstallmentsForContract({
                 id: contract.id,
                 totalAmount: contract.totalAmount,
                 installmentCount: contract.installmentCount,
                 startDate: contract.startDate,
+                installmentFrequency: contract.installmentFrequency,
                 // startDate: contract.startDate,
                 // installmentFrequency: contract.installmentFrequency,
                 // skipSaturday: contract.skipSaturday,
                 // skipSunday: contract.skipSunday,
             });
 
-            // const installmentsData: CreateInstallmentBody[] = [
-            //     {
-            //         contractId: contract.id,
-            //         installmentNumber: 1,
-            //         originalAmount: "1000",
-            //         dueDate: new Date(),
-            //         remainingAmount: "1000",
-            //     },
-            //     {
-            //         contractId: contract.id,
-            //         installmentNumber: 2,
-            //         originalAmount: "1000",
-            //         dueDate: new Date(),
-            //         remainingAmount: "1000",  
-            //     }
-            // ];
-
-            // await this.installmentsRepository.createManyInstallments(tx, installmentsData);
+            await this.installmentsRepository.createManyInstallments(tx, installmentsData);
             
             return ContractsMapper.toDetailsResponse(contract);
         });

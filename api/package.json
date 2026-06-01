@@ -8,7 +8,6 @@
     "prisma:create": "npx prisma migrate dev --name init",
     "prisma:generate": "npx prisma generate",
     "db:push": "npx prisma db push",
-    
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"
@@ -20,6 +19,7 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
+    "date-fns": "^4.4.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "prisma-extension-pagination": "^0.7.6",

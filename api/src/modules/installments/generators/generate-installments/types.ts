@@ -1,4 +1,4 @@
-import { Contract } from "@generated/prisma/client";
+import { Contract, Installment } from "@generated/prisma/client";
 import { InstallmentFrequency } from "@generated/prisma/enums";
 
 export type GenerateInstallmentsForContractInput = 
@@ -8,11 +8,11 @@ export type GenerateInstallmentsForContractInput =
         | 'installmentCount'
         | 'totalAmount'
         | 'startDate'
-        // | 'installmentFrequency'
+        | 'installmentFrequency'
         // | 'skipSaturday'
         // | 'skipSunday'
-    > 
-    & {
+    >
+    &{
     // contractId: string;
     // totalAmount: string;
     // installmentCount: number;

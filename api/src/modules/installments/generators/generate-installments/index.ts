@@ -1,23 +1,23 @@
 import { CreateInstallmentBody } from "@/modules/installments/installments.type";
 import { GenerateInstallmentsForContractInput } from "./types";
+import { calculateDueDate } from "./calculateDueDate";
+import { calculateAmountPlan } from "./calculateAmountPlan";
 
 
-// tipo objecto parametro para função
+export function generateInstallmentsForContract({ 
+    id, 
+    totalAmount, 
+    installmentCount, 
+    startDate, 
+    installmentFrequency
+}: GenerateInstallmentsForContractInput): CreateInstallmentBody[] {
 
+    const {amountPerInstallment, remainder} = calculateAmountPlan({
+        totalAmount,
+        installmentCount,
+    });
 
-export function generateInstallmentsForContract(input: GenerateInstallmentsForContractInput): CreateInstallmentBody[] {
-    const { id, totalAmount, installmentCount, startDate } = input;
-    
     const installments: CreateInstallmentBody[] = [];
-
-    const total: bigint = BigInt(totalAmount);
-
-    const amountPerInstallment = total / BigInt(installmentCount);
-    const remainder = total % BigInt(installmentCount);
-
-    console.log("totalAmount: ", totalAmount);
-    console.log("numberOfInstallments: ", installmentCount);
-    console.log("remainder: ", remainder);
 
     for(let i = 1; i <= installmentCount; i++) {
         const amount = amountPerInstallment + (
@@ -25,18 +25,21 @@ export function generateInstallmentsForContract(input: GenerateInstallmentsForCo
                 ? remainder 
                 : BigInt(0));
 
-        // Calcular date de vencimento com base na frequência e data de início do contrato
-        
+        const dueDate = calculateDueDate({
+            installmentNumber: i,
+            installmentFrequency,
+            startDate,
+        });
+
         installments.push({
             contractId: id,
             installmentNumber: i,
             originalAmount: amount.toString(),
             remainingAmount: amount.toString(),
-            dueDate: new Date(),
+            dueDate,
         });
-    }
-    
-    console.log("RESULTADO PARCELAS : ", installments);
+    }   
+
 
     return installments;
 }
