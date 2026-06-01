@@ -25,7 +25,6 @@ describe("Customers API testing", () => {
     describe("GET api/customers/:id (status) - 200", () => {
         it("should return a customer by id", async () => {
             const list = await request(app).get("/api/customers");
-
             const id = list.body.data.data[0].id;
 
 
@@ -158,6 +157,7 @@ describe("Customers API testing", () => {
             });
 
             const customerId = createRes.body.data.id;
+            // console.log("AAAAAAAAA: ", customerId);
 
             const deleteRes = await request(app).delete(`/api/customers/${customerId}`);
 

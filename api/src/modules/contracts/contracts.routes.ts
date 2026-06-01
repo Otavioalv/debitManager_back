@@ -35,18 +35,18 @@ contractsRouter.put(
     contractsController.updateContract,
 );
 
-// delete
-contractsRouter.delete(
-    "/:id",
-    validateParams,
-    contractsController.deleteContract,
-)
+// // delete
+// contractsRouter.delete(
+//     "/:id",
+//     validateParams,
+//     contractsController.deleteContract,
+// )
 
-// delete many
-contractsRouter.delete(
-    "/",
-    validateBody(deleteManyContractsBodySchema),
-    contractsController.deleteManyContracts,
-)
+// // delete many
+// contractsRouter.delete(
+//     "/",
+//     validateBody(deleteManyContractsBodySchema),
+//     contractsController.deleteManyContracts,
+// )
 
 export default contractsRouter;
