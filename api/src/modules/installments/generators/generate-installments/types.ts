@@ -9,8 +9,8 @@ export type GenerateInstallmentsForContractInput =
         | 'totalAmount'
         | 'startDate'
         | 'installmentFrequency'
-        // | 'skipSaturday'
-        // | 'skipSunday'
+        | 'skipSaturday'
+        | 'skipSunday'
     >
     &{
     // contractId: string;

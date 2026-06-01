@@ -2,6 +2,7 @@ import { CreateInstallmentBody } from "@/modules/installments/installments.type"
 import { GenerateInstallmentsForContractInput } from "./types";
 import { calculateDueDate } from "./calculateDueDate";
 import { calculateAmountPlan } from "./calculateAmountPlan";
+import { adjustBusinessDay } from "./adjustBusinessDay";
 
 
 export function generateInstallmentsForContract({ 
@@ -9,7 +10,9 @@ export function generateInstallmentsForContract({
     totalAmount, 
     installmentCount, 
     startDate, 
-    installmentFrequency
+    installmentFrequency,
+    skipSaturday,
+    skipSunday,
 }: GenerateInstallmentsForContractInput): CreateInstallmentBody[] {
 
     const {amountPerInstallment, remainder} = calculateAmountPlan({
@@ -19,18 +22,31 @@ export function generateInstallmentsForContract({
 
     const installments: CreateInstallmentBody[] = [];
 
+    // console.log("startDate: ", startDate);
+    // console.log("installmentFrequency: ", installmentFrequency);
+    // console.log("skipSaturday: ", skipSaturday);
+    // console.log("skipSunday: ", skipSunday);
+
+    let dueDate = startDate;
+
     for(let i = 1; i <= installmentCount; i++) {
         const amount = amountPerInstallment + (
             i === installmentCount
                 ? remainder 
                 : BigInt(0));
 
-        const dueDate = calculateDueDate({
-            installmentNumber: i,
+        dueDate = calculateDueDate({
             installmentFrequency,
-            startDate,
+            startDate: dueDate,
         });
 
+        dueDate = adjustBusinessDay({
+            date: dueDate,
+            skipSaturday,
+            skipSunday
+        });
+
+        // console.log(`Installment ${i}: Due Date - ${dueDate.toISOString()}`);
         installments.push({
             contractId: id,
             installmentNumber: i,
@@ -38,8 +54,7 @@ export function generateInstallmentsForContract({
             remainingAmount: amount.toString(),
             dueDate,
         });
-    }   
-
+    }
 
     return installments;
 }

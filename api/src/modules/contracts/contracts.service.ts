@@ -53,10 +53,8 @@ export class ContractsService {
                 installmentCount: contract.installmentCount,
                 startDate: contract.startDate,
                 installmentFrequency: contract.installmentFrequency,
-                // startDate: contract.startDate,
-                // installmentFrequency: contract.installmentFrequency,
-                // skipSaturday: contract.skipSaturday,
-                // skipSunday: contract.skipSunday,
+                skipSaturday: contract.skipSaturday,
+                skipSunday: contract.skipSunday,
             });
 
             await this.installmentsRepository.createManyInstallments(tx, installmentsData);
