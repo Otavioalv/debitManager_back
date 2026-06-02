@@ -44,9 +44,6 @@ export class ContractsService {
         return this.databaseService.transaction(async (tx) => {
             const contract = await this.contractsRepository.createContract(tx, data);
 
-            // const installmentsData = ContractsMapper.toInstallmentsData(contract);
-            // await this.installmentsRepository.createManyInstallments(tx, installmentsData);
-
             const installmentsData = generateInstallmentsForContract({
                 id: contract.id,
                 totalAmount: contract.totalAmount,

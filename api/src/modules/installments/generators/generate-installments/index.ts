@@ -22,17 +22,12 @@ export function generateInstallmentsForContract({
 
     const installments: CreateInstallmentBody[] = [];
 
-    // console.log("startDate: ", startDate);
-    // console.log("installmentFrequency: ", installmentFrequency);
-    // console.log("skipSaturday: ", skipSaturday);
-    // console.log("skipSunday: ", skipSunday);
-
     let dueDate = startDate;
 
     for(let i = 1; i <= installmentCount; i++) {
         const amount = amountPerInstallment + (
             i === installmentCount
-                ? remainder 
+                ? remainder
                 : BigInt(0));
 
         dueDate = calculateDueDate({
@@ -46,7 +41,6 @@ export function generateInstallmentsForContract({
             skipSunday
         });
 
-        // console.log(`Installment ${i}: Due Date - ${dueDate.toISOString()}`);
         installments.push({
             contractId: id,
             installmentNumber: i,

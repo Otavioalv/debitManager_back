@@ -139,9 +139,6 @@ describe("Contracts HTTP Tests", () => {
     //             meta: null,
     //             error: null,
     //         });
-
-    //         const getRes = await request(app).get(`/api/contracts/${id}`);
-    //         expect(getRes.status).toBe(404);
     //     });
     // });
 
@@ -181,11 +178,6 @@ describe("Contracts HTTP Tests", () => {
     //             meta: null,
     //             error: null,
     //         });
-
-    //         for(const id of ids){
-    //             const getRes = await request(app).get(`/api/contracts/${id}`);
-    //             expect(getRes.status).toBe(404);
-    //         }
     //     });
     // }); 
 });
