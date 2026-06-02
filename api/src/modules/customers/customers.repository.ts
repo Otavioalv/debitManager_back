@@ -9,15 +9,16 @@ import { OrderByMap } from "@/shared/types";
 export class CustomersRepository {
 
     public async listCustomers(db: DbClient, filter:FilterListCustomerParams): Promise<DataWithPagination<Customer[]>>{
+
         const orderByMap: OrderByMap<
             FilterListCustomerParams["sortBy"],
             Prisma.CustomerOrderByWithRelationInput
         > = {
             name: {
-                name: "asc",
+                name: filter.order,
             },
             balance: {
-                balance: "asc",
+                balance: filter.order,
             },
         }
 

@@ -9,8 +9,6 @@ export interface CreateListQuerySchemaParams<T extends readonly [string, ...stri
 
 
 
-
-
 export function createListQuerySchema<T extends readonly [string, ...string[]]>({
     sortOptions,
     defaultSort,
@@ -33,5 +31,15 @@ export function createListQuerySchema<T extends readonly [string, ...string[]]>(
                 .optional()
                 .default(defaultSort)
             ),
+        order: z
+            .preprocess(
+                (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+                z
+                .enum([
+                    "asc",
+                    "desc",
+                ])
+                .default("asc"),
+            )
     }).extend(paginationSchema.shape);
 }

@@ -14,20 +14,22 @@ export class ContractsRepository {
 
     public async listContracts(db: DbClient, filter: FilterListContractsParams):Promise<DataWithPagination<ContractWithCustomer[]>> {
         // Separar o tipo, para arquivo types no mesmo modulo
+        const {order} = filter;
+
         const orderByMap:OrderByMap<
             FilterListContractsParams["sortBy"], 
             Prisma.ContractOrderByWithRelationInput
         > = {
             customerName: {
                 customer: {
-                    name: "asc",
+                    name: order,
                 },
             },
             startDate: {
-                startDate: "desc",
+                startDate: order,
             },
             title: {
-                title: "asc",
+                title: order,
             },
         };
 
