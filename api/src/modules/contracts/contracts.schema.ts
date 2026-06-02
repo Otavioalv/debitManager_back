@@ -1,33 +1,13 @@
-import { paginationSchema } from "@/shared/schemas/pagination.schema";
-import { ContractStatus, InstallmentFrequency, InterestPeriod } from "@generated/prisma/enums";
+import { createListQuerySchema } from "@/shared/schemas/pagination/listing.schema";
+import { InstallmentFrequency, InterestPeriod } from "@generated/prisma/enums";
 import z from "zod";
 
 
-export const listContractsQuerySchema = z.object({
-    // mudar para tipo unico
-    search: z
-        .preprocess(
-            (v) => typeof v === "string" && v.trim() === "" ? undefined : v,
-            z
-            .string("Campo precisa conter caracteres validos")
-            .trim()
-            .min(1, "No minimo um caracter")
-            .max(300, "No maximo 300 caracteres")
-            .optional(),
-        ),
-    sortBy: z
-        .preprocess(
-            (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
-            z.enum([
-                "customerName",
-                "startDate",
-                "title",
-            ], "Valor escolhido invalido")
-            .optional()
-            .default("customerName")
-        )
+export const listContractsQuerySchema = createListQuerySchema({
+    sortOptions: ["customerName", "startDate", "title"] as const,
+    defaultSort: "customerName",
+});
 
-}).extend(paginationSchema.shape);
 
 export  const contractParamsSchema = z.object({
     id: z.uuid("Parametro invalido"),

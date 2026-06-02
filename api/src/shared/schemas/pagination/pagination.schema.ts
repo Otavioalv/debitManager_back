@@ -2,7 +2,6 @@ import z from "zod";
 
 
 export const paginationSchema = z.object({
-    // cursor pagination (criar schema expecifico para filtros)
     cursor: z
         .preprocess(
             (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),

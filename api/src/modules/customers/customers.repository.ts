@@ -23,9 +23,9 @@ export class CustomersRepository {
 
         const dataPaginated = await db.customer.findMany({
             where: {
-                ...(filter.name && {
+                ...(filter.search && {
                     name: {
-                        contains: filter.name,
+                        contains: filter.search,
                         mode: "insensitive",
                     }
                 }),
