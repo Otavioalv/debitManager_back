@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import customersRoutes from "@/modules/customers/customers.routes";
 import contractsRouter from "@/modules/contracts/contracts.routes";
+import healthRouter from "./health.route";
 
 const router = Router();
 
@@ -11,12 +12,6 @@ router.use("/customers", customersRoutes);
 router.use("/contracts", contractsRouter);
 // /installments 
 
-router.get('/health', (req, res) => {
-    res.status(200).json({
-        status: 'UP',
-        timestamp: new Date().toISOString(),
-        uptime: process.uptime(),
-    });
-});
+router.use(healthRouter);
 
 export default router;
