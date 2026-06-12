@@ -1,3 +1,4 @@
+import { dataApiSuccessResponseSchema } from "@/__test__/schemas/apiResponse.schema";
 import { z } from "zod";
 
 export const contractDataResponseSchema = z.object({
@@ -25,22 +26,4 @@ export const contractDataResponseSchema = z.object({
     updatedAt: z.string(),
 });
 
-export const contractDataApiResponseSchema = z.object({
-    success: z.literal(true),
-    message: z.string(),
-    data: contractDataResponseSchema,
-});
-
-// export const contractListResponseSchema = 
-
-/* 
-t(res.body).toMatchObject({
-    success: true,
-    message: expect.any(String),
-    data: {
-        data: expect.any(Array),
-        pagination: expect.any(Object),
-    },
-    meta: null,
-    error: null,
-*/
+export const contractDataApiResponseSchema = dataApiSuccessResponseSchema(contractDataResponseSchema);
