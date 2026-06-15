@@ -1,7 +1,7 @@
 import request from "supertest";
 import app from "@/app";
 
-import { contractDataApiResponseSchema } from "./schemas/contractDataResponse.schema";
+import { dataSuccessResponseSchema } from "./schemas/contractDataResponse.schema";
 import { CreateContractInputBody } from "../contracts.types";
 
 describe("Contracts HTTP Tests", () => {
@@ -33,7 +33,7 @@ describe("Contracts HTTP Tests", () => {
 
             expect(res.status).toBe(200);
 
-            contractDataApiResponseSchema.parse(res.body);
+            dataSuccessResponseSchema.parse(res.body);
         })
     });
 
@@ -59,7 +59,7 @@ describe("Contracts HTTP Tests", () => {
             const res = await request(app).post("/api/contracts").send(contract);
 
             expect(res.status).toBe(201);
-            contractDataApiResponseSchema.parse(res.body);
+            dataSuccessResponseSchema.parse(res.body);
         });
     });
 
@@ -102,7 +102,7 @@ describe("Contracts HTTP Tests", () => {
             const res = await request(app).put(`/api/contracts/${id}`).send(updateData);
 
             expect(res.status).toBe(200);
-            contractDataApiResponseSchema.parse(res.body);
+            dataSuccessResponseSchema.parse(res.body);
         });
     });
     

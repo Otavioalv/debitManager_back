@@ -26,4 +26,4 @@ export const contractDataResponseSchema = z.object({
     updatedAt: z.string(),
 });
 
-export const contractDataApiResponseSchema = dataApiSuccessResponseSchema(contractDataResponseSchema);
+export const dataSuccessResponseSchema = dataApiSuccessResponseSchema(contractDataResponseSchema);

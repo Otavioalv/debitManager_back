@@ -1,3 +1,4 @@
+import { dataApiSuccessResponseSchema } from "@/__test__/schemas/apiResponse.schema";
 import z from "zod";
 
 export const customerDataResponseSchema = z.object({
@@ -9,4 +10,6 @@ export const customerDataResponseSchema = z.object({
     updatedAt: z.string(),
 });
 
+
+export const dataSuccessResponseSchema = dataApiSuccessResponseSchema(customerDataResponseSchema);
 

@@ -1,6 +1,7 @@
 import request from "supertest";
 import app from "@/app";
 import { CreateCustomerInputBody } from "../customers.type";
+import { dataSuccessResponseSchema } from "./schemas/customerDataResponse.schema";
 
 
 describe("Customers API testing", () => {
@@ -31,20 +32,10 @@ describe("Customers API testing", () => {
             const res = await request(app).get(`/api/customers/${id}`);
 
             expect(res.status).toBe(200);
-            expect(res.body).toMatchObject({
-                success: true,
-                message: expect.any(String),
-                data: {
-                    id: expect.any(String),
-                    name: expect.any(String),
-                    balance: expect.any(String),
-                    phoneNumber: expect.any(String),
-                },
-                meta: null,
-                error: null,
-            });
+            
+            dataSuccessResponseSchema.parse(res.body);
 
-           expect(res.body.data.id).toBe(id);
+            expect(res.body.data.id).toBe(id);
         });
     });
 
@@ -59,20 +50,8 @@ describe("Customers API testing", () => {
             const res = await request(app).post("/api/customers").send(customer);
                 
             expect(res.status).toBe(201);
-            expect(res.body).toMatchObject({
-                success: true,
-                message: expect.any(String),
-                data: {
-                    id: expect.any(String),
-                    name: expect.any(String),
-                    balance: expect.any(String),
-                    phoneNumber: expect.any(String),
-                    createdAt: expect.any(String),
-                    updatedAt: expect.any(String),
-                },
-                meta: null,
-                error: null,
-            });
+
+            dataSuccessResponseSchema.parse(res.body);
         });
     });
 
@@ -87,20 +66,8 @@ describe("Customers API testing", () => {
             const createRes = await request(app).post("/api/customers").send(oldCustomer);
 
             expect(createRes.status).toBe(201);
-            expect(createRes.body).toMatchObject({
-                success: true,
-                message: expect.any(String),
-                data: {
-                    id: expect.any(String),
-                    name: expect.any(String),
-                    balance: expect.any(String),
-                    phoneNumber: expect.any(String),
-                    createdAt: expect.any(String),
-                    updatedAt: expect.any(String),
-                },
-                meta: null,
-                error: null,
-            });
+
+            dataSuccessResponseSchema.parse(createRes.body);
 
             const customerId = createRes.body.data.id;
             const newCustomer:CreateCustomerInputBody = {
@@ -112,20 +79,7 @@ describe("Customers API testing", () => {
             const updateRes = await request(app).put(`/api/customers/${customerId}`).send(newCustomer);
 
             expect(updateRes.status).toBe(200);
-            expect(updateRes.body).toMatchObject({
-                success: true,
-                message: expect.any(String),
-                data: {
-                    id: expect.any(String),
-                    name: expect.any(String),
-                    balance: expect.any(String),
-                    phoneNumber: expect.any(String),
-                    createdAt: expect.any(String),
-                    updatedAt: expect.any(String),
-                },
-                meta: null,
-                error: null,
-            });
+            dataSuccessResponseSchema.parse(updateRes.body);
 
         })
     });
@@ -141,20 +95,7 @@ describe("Customers API testing", () => {
             const createRes = await request(app).post("/api/customers").send(customer);
 
             expect(createRes.status).toBe(201);
-            expect(createRes.body).toMatchObject({
-                success: true,
-                message: expect.any(String),
-                data: {
-                    id: expect.any(String),
-                    name: expect.any(String),
-                    balance: expect.any(String),
-                    phoneNumber: expect.any(String),
-                    createdAt: expect.any(String),
-                    updatedAt: expect.any(String),
-                },
-                meta: null,
-                error: null,
-            });
+            dataSuccessResponseSchema.parse(createRes.body);
 
             const customerId = createRes.body.data.id;
             // console.log("AAAAAAAAA: ", customerId);
