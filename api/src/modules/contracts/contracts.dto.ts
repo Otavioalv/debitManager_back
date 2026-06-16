@@ -5,8 +5,8 @@ import z from "zod";
     id
     title
     description
-    customerId
-    customer
+    personId
+    person
     totalAmount
     installmentCount
     installmentFrequency
@@ -23,7 +23,7 @@ import z from "zod";
 export interface ContractListResponseDTO {
     id: string;
     title: string;
-    customer: {
+    person: {
         id: string;
         name: string;
     };
@@ -37,7 +37,7 @@ export interface ContractDetailsResponseDTO {
     id: string;
     title: string;
     description: string | null;
-    customer: {
+    person: {
         id: string;
         name: string;
     };

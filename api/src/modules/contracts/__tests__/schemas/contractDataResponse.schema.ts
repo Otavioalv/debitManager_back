@@ -7,7 +7,7 @@ export const contractDataResponseSchema = z.object({
     description: z
         .string()
         .nullable(),
-    customer: z
+    person: z
         .object({
             id: z.string(),
             name: z.string(),

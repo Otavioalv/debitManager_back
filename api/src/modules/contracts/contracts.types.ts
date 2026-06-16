@@ -7,9 +7,9 @@ export type FilterListContractsParams = z.infer<typeof listContractsQuerySchema>
 
 
 
-export type ContractWithCustomer = Prisma.ContractGetPayload<{
+export type ContractWithPerson = Prisma.ContractGetPayload<{
     include: {
-        customer: {
+        person: {
             select: {
                 id: true;
                 name: true;

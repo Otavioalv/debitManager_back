@@ -39,11 +39,11 @@ describe("Contracts HTTP Tests", () => {
 
     describe("POST /api/contracts (status) - 201", () => {
         it("should create a nuw contract", async () => {
-            const resCustomer = await request(app).get("/api/customers");
-            const customerId = resCustomer.body.data.data[0].id;
+            const resPerson = await request(app).get("/api/person");
+            const personId = resPerson.body.data.data[0].id;
 
             const contract:CreateContractInputBody = {
-                customerId: customerId,
+                personId: personId,
                 title: "titulo",
                 totalAmount: "123234",
                 installmentCount: 21,
@@ -65,11 +65,11 @@ describe("Contracts HTTP Tests", () => {
 
     describe("PUT /api/contracts/:id (status) - 200", () => {
         it("should update a contract", async () => {
-            const resCustomer = await request(app).get("/api/customers");
-            const customerId = resCustomer.body.data.data[0].id;
+            const resPerson = await request(app).get("/api/person");
+            const personId = resPerson.body.data.data[0].id;
 
             const oldContract: CreateContractInputBody = {
-                customerId: customerId,
+                personId: personId,
                 title: "old title",
                 totalAmount: "123234",
                 installmentCount: 21,
@@ -86,7 +86,7 @@ describe("Contracts HTTP Tests", () => {
             const id = createRes.body.data.id;
 
             const updateData:CreateContractInputBody = {
-                customerId: customerId,
+                personId: personId,
                 title: "new title",
                 totalAmount: "123234",
                 installmentCount: 45,
@@ -108,11 +108,11 @@ describe("Contracts HTTP Tests", () => {
     
     // describe("DELETE /api/contracts/:id (status) - 200", () => {
     //     it("should delete a contract", async () => {
-    //         const resCustomer = await request(app).get("/api/customers");
-    //         const customerId = resCustomer.body.data.data[0].id;
+    //         const resperson = await request(app).get("/api/person");
+    //         const personId = resperson.body.data.data[0].id;
 
     //         const contract: CreateContractInputBody = {
-    //             customerId: customerId,
+    //             personId: personId,
     //             title: "contract to delete",
     //             totalAmount: "123234",
     //             installmentCount: 21,
@@ -145,7 +145,7 @@ describe("Contracts HTTP Tests", () => {
     // describe("DELETE /api/contracts/ (status) - 200", () => {
     //     it("should delete many contracts", async () => {
     //         const contract1: CreateContractInputBody = {
-    //             customerId: "6e25d18d-2862-4b76-9ac9-54dc7791638d",
+    //             personId: "6e25d18d-2862-4b76-9ac9-54dc7791638d",
     //             title: "contract to delete 1",
     //             totalAmount: "123234",
     //             installmentCount: 21,

@@ -4,8 +4,8 @@ import z from "zod";
 
 
 export const listContractsQuerySchema = createListQuerySchema({
-    sortOptions: ["customerName", "startDate", "title"] as const,
-    defaultSort: "customerName",
+    sortOptions: ["personName", "startDate", "title"] as const,
+    defaultSort: "personName",
 });
 
 
@@ -23,7 +23,7 @@ export const createContractBodySchema = z.object({
         .string("Campo precisa conter caracteres validos")
         .trim()
         .optional(),
-    customerId: z.uuid("Campo precisa conter um UUID valido"),
+    personId: z.uuid("Campo precisa conter um UUID valido"),
     totalAmount: z
         .string("Campo precisa conter caracteres validos")
         .regex(/^\d+$/, "Campo deve conter apenas numeros positivos inteiros representando centavos"),
@@ -68,7 +68,7 @@ export const deleteManyContractsBodySchema = z.object({
 //     id: z.string(),
 //     title: z.string(),
 //     description: z.string().nullable(),
-//     customer: z.object({
+//     person: z.object({
 //         id: z.string(),
 //         name: z.string(),
 //     }),

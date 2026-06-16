@@ -1,5 +1,5 @@
 import { DbClient, ExtendedPrismaClient } from "@/shared/database/database.types";
-import { ContractWithCustomer, CreateContractBody, FilterListContractsParams, UpdateContractBody } from "./contracts.types";
+import { ContractWithPerson, CreateContractBody, FilterListContractsParams, UpdateContractBody } from "./contracts.types";
 import { Prisma } from "@generated/prisma/client";
 import { buildPaginatedResponse } from "@/shared/utils/pagination.utils";
 import { DataWithPagination } from "@/shared/http/response.types";
@@ -12,7 +12,7 @@ export class ContractsRepository {
         // private prisma: ExtendedPrismaClient
     ){}
 
-    public async listContracts(db: DbClient, filter: FilterListContractsParams):Promise<DataWithPagination<ContractWithCustomer[]>> {
+    public async listContracts(db: DbClient, filter: FilterListContractsParams):Promise<DataWithPagination<ContractWithPerson[]>> {
         // Separar o tipo, para arquivo types no mesmo modulo
         const {order} = filter;
 
@@ -20,8 +20,8 @@ export class ContractsRepository {
             FilterListContractsParams["sortBy"], 
             Prisma.ContractOrderByWithRelationInput
         > = {
-            customerName: {
-                customer: {
+            personName: {
+                person: {
                     name: order,
                 },
             },
@@ -38,7 +38,7 @@ export class ContractsRepository {
                 ...(filter.search && {
                     OR: [
                         {
-                            customer: {
+                            person: {
                                 name: {
                                     contains: filter.search,
                                     mode: "insensitive",
@@ -56,7 +56,7 @@ export class ContractsRepository {
                 }),
             },
             include: {
-                customer: {
+                person: {
                     select:  {
                         id: true, 
                         name: true,
@@ -64,7 +64,7 @@ export class ContractsRepository {
                 }
             },
             orderBy: [
-                orderByMap[filter.sortBy ?? "customerName"],
+                orderByMap[filter.sortBy ?? "personName"],
                 {
                     id: "asc",
                 }
@@ -83,13 +83,13 @@ export class ContractsRepository {
         return buildPaginatedResponse(dataPaginated, filter.limit, filter.cursor);
     }
 
-    public async getContractById(db: DbClient, id: string): Promise<ContractWithCustomer | null> {
+    public async getContractById(db: DbClient, id: string): Promise<ContractWithPerson | null> {
         return db.contract.findUnique({
             where: {
                 id,
             },
             include: {
-                customer: {
+                person: {
                     select:  {
                         id: true, 
                         name: true,
@@ -99,11 +99,11 @@ export class ContractsRepository {
         })
     }
 
-    public async createContract(db: DbClient, data: CreateContractBody): Promise<ContractWithCustomer> {
+    public async createContract(db: DbClient, data: CreateContractBody): Promise<ContractWithPerson> {
         return db.contract.create({
             data,
             include: {
-                customer: {
+                person: {
                     select: {
                         id: true,
                         name: true,
@@ -113,13 +113,13 @@ export class ContractsRepository {
         })
     }
     
-    public async updateContract(db: DbClient, id: string, data: Partial<UpdateContractBody>): Promise<ContractWithCustomer> {
+    public async updateContract(db: DbClient, id: string, data: Partial<UpdateContractBody>): Promise<ContractWithPerson> {
         return db.contract.update({
             where: {
                 id,
             },
             include:  {
-                customer: {
+                person: {
                     select: {
                         id: true, 
                         name: true,

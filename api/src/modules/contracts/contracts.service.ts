@@ -1,6 +1,6 @@
 import { DataWithPagination } from "@/shared/http/response.types";
 import { ContractsRepository } from "./contracts.repository";
-import { ContractWithCustomer, CreateContractBody, FilterListContractsParams, UpdateContractBody } from "./contracts.types";
+import { ContractWithPerson, CreateContractBody, FilterListContractsParams, UpdateContractBody } from "./contracts.types";
 import { ContractDetailsResponseDTO } from "./contracts.dto";
 import { ContractsMapper } from "./contracts.mapper";
 import { AppError } from "@/shared/http/AppError";
@@ -19,7 +19,7 @@ export class ContractsService {
 
     public async listContracts(filter: FilterListContractsParams): Promise<DataWithPagination<ContractDetailsResponseDTO[]>>{
 
-        const response:DataWithPagination<ContractWithCustomer[]> = await this.contractsRepository.listContracts(this.databaseService.client, filter);
+        const response:DataWithPagination<ContractWithPerson[]> = await this.contractsRepository.listContracts(this.databaseService.client, filter);
         const {data, pagination} = response;
 
         const resList: DataWithPagination<ContractDetailsResponseDTO[]> = {

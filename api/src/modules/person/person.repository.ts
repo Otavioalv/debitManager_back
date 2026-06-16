@@ -1,18 +1,18 @@
-import { Customer, Prisma } from "@generated/prisma/client";
-import { CreateCustomerBody, FilterListCustomerParams, UpdateCustomerBody } from "./customers.type";
+import { Person, Prisma } from "@generated/prisma/client";
+import { CreatePersonBody, FilterListPersonParams, UpdatePersonBody } from "./person.type";
 import { DbClient, ExtendedPrismaClient } from "@/shared/database/database.types";
 import { buildPaginatedResponse } from "@/shared/utils/pagination.utils";
 import { DataWithPagination } from "@/shared/http/response.types";
 import { OrderByMap } from "@/shared/types";
 
 
-export class CustomersRepository {
+export class PersonRepository {
 
-    public async listCustomers(db: DbClient, filter:FilterListCustomerParams): Promise<DataWithPagination<Customer[]>>{
+    public async listPerson(db: DbClient, filter:FilterListPersonParams): Promise<DataWithPagination<Person[]>>{
 
         const orderByMap: OrderByMap<
-            FilterListCustomerParams["sortBy"],
-            Prisma.CustomerOrderByWithRelationInput
+            FilterListPersonParams["sortBy"],
+            Prisma.PersonOrderByWithRelationInput
         > = {
             name: {
                 name: filter.order,
@@ -22,7 +22,7 @@ export class CustomersRepository {
             },
         }
 
-        const dataPaginated = await db.customer.findMany({
+        const dataPaginated = await db.person.findMany({
             where: {
                 ...(filter.search && {
                     name: {
@@ -49,22 +49,22 @@ export class CustomersRepository {
         return buildPaginatedResponse(dataPaginated, filter.limit, filter.cursor);
     }
 
-    public async getCustomerById(db: DbClient, id: string): Promise<Customer | null> {
-        return db.customer.findUnique({
+    public async getPersonById(db: DbClient, id: string): Promise<Person | null> {
+        return db.person.findUnique({
             where: {
                 id,
             },
         });
     }
 
-    public async createCustomer(db: DbClient, data: CreateCustomerBody): Promise<Customer> {
-        return db.customer.create({
+    public async createPerson(db: DbClient, data: CreatePersonBody): Promise<Person> {
+        return db.person.create({
             data
         });
     }
 
-    public async updateCustomer(db: DbClient, id: string, data: UpdateCustomerBody): Promise<Customer> {
-        return db.customer.update({
+    public async updatePerson(db: DbClient, id: string, data: UpdatePersonBody): Promise<Person> {
+        return db.person.update({
             where: {
                 id,
             },
@@ -72,16 +72,16 @@ export class CustomersRepository {
         });
     }
 
-    public async deleteCustomer(db: DbClient, id: string): Promise<void> {
-        await db.customer.delete({
+    public async deletePerson(db: DbClient, id: string): Promise<void> {
+        await db.person.delete({
             where: {
                 id,
             },
         });
     }
 
-    public async deleteManyCustomers(db: DbClient, ids: string[]): Promise<number> {
-        const result = await db.customer.deleteMany({
+    public async deleteManyPerson(db: DbClient, ids: string[]): Promise<number> {
+        const result = await db.person.deleteMany({
             where: {
                 id: {
                     in: ids,
@@ -92,5 +92,5 @@ export class CustomersRepository {
         return result.count;
     }
 
-    // public async countCustomers(): Promise<number>
+    // public async countPerson(): Promise<number>
 }

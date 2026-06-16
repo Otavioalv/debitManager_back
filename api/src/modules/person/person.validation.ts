@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { createCustomerBodySchema, customerParamsSchema, listCustomersQuerySchema } from "./customers.schema";
+import { createPersonBodySchema, personParamsSchema, listPersonQuerySchema } from "./person.schema";
 import { ApiResponse } from "@/shared/http/ApiResponse";
 import z from "zod";
 
@@ -9,7 +9,7 @@ export const validateQuery = (
     res: Response<ApiResponse>, 
     next: NextFunction
 ) => {
-    const result = listCustomersQuerySchema.safeParse(req.query);
+    const result = listPersonQuerySchema.safeParse(req.query);
 
     if(!result.success){
         return ApiResponse.error(res, {
@@ -35,7 +35,7 @@ export const validateParams = (
     res: Response<ApiResponse>, 
     next: NextFunction
 ) => {
-    const result = customerParamsSchema.safeParse(req.params);
+    const result = personParamsSchema.safeParse(req.params);
 
     if(!result.success){
         return ApiResponse.error(res, {

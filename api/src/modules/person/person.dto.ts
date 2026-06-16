@@ -11,7 +11,7 @@ updatedAt: Date
 */
 
 
-export interface CustomerResponseDTO {
+export interface PersonResponseDTO {
     name: string;
     id: string;
     balance: string;

@@ -1,7 +1,7 @@
 import { dataApiSuccessResponseSchema } from "@/__test__/schemas/apiResponse.schema";
 import z from "zod";
 
-export const customerDataResponseSchema = z.object({
+export const personDataResponseSchema = z.object({
     id: z.string(),
     name: z.string(),
     balance: z.string(),
@@ -11,5 +11,5 @@ export const customerDataResponseSchema = z.object({
 });
 
 
-export const dataSuccessResponseSchema = dataApiSuccessResponseSchema(customerDataResponseSchema);
+export const dataSuccessResponseSchema = dataApiSuccessResponseSchema(personDataResponseSchema);
 

@@ -2,18 +2,18 @@ import { createListQuerySchema } from "@/shared/schemas/pagination/listing.schem
 import { z } from "zod";
 
 
-export const listCustomersQuerySchema = createListQuerySchema({
+export const listPersonQuerySchema = createListQuerySchema({
     sortOptions: ["name", "balance"] as const,
     defaultSort: "name",
 });
 
 
-export const customerParamsSchema = z.object({
+export const personParamsSchema = z.object({
     id: z.uuid("Parametro invalido"),
 });
 
 
-export const createCustomerBodySchema = z.object({
+export const createPersonBodySchema = z.object({
     name: z
         .string("Campo precisa conter caracteres validos")
         .trim()
@@ -32,9 +32,9 @@ export const createCustomerBodySchema = z.object({
         )
 });
 
-export const updateCustomerBodySchema = createCustomerBodySchema.partial();
+export const updatePersonBodySchema = createPersonBodySchema.partial();
 
-export const deleteManyCustomersBodySchema = z.object({
+export const deleteManyPersonBodySchema = z.object({
     ids: z
         .array(z.uuid("Parametro invalido"))
         .min(1, "No minimo um item")

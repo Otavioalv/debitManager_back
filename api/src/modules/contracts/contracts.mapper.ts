@@ -1,15 +1,15 @@
 import { ContractDetailsResponseDTO } from "./contracts.dto";
-import { ContractWithCustomer } from "./contracts.types";
+import { ContractWithPerson } from "./contracts.types";
 
 export class ContractsMapper {
-    static toDetailsResponse(contract: ContractWithCustomer): ContractDetailsResponseDTO {
+    static toDetailsResponse(contract: ContractWithPerson): ContractDetailsResponseDTO {
         return {
             id: contract.id.toString(),
             title: contract.title,
             description: contract.description,
-            customer: {
-                id: contract.customer.id.toString(),
-                name: contract.customer.name,
+            person: {
+                id: contract.person.id.toString(),
+                name: contract.person.name,
             },
             totalAmount: contract.totalAmount.toString(),
             installmentCount: contract.installmentCount,

@@ -60,7 +60,7 @@ enum InstallmentStatus {
 
 
 
-model Customer {
+model Person {
   id String @id @default(uuid()) @db.Uuid
   name String
   balance String @default("0")
@@ -81,7 +81,7 @@ model Customer {
   // money type
   // foreight keys .....
   
-  @@map("customer")
+  @@map("person")
 }
 
 
@@ -91,8 +91,8 @@ model Contract {
   title String
   description String?
 
-  customerId String @db.Uuid
-  customer Customer @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  personId String @db.Uuid
+  person Person @relation(fields: [personId], references: [id], onDelete: Restrict)
 
   
   totalAmount String          // Valor total do contrato
@@ -117,7 +117,7 @@ model Contract {
   installments Installment[]
 
   // Índices para otimizar consultas
-  @@index([customerId])
+  @@index([personId])
   @@index([startDate])
   @@index([status])
 
