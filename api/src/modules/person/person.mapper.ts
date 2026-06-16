@@ -7,8 +7,15 @@ export class PersonMapper {
         return {
             id: person.id.toString(),
             name: person.name,
-            balance: person.balance,
+            // balance: person.balance,
             phoneNumber: person.phoneNumber,
+            secondaryPhoneNumber: person.secondaryPhoneNumber,
+            cnh: person.cnh,
+            cnpj: person.cnpj,
+            cpf: person.cpf,
+            rg: person.rg,
+            municipalRegistration: person.municipalRegistration,
+            stateRegistration: person.stateRegistration,
             createdAt: person.createdAt.toISOString(),
             updatedAt: person.updatedAt.toISOString(),
         };

@@ -17,9 +17,9 @@ export class PersonRepository {
             name: {
                 name: filter.order,
             },
-            balance: {
-                balance: filter.order,
-            },
+            // balance: {
+            //     balance: filter.order,
+            // },
         }
 
         const dataPaginated = await db.person.findMany({

@@ -42,9 +42,15 @@ describe("Person API testing", () => {
     describe("POST api/person (status) - 201", () => {
         it("should create new person", async () => {
             const person:CreatePersonInputBody = {
-                balance: "12334",
-                name: "Person Test",
-                phoneNumber: "+5511999999999",
+                name: "teste criando user",
+                phoneNumber: "91923343",
+                secondaryPhoneNumber: "teste secondaryPhoneNumber",
+                cpf: "teste cpf",
+                cnpj: "teste cnpj",
+                rg: "teste rg",
+                cnh: "teste cnh",
+                stateRegistration: "teste stateRegistration",
+                municipalRegistration: "teste municipalRegistration",
             };
 
             const res = await request(app).post("/api/person").send(person);
@@ -58,10 +64,16 @@ describe("Person API testing", () => {
     describe("PUT api/person/:id (status) - 200", () => {
         it("should update a person", async () => {
             const oldPerson:CreatePersonInputBody = {
-                balance: "12334",
-                name: "Person Test",
-                phoneNumber: "+5511999999999",
-            };
+                name: "teste antigo user",
+                phoneNumber: "91923343",
+                secondaryPhoneNumber: "teste secondaryPhoneNumber",
+                cpf: "teste cpf",
+                cnpj: "teste cnpj",
+                rg: "teste rg",
+                cnh: "teste cnh",
+                stateRegistration: "teste stateRegistration",
+                municipalRegistration: "teste municipalRegistration"
+            }
 
             const createRes = await request(app).post("/api/person").send(oldPerson);
 
@@ -72,7 +84,6 @@ describe("Person API testing", () => {
             const personId = createRes.body.data.id;
             const newPerson:CreatePersonInputBody = {
                 name: "New Person",
-                balance: "4321",
                 phoneNumber: "+5511977777777",
             };
 
@@ -87,9 +98,15 @@ describe("Person API testing", () => {
     describe("DELETE api/person/:id (status) - 200", () => {
         it("should delete a person", async () => {
             const person:CreatePersonInputBody = {
-                balance: "12334",
-                name: "Person Test",
-                phoneNumber: "+5511999999999",
+                name: "teste criando user",
+                phoneNumber: "91923343",
+                secondaryPhoneNumber: "teste secondaryPhoneNumber",
+                cpf: "teste cpf",
+                cnpj: "teste cnpj",
+                rg: "teste rg",
+                cnh: "teste cnh",
+                stateRegistration: "teste stateRegistration",
+                municipalRegistration: "teste municipalRegistration",
             };
 
             const createRes = await request(app).post("/api/person").send(person);
@@ -117,9 +134,15 @@ describe("Person API testing", () => {
         it("should delete many person", async () => {
 
             const person: CreatePersonInputBody = {
-                balance: "12334",
-                name: "Person Test",
-                phoneNumber: "+5511999999999",
+                name: "teste criando user",
+                phoneNumber: "91923343",
+                secondaryPhoneNumber: "teste secondaryPhoneNumber",
+                cpf: "teste cpf",
+                cnpj: "teste cnpj",
+                rg: "teste rg",
+                cnh: "teste cnh",
+                stateRegistration: "teste stateRegistration",
+                municipalRegistration: "teste municipalRegistration",
             };
 
             const created = await Promise.all([
