@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "tsx watch src/server.ts",
     "prisma:create": "npx prisma migrate dev --name init",
+    "prisma:create-only": "npx prisma migrate dev --create-only",
     "prisma:generate": "npx prisma generate",
     "db:push": "npx prisma db push",
     "test": "vitest run",

@@ -63,23 +63,31 @@ enum InstallmentStatus {
 model Person {
   id String @id @default(uuid()) @db.Uuid
   name String
-  balance String @default("0")
-  phoneNumber String?
+  
+  phoneNumber String
+  secondaryPhoneNumber String?
+
+  cpf String?
+  cnpj String?
+
+  rg String?
+  cnh String?
+
+  stateRegistration String?
+  municipalRegistration String?
+
+  contracts Contract[]
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
- 
-  contracts Contract[]
-
+  
   // Filters
   @@index([name])
-  @@index([balance])
   @@index([createdAt])
   
   
   // @@unique([name, id])
   // @@unique([balance, id])
-  // money type
-  // foreight keys .....
   
   @@map("person")
 }
