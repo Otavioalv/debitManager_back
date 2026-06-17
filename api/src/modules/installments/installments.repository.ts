@@ -19,14 +19,11 @@ export class InstallmentsRepository {
         > = {
             dueDate: {
                 dueDate: order
-            }, 
-            dueToday: {
-                dueDate: order
-            },
-            late: {
-                dueDate: order
             }
         };
+
+        
+
 
         const dataPaginated = await db.installment.findMany({
             orderBy: [
