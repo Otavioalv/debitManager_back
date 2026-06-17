@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { createPersonBodySchema, personParamsSchema, listPersonQuerySchema } from "./person.schema";
+import { personParamsSchema, listPersonQuerySchema } from "./person.schema";
 import { ApiResponse } from "@/shared/http/ApiResponse";
 import z from "zod";
 
