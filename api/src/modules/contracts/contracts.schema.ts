@@ -39,7 +39,7 @@ export const createContractBodySchema = z.object({
         .transform(v => v ? parseFloat(v) : 0),
     interestPeriod: z
         .enum(InterestPeriod, "Valor escolhido invalido"),
-   startDate: z
+    startDate: z
         .iso.datetime()
         .transform(v => new Date(v)),
     skipSaturday: z
