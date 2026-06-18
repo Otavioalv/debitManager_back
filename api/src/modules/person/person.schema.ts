@@ -49,7 +49,6 @@ export const createPersonBodySchema = z.object({
         .string("Campo precisa conter caracteres validos")
         .trim()
         .optional(),
-
     // balance: z
     //     .string("Campo precisa conter caracteres validos")
     //     .regex(

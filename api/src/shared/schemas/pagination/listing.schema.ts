@@ -2,39 +2,54 @@ import z from "zod"
 import { paginationSchema } from "./pagination.schema";
 
 
-// export interface CreateListQuerySchemaParams<
-//     TSort extends readonly [string, ...string[]],
-//     TFilter extends readonly [string, ...string[]]
-// > {
-//     sortOptions: TSort,
-//     defaultSort: TSort[number],
-//     filterOptions?: TFilter,
-//     defaultFilter?: TFilter[number],
-// }
-
 // separar em tipos e interfaces
-export type CreateListQuerySchemaParams<
+export interface CreateListQuerySchemaParams<
     TSort extends readonly [string, ...string[]],
     TFilter extends readonly [string, ...string[]]
-> = 
-    | {
-        sortOptions: TSort,
-        defaultSort: TSort[number],
-    }
-    | {
-        sortOptions: TSort,
-        defaultSort: TSort[number],
-        filterOptions: TFilter,
-        defaultFilter: TFilter[number],
-    }
+> {
+    sortOptions: TSort,
+    defaultSort: TSort[number],
+    filterOptions?: TFilter,
+    defaultFilter?: TFilter[number],
+}
+
+// export type CreateListQuerySchemaParams<
+//     TSort extends readonly [string, ...string[]],
+//     TFilter extends readonly [string, ...string[]]
+// > = 
+//     | {
+//         sortOptions: TSort,
+//         defaultSort: TSort[number],
+//     }
+//     | {
+//         sortOptions: TSort,
+//         defaultSort: TSort[number],
+//         filterOptions: TFilter,
+//         defaultFilter: TFilter[number],
+//     }
 
 
 export function createListQuerySchema<
     TSort extends readonly [string, ...string[]],
     TFilter extends readonly [string, ...string[]]
->(
-    params: CreateListQuerySchemaParams<TSort, TFilter>
-) {
+>({
+    defaultSort,
+    sortOptions,
+    defaultFilter,
+    filterOptions,
+}: CreateListQuerySchemaParams<TSort, TFilter>) {
+
+    const filterSchema =
+        filterOptions && defaultFilter
+            ? z
+                .preprocess(
+                    (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+                    z
+                    .enum(filterOptions, "Valor escolhido invalido")
+                    .optional()
+                    .default(defaultFilter)
+                )
+            : z.string().optional();
 
     const schemaWithPagination = z.object({
         search: z
@@ -50,9 +65,9 @@ export function createListQuerySchema<
         sortBy: z
             .preprocess(
                 (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
-                z.enum(params.sortOptions, "Valor escolhido invalido")
+                z.enum(sortOptions, "Valor escolhido invalido")
                 .optional()
-                .default(params.defaultSort)
+                .default(defaultSort)
             ),
         order: z
             .preprocess(
@@ -63,21 +78,9 @@ export function createListQuerySchema<
                     "desc",
                 ])
                 .default("asc"),
-            )
+            ),
+        filter: filterSchema,
     }).extend(paginationSchema.shape);
-
-    if("filterOptions" in params){
-        return schemaWithPagination.extend({
-            filter: z
-                .preprocess(
-                    (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
-                    z
-                    .enum(params.filterOptions, "Valor escolhido invalido")
-                    .optional()
-                    .default(params.defaultFilter)
-                )
-        });   
-    }
 
     return schemaWithPagination;
 }

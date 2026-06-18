@@ -12,7 +12,6 @@ export class InstallmentsRepository {
 
     public async listAllInstallments(db: DbClient, filter: FilterListInstallmentsParams):Promise<DataWithPagination<Installment[]>> {
         const {order} = filter;
-
         const orderByMap: OrderByMap<
             FilterListInstallmentsParams["sortBy"],
             Prisma.InstallmentOrderByWithRelationInput
@@ -22,9 +21,6 @@ export class InstallmentsRepository {
             }
         };
 
-        
-
-
         const dataPaginated = await db.installment.findMany({
             orderBy: [
                 orderByMap[filter.sortBy ?? "dueDate"],
@@ -32,6 +28,7 @@ export class InstallmentsRepository {
                     id: "asc",
                 }
             ],
+
             ...(filter.cursor && {
                 cursor: {
                     id: filter.cursor,
