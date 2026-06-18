@@ -12,6 +12,17 @@ export class InstallmentsRepository {
 
     public async listAllInstallments(db: DbClient, filter: FilterListInstallmentsParams):Promise<DataWithPagination<Installment[]>> {
         const {order} = filter;
+
+
+        type WhereMapTest<
+            TSort extends string,
+            TOrder
+        > =
+        Record<
+            NonNullable<TSort>,
+            TOrder
+        >;
+
         const orderByMap: OrderByMap<
             FilterListInstallmentsParams["sortBy"],
             Prisma.InstallmentOrderByWithRelationInput
@@ -20,6 +31,10 @@ export class InstallmentsRepository {
                 dueDate: order
             }
         };
+
+        const whereMapTest = {
+
+        }
 
         const dataPaginated = await db.installment.findMany({
             orderBy: [
