@@ -5,6 +5,8 @@ import { z } from "zod";
 export const listPersonQuerySchema = createListQuerySchema({
     sortOptions: ["name",/*  "balance" */] as const,
     defaultSort: "name",
+    filterOptions: ["all"] as const,
+    defaultFilter: "all",
 });
 
 

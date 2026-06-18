@@ -6,6 +6,8 @@ import z from "zod";
 export const listContractsQuerySchema = createListQuerySchema({
     sortOptions: ["personName", "startDate", "title"] as const,
     defaultSort: "personName",
+    filterOptions: ["all"] as const,
+    defaultFilter: "all",
 });
 
 
