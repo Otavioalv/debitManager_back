@@ -3,7 +3,7 @@ import { ContractWithPerson, CreateContractBody, FilterListContractsParams, Upda
 import { Prisma } from "@generated/prisma/client";
 import { buildPaginatedResponse } from "@/shared/utils/pagination.utils";
 import { DataWithPagination } from "@/shared/http/response.types";
-import { OrderByMap } from "@/shared/types";
+import { EnumMap } from "@/shared/types";
 
 
 export class ContractsRepository {
@@ -16,7 +16,7 @@ export class ContractsRepository {
         // Separar o tipo, para arquivo types no mesmo modulo
         const {order} = filter;
 
-        const orderByMap:OrderByMap<
+        const orderByMap:EnumMap<
             FilterListContractsParams["sortBy"], 
             Prisma.ContractOrderByWithRelationInput
         > = {

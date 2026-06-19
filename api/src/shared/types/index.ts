@@ -1,1 +1,1 @@
-export * from "./orderByMap.type";
+export * from "./maps";

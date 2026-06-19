@@ -2,7 +2,7 @@ import { DbClient } from "@/shared/database/database.types";
 import { CreateInstallmentBody } from "./installments.type";
 import { BatchPayload } from "@generated/prisma/internal/prismaNamespace";
 import { FilterListInstallmentsParams } from "./installments.types";
-import { OrderByMap } from "@/shared/types";
+import { EnumMap } from "@/shared/types";
 import { Installment, Prisma } from "@generated/prisma/client";
 import { buildPaginatedResponse } from "@/shared/utils/pagination.utils";
 import { DataWithPagination } from "@/shared/http/response.types";
@@ -13,17 +13,7 @@ export class InstallmentsRepository {
     public async listAllInstallments(db: DbClient, filter: FilterListInstallmentsParams):Promise<DataWithPagination<Installment[]>> {
         const {order} = filter;
 
-
-        type WhereMapTest<
-            TSort extends string,
-            TOrder
-        > =
-        Record<
-            NonNullable<TSort>,
-            TOrder
-        >;
-
-        const orderByMap: OrderByMap<
+        const orderByMap: EnumMap<
             FilterListInstallmentsParams["sortBy"],
             Prisma.InstallmentOrderByWithRelationInput
         > = {
@@ -32,18 +22,43 @@ export class InstallmentsRepository {
             }
         };
 
-        const whereMapTest = {
+        const whereMap: EnumMap<
+            FilterListInstallmentsParams["filter"],
+            () => Prisma.InstallmentWhereInput
+        > = {
+            all: () => ({}),
+            dueToday: () => {
+                const start = new Date();
+                start.setHours(0, 0, 0, 0);
 
+                const end = new Date();
+                end.setHours(23, 59, 59, 999);
+
+                return {
+                    dueDate: {
+                        lt: end,
+                        gte: start,
+                    }
+                };
+            },
+            late: () => {
+                const now = new Date();
+                return {
+                    dueDate: {
+                        lt: now,
+                    }
+                }
+            }
         }
-
+        
         const dataPaginated = await db.installment.findMany({
             orderBy: [
-                orderByMap[filter.sortBy ?? "dueDate"],
+                orderByMap[filter.sortBy],
                 {
                     id: "asc",
                 }
             ],
-
+            where: whereMap[filter.filter](),
             ...(filter.cursor && {
                 cursor: {
                     id: filter.cursor,

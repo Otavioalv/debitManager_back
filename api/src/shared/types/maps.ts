@@ -1,8 +1,8 @@
-export type OrderByMap<
+export type EnumMap<
     TSort extends string,
     TOrder
 > =
 Record<
-    NonNullable<TSort>,
+    TSort,
     TOrder
 >;

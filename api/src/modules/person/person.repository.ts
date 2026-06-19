@@ -3,14 +3,14 @@ import { CreatePersonBody, FilterListPersonParams, UpdatePersonBody } from "./pe
 import { DbClient, ExtendedPrismaClient } from "@/shared/database/database.types";
 import { buildPaginatedResponse } from "@/shared/utils/pagination.utils";
 import { DataWithPagination } from "@/shared/http/response.types";
-import { OrderByMap } from "@/shared/types";
+import { EnumMap } from "@/shared/types";
 
 
 export class PersonRepository {
 
     public async listPerson(db: DbClient, filter:FilterListPersonParams): Promise<DataWithPagination<Person[]>>{
 
-        const orderByMap: OrderByMap<
+        const orderByMap: EnumMap<
             FilterListPersonParams["sortBy"],
             Prisma.PersonOrderByWithRelationInput
         > = {
