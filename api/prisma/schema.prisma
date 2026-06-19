@@ -111,7 +111,7 @@ model Contract {
   interestRate Decimal @db.Decimal(6,2)       // Juros em porcentagem
 
   interestPeriod InterestPeriod           // Período de aplicação dos juros (diário, mensal, etc.)
-  startDate DateTime                      // Data de início do contrato
+  startDate DateTime @db.Date             // Data de início do contrato
 
   // Configurações para pular sábados, domingos e feriados
   skipSaturday Boolean @default(false)    
@@ -147,8 +147,8 @@ model Installment {
 
   accruedInterest String @default("0")      // Juros acumulados até o momento
 
-  dueDate DateTime         // Data de vencimento da parcela      
-  paidAt DateTime?         // Data de pagamento da parcela (null se não paga)
+  dueDate DateTime @db.Date           // Data de vencimento da parcela      
+  paidAt DateTime?                    // Data de pagamento da parcela (null se não paga)
 
   status InstallmentStatus @default(PENDING)      // Status da parcela (pendente, parcial, paga, vencida)
 

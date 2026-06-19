@@ -42,7 +42,7 @@ export const createContractBodySchema = z.object({
     interestPeriod: z
         .enum(InterestPeriod, "Valor escolhido invalido"),
     startDate: z
-        .iso.datetime()
+        .iso.date()
         .transform(v => new Date(v)),
     skipSaturday: z
         .boolean("Campo precisa conter um valor booleano")

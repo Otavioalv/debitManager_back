@@ -38,7 +38,7 @@ describe("Contracts HTTP Tests", () => {
     });
 
     describe("POST /api/contracts (status) - 201", () => {
-        it("should create a nuw contract", async () => {
+        it("should create a new contract", async () => {
             const resPerson = await request(app).get("/api/person");
             const personId = resPerson.body.data.data[0].id;
 
@@ -50,7 +50,7 @@ describe("Contracts HTTP Tests", () => {
                 installmentFrequency: "BIWEEKLY",
                 interestRate: "21",
                 interestPeriod: "ANNUALLY",
-                startDate: "2026-09-05T00:00:00.000Z",
+                startDate: "2026-09-05",
                 description: "descrição",
                 skipSaturday: true,
                 skipSunday: true
@@ -76,7 +76,7 @@ describe("Contracts HTTP Tests", () => {
                 installmentFrequency: "BIWEEKLY",
                 interestRate: "21",
                 interestPeriod: "ANNUALLY",
-                startDate: "2026-09-05T00:00:00.000Z",
+                startDate: "2026-09-05",
                 description: "old descrição",
                 skipSaturday: true,
                 skipSunday: true
@@ -93,7 +93,7 @@ describe("Contracts HTTP Tests", () => {
                 installmentFrequency: "MONTHLY",
                 interestRate: "20",
                 interestPeriod: "MONTHLY",
-                startDate: "2026-09-05T00:00:00.000Z",
+                startDate: "2026-09-05",
                 description: "new descrição",
                 skipSaturday: false,
                 skipSunday: false
