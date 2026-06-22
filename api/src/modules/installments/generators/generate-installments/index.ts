@@ -24,11 +24,26 @@ export function generateInstallmentsForContract({
 
     let dueDate = startDate;
 
+    dueDate = adjustBusinessDay({
+        date: dueDate,
+        skipSaturday,
+        skipSunday
+    });
+
     for(let i = 1; i <= installmentCount; i++) {
+
         const amount = amountPerInstallment + (
             i === installmentCount
                 ? remainder
                 : BigInt(0));
+
+        installments.push({
+            contractId: id,
+            installmentNumber: i,
+            originalAmount: amount.toString(),
+            remainingAmount: amount.toString(),
+            dueDate,
+        });
 
         dueDate = calculateDueDate({
             installmentFrequency,
@@ -40,15 +55,7 @@ export function generateInstallmentsForContract({
             skipSaturday,
             skipSunday
         });
-
-        installments.push({
-            contractId: id,
-            installmentNumber: i,
-            originalAmount: amount.toString(),
-            remainingAmount: amount.toString(),
-            dueDate,
-        });
     }
-
+    
     return installments;
 }

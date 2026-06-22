@@ -14,7 +14,7 @@ export function adjustBusinessDay({
     let adjustedDate = date;
     
     while(true){
-        const day = adjustedDate.getDay();
+        const day = adjustedDate.getUTCDay();
         
         const isSaturday = day === 6;
         const isSunday = day === 0;
