@@ -46,6 +46,7 @@ export interface ContractDetailsResponseDTO {
     installmentFrequency: InstallmentFrequency;
     interestRate: string;
     interestPeriod: InterestPeriod;
+    timezone: string;
     startDate: string;
     skipSaturday: boolean;
     skipSunday: boolean;

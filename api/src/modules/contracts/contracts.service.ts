@@ -55,7 +55,6 @@ export class ContractsService {
             });
 
             await this.installmentsRepository.createManyInstallments(tx, installmentsData);
-
             return ContractsMapper.toDetailsResponse(contract);
         });
     }

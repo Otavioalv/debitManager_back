@@ -13,6 +13,11 @@ export class DatabaseService {
     async transaction<T>(
         callback: (tx: Prisma.TransactionClient) => Promise<T>
     ): Promise<T> {
-        return this.prisma.$transaction(callback);
+        return this.prisma.$transaction(callback, {
+            // para bd com poolers baixo, definir tempo corretamente
+            // Definir com extremo cuidado, de acordo com uso e config do bd
+            maxWait: 10000, // tempo de espera ao receber uma chamado ao bd
+            timeout: 15000  // Tempo maximo que transaction deve ficar aberta
+        });
     }
 }

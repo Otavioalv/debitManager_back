@@ -41,6 +41,24 @@ export const createContractBodySchema = z.object({
         .transform(v => v ? parseFloat(v) : 0),
     interestPeriod: z
         .enum(InterestPeriod, "Valor escolhido invalido"),
+    timezone: z
+        .string("Campo precisa conter caracteres validos")
+        .refine((value) => {
+            try{
+                // Valida de acordo com banco de dados global IANA
+                // Propria funcionalidade js. Aparentemente não sera necessario atualização
+                // Verificação simples provavel não utilizar algo complexo.
+                // Se valor inserido for um timezone padrao IANA valido, retorna true
+                // se nao retorna um erro
+                Intl.DateTimeFormat(undefined, {
+                    timeZone: value
+                });
+
+                return true;
+            }catch{
+                return false;
+            }
+        }, "Timezone invalido"),
     startDate: z
         .iso.date()
         .transform(v => new Date(v)),
@@ -49,7 +67,7 @@ export const createContractBodySchema = z.object({
         .default(false),
     skipSunday: z
         .boolean("Campo precisa conter um valor booleano")
-        .default(false), 
+        .default(false),
 });
 
 
