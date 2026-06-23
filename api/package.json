@@ -8,6 +8,7 @@
     "prisma:create": "npx prisma migrate dev --name init",
     "prisma:create-only": "npx prisma migrate dev --create-only --name init",
     "prisma:generate": "npx prisma generate",
+    "prisma:status": "npx prisma migrate status",
     "db:push": "npx prisma db push",
     "test": "vitest run",
     "test:watch": "vitest",

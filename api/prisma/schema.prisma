@@ -110,6 +110,7 @@ model Contract {
   installmentFrequency InstallmentFrequency   // Intervalo entre vencimentos
   interestRate Decimal @db.Decimal(6,2)       // Juros em porcentagem
 
+  timezone String                         // Timezone do contrato criado
   interestPeriod InterestPeriod           // Período de aplicação dos juros (diário, mensal, etc.)
   startDate DateTime @db.Date             // Data de início do contrato
 
