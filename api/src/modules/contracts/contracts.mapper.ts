@@ -17,7 +17,7 @@ export class ContractsMapper {
             interestRate: contract.interestRate.toString(),
             interestPeriod: contract.interestPeriod,
             timezone: contract.timezone,
-            startDate: contract.startDate.toISOString().slice(0, 10),
+            startAt: contract.startAt.toISOString(),
             skipSaturday: contract.skipSaturday,
             skipSunday: contract.skipSunday,
             status: contract.status,

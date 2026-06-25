@@ -9,7 +9,7 @@ export function generateInstallmentsForContract({
     id, 
     totalAmount, 
     installmentCount, 
-    startDate, 
+    startAt, 
     installmentFrequency,
     skipSaturday,
     skipSunday,
@@ -22,7 +22,7 @@ export function generateInstallmentsForContract({
 
     const installments: CreateInstallmentBody[] = [];
 
-    let dueDate = startDate;
+    let dueDate = startAt;
 
     dueDate = adjustBusinessDay({
         date: dueDate,

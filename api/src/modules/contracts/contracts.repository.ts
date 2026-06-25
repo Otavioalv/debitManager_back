@@ -1,5 +1,5 @@
 import { DbClient, ExtendedPrismaClient } from "@/shared/database/database.types";
-import { ContractWithPerson, CreateContractBody, FilterListContractsParams, UpdateContractBody } from "./contracts.types";
+import { ContractCreateParams, ContractUpdateParams, ContractWithPerson, CreateContractBody, FilterListContractsParams, UpdateContractBody } from "./contracts.types";
 import { Prisma } from "@generated/prisma/client";
 import { buildPaginatedResponse } from "@/shared/utils/pagination.utils";
 import { DataWithPagination } from "@/shared/http/response.types";
@@ -26,7 +26,7 @@ export class ContractsRepository {
                 },
             },
             startDate: {
-                startDate: order,
+                startAt: order,
             },
             title: {
                 title: order,
@@ -98,8 +98,33 @@ export class ContractsRepository {
             },
         })
     }
+/* 
+HTTP
 
-    public async createContract(db: DbClient, data: CreateContractBody): Promise<ContractWithPerson> {
+CreateContractBody
+UpdateContractBody
+
+↓
+
+Service
+
+ContractCreateParams
+ContractUpdateParams
+
+↓
+
+Repository
+Prisma.ContractCreateInput
+Prisma.ContractUpdateInput
+
+↓
+
+Banco
+
+Contract
+*/
+    // ContractCreateParams
+    public async createContract(db: DbClient, data: ContractCreateParams): Promise<ContractWithPerson> {
         return db.contract.create({
             data,
             include: {
@@ -113,7 +138,7 @@ export class ContractsRepository {
         })
     }
     
-    public async updateContract(db: DbClient, id: string, data: Partial<UpdateContractBody>): Promise<ContractWithPerson> {
+    public async updateContract(db: DbClient, id: string, data: ContractUpdateParams): Promise<ContractWithPerson> {
         return db.contract.update({
             where: {
                 id,

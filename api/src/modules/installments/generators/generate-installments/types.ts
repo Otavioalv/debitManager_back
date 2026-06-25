@@ -7,7 +7,7 @@ export type GenerateInstallmentsForContractInput =
         'id' 
         | 'installmentCount'
         | 'totalAmount'
-        | 'startDate'
+        | 'startAt'
         | 'installmentFrequency'
         | 'skipSaturday'
         | 'skipSunday'

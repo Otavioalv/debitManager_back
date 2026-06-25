@@ -112,7 +112,9 @@ model Contract {
 
   timezone String                         // Timezone do contrato criado
   interestPeriod InterestPeriod           // Período de aplicação dos juros (diário, mensal, etc.)
-  startDate DateTime @db.Date             // Data de início do contrato
+  // startDate DateTime @db.Date             // Data de início do contrato
+  // startDateUtc DateTime @db.Timestamptz   // Data exata
+  startAt DateTime @db.Timestamptz           // Data de inicio do contrato
 
   // Configurações para pular sábados, domingos e feriados
   skipSaturday Boolean @default(false)    
@@ -129,7 +131,7 @@ model Contract {
 
   // Índices para otimizar consultas
   @@index([personId])
-  @@index([startDate])
+  @@index([startAt])
   @@index([status])
 
   @@map("contract") // Mapeia a tabela para "contract" no banco de dados

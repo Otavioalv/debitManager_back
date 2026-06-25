@@ -60,8 +60,7 @@ export const createContractBodySchema = z.object({
             }
         }, "Timezone invalido"),
     startDate: z
-        .iso.date()
-        .transform(v => new Date(v)),
+        .iso.date(),
     skipSaturday: z
         .boolean("Campo precisa conter um valor booleano")
         .default(false),

@@ -1,6 +1,6 @@
 import { DataWithPagination } from "@/shared/http/response.types";
 import { ContractsRepository } from "./contracts.repository";
-import { ContractWithPerson, CreateContractBody, FilterListContractsParams, UpdateContractBody } from "./contracts.types";
+import { ContractCreateParams, ContractUpdateParams, ContractWithPerson, CreateContractBody, FilterListContractsParams, UpdateContractBody } from "./contracts.types";
 import { ContractDetailsResponseDTO } from "./contracts.dto";
 import { ContractsMapper } from "./contracts.mapper";
 import { AppError } from "@/shared/http/AppError";
@@ -8,6 +8,7 @@ import { DatabaseService } from "@/shared/database/database.service";
 import { InstallmentsRepository } from "../installments/installments.repository";
 import { CreateInstallmentBody } from "../installments/installments.type";
 import { generateInstallmentsForContract } from "../installments/generators/generate-installments";
+import { convertDateToUtc } from "@/shared/utils/date.utils";
 
 
 export class ContractsService {
@@ -41,14 +42,33 @@ export class ContractsService {
     }
 
     public async createContract(data: CreateContractBody): Promise<ContractDetailsResponseDTO> {
-        return this.databaseService.transaction(async (tx) => {
-            const contract = await this.contractsRepository.createContract(tx, data);
+        return this.databaseService.transaction(async (tx) => {            
+            const contractData:ContractCreateParams  = {
+                person:{
+                    connect: {
+                        id: data.personId
+                    }
+                },
+                title: data.title,
+                totalAmount: data.totalAmount,
+                installmentCount: data.installmentCount,
+                installmentFrequency: data.installmentFrequency,
+                interestRate: data.interestRate,
+                interestPeriod: data.interestPeriod,
+                timezone: data.timezone,
+                description: data.description,
+                startAt: convertDateToUtc(data.startDate, data.timezone),
+                skipSaturday: data.skipSaturday,
+                skipSunday: data.skipSunday,
+            }
+
+            const contract = await this.contractsRepository.createContract(tx, contractData);
 
             const installmentsData = generateInstallmentsForContract({
                 id: contract.id,
                 totalAmount: contract.totalAmount,
                 installmentCount: contract.installmentCount,
-                startDate: contract.startDate,
+                startAt: contract.startAt,
                 installmentFrequency: contract.installmentFrequency,
                 skipSaturday: contract.skipSaturday,
                 skipSunday: contract.skipSunday,
@@ -60,7 +80,28 @@ export class ContractsService {
     }
 
     public async updateContract(id: string, data: UpdateContractBody): Promise<ContractDetailsResponseDTO> {
-        const contract = await this.contractsRepository.updateContract(this.databaseService.client, id, data);
+        const startAt = data.startDate && data.timezone ? convertDateToUtc(data.startDate, data.timezone) : "";
+
+        const contractData:ContractUpdateParams  = {
+            person:{
+                connect: {
+                    id: data.personId
+                }
+            },
+            title: data.title,
+            totalAmount: data.totalAmount,
+            installmentCount: data.installmentCount,
+            installmentFrequency: data.installmentFrequency,
+            interestRate: data.interestRate,
+            interestPeriod: data.interestPeriod,
+            timezone: data.timezone,
+            description: data.description,
+            skipSaturday: data.skipSaturday,
+            skipSunday: data.skipSunday,
+            startAt,
+        }
+
+        const contract = await this.contractsRepository.updateContract(this.databaseService.client, id, contractData);
         return ContractsMapper.toDetailsResponse(contract);
     }
 
