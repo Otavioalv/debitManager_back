@@ -2,7 +2,7 @@ import request from "supertest";
 import app from "@/app";
 
 import { dataSuccessResponseSchema } from "./schemas/contractDataResponse.schema";
-import { CreateContractInputBody } from "../contracts.types";
+import { CreateContractInputBody, UpdateContractInputBody } from "../contracts.types";
 
 describe("Contracts HTTP Tests", () => {
     describe("GET api/contracts/ (status) - 200", () => {
@@ -45,6 +45,7 @@ describe("Contracts HTTP Tests", () => {
             const contract:CreateContractInputBody = {
                 personId: personId,
                 title: "titulo",
+                timezone: "America/Manaus",
                 totalAmount: "123234",
                 installmentCount: 21,
                 installmentFrequency: "BIWEEKLY",
@@ -71,6 +72,7 @@ describe("Contracts HTTP Tests", () => {
             const oldContract: CreateContractInputBody = {
                 personId: personId,
                 title: "old title",
+                timezone: "America/Manaus",
                 totalAmount: "123234",
                 installmentCount: 21,
                 installmentFrequency: "BIWEEKLY",
@@ -85,18 +87,10 @@ describe("Contracts HTTP Tests", () => {
             const createRes = await request(app).post("/api/contracts").send(oldContract);
             const id = createRes.body.data.id;
 
-            const updateData:CreateContractInputBody = {
-                personId: personId,
+            const updateData:UpdateContractInputBody = {
                 title: "new title",
-                totalAmount: "123234",
-                installmentCount: 45,
-                installmentFrequency: "MONTHLY",
-                interestRate: "20",
-                interestPeriod: "MONTHLY",
-                startDate: "2026-09-05",
-                description: "new descrição",
-                skipSaturday: false,
-                skipSunday: false
+                description: "descrição",
+                status: "CANCELED",
             };
 
             const res = await request(app).put(`/api/contracts/${id}`).send(updateData);

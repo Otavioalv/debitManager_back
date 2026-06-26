@@ -2,25 +2,8 @@ import z from "zod";
 import { createContractBodySchema, listContractsQuerySchema, updateContractBodySchema } from "./contracts.schema";
 import { Contract, Prisma } from "@generated/prisma/client";
 
-
+// 
 export type FilterListContractsParams = z.infer<typeof listContractsQuerySchema>;
-
-
-// export type CreateContractBody = {
-//     "personId"
-//     | "title"
-//     | "totalAmount"
-//     | "installmentCount"
-//     | "installmentFrequency"
-//     | "interestRate"
-//     | "interestPeriod"
-//     | "timezone"
-//     | "startAt"
-//     | "skipSaturday"
-//     | "skipSunday"
-// }
-
-
 
 export type ContractWithPerson = Prisma.ContractGetPayload<{
     include: {
@@ -34,12 +17,13 @@ export type ContractWithPerson = Prisma.ContractGetPayload<{
 }>;
 
 
-// tipos de entrada pelo json body
+// tipos de entrada pelo json body (HTTP/JSON)
 export type CreateContractBody = z.infer<typeof createContractBodySchema>;
 export type UpdateContractBody = z.infer<typeof updateContractBodySchema>;
 
-// 
+// tipos de inserção de dados (create/update) - usado em tests para inserir dados
 export type CreateContractInputBody = z.input<typeof createContractBodySchema>;
+export type UpdateContractInputBody = z.input<typeof updateContractBodySchema>;
 
 // tipo para salvar no banco de dados
 export type ContractCreateParams = Pick<Prisma.ContractCreateInput, 

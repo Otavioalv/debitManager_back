@@ -69,6 +69,7 @@ export const createContractBodySchema = z.object({
 });
 
 
+// strict object ou strict
 export const updateContractBodySchema = z.object({
     description: z
         .string("Campo precisa conter caracteres validos")
@@ -84,7 +85,7 @@ export const updateContractBodySchema = z.object({
     status: z
         .enum(ContractStatus, "Valor escolhido invalido")
         .optional(),
-})
+}).strict();
 
 export const deleteManyContractsBodySchema = z.object({
     ids: z
