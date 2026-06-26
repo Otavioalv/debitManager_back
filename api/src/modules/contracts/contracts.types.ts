@@ -57,4 +57,8 @@ export type ContractCreateParams = Pick<Prisma.ContractCreateInput,
     | "description"
 >;
 
-export type ContractUpdateParams = Partial<ContractCreateParams>;
+export type ContractUpdateParams = Partial<Pick<Prisma.ContractCreateInput, 
+    "description"
+    | "title"
+    | "status"
+>>;

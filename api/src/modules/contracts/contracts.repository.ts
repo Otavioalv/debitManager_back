@@ -98,31 +98,7 @@ export class ContractsRepository {
             },
         })
     }
-/* 
-HTTP
 
-CreateContractBody
-UpdateContractBody
-
-↓
-
-Service
-
-ContractCreateParams
-ContractUpdateParams
-
-↓
-
-Repository
-Prisma.ContractCreateInput
-Prisma.ContractUpdateInput
-
-↓
-
-Banco
-
-Contract
-*/
     // ContractCreateParams
     public async createContract(db: DbClient, data: ContractCreateParams): Promise<ContractWithPerson> {
         return db.contract.create({

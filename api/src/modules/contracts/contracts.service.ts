@@ -80,25 +80,10 @@ export class ContractsService {
     }
 
     public async updateContract(id: string, data: UpdateContractBody): Promise<ContractDetailsResponseDTO> {
-        const startAt = data.startDate && data.timezone ? convertDateToUtc(data.startDate, data.timezone) : "";
-
         const contractData:ContractUpdateParams  = {
-            person:{
-                connect: {
-                    id: data.personId
-                }
-            },
-            title: data.title,
-            totalAmount: data.totalAmount,
-            installmentCount: data.installmentCount,
-            installmentFrequency: data.installmentFrequency,
-            interestRate: data.interestRate,
-            interestPeriod: data.interestPeriod,
-            timezone: data.timezone,
             description: data.description,
-            skipSaturday: data.skipSaturday,
-            skipSunday: data.skipSunday,
-            startAt,
+            status: data.status,
+            title: data.title
         }
 
         const contract = await this.contractsRepository.updateContract(this.databaseService.client, id, contractData);

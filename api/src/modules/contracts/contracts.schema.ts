@@ -1,5 +1,5 @@
 import { createListQuerySchema } from "@/shared/schemas/pagination/listing.schema";
-import { InstallmentFrequency, InterestPeriod } from "@generated/prisma/enums";
+import { ContractStatus, InstallmentFrequency, InterestPeriod } from "@generated/prisma/enums";
 import z from "zod";
 
 
@@ -9,7 +9,6 @@ export const listContractsQuerySchema = createListQuerySchema({
     filterOptions: ["all"] as const,
     defaultFilter: "all",
 });
-
 
 export  const contractParamsSchema = z.object({
     id: z.uuid("Parametro invalido"),
@@ -70,7 +69,22 @@ export const createContractBodySchema = z.object({
 });
 
 
-export const updateContractBodySchema = createContractBodySchema.partial();
+export const updateContractBodySchema = z.object({
+    description: z
+        .string("Campo precisa conter caracteres validos")
+        .trim()
+        .optional(),
+    title: z
+        .string("Campo precisa conter caracteres validos")
+        .trim()
+        .min(1, "No minimo um caracter")
+        .max(500, "No maximo 500 caracteres")
+        .optional(),
+    // Pode ser temporario
+    status: z
+        .enum(ContractStatus, "Valor escolhido invalido")
+        .optional(),
+})
 
 export const deleteManyContractsBodySchema = z.object({
     ids: z
