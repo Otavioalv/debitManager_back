@@ -2,8 +2,8 @@ import { createListQuerySchema } from "@/shared/schemas/pagination/listing.schem
 
 
 export const listInstallmentsQuerySchema = createListQuerySchema({
-    sortOptions: ["dueDate"] as const, 
-    defaultSort: "dueDate",
+    sortOptions: ["dueAt"] as const, 
+    defaultSort: "dueAt",
     filterOptions: ["all", "dueToday", "late"] as const,
     defaultFilter: "all"
 });

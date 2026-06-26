@@ -18,7 +18,7 @@ export interface CreateInstallmentBody {
     contractId: string;
     installmentNumber: number;
     originalAmount: string;
-    dueDate: Date;
+    dueAt: Date;
     remainingAmount: string;
     
     // payments Payment[]

@@ -17,8 +17,8 @@ export class InstallmentsRepository {
             FilterListInstallmentsParams["sortBy"],
             Prisma.InstallmentOrderByWithRelationInput
         > = {
-            dueDate: {
-                dueDate: order
+            dueAt: {
+                dueAt: order
             }
         };
 
@@ -35,7 +35,7 @@ export class InstallmentsRepository {
                 end.setHours(23, 59, 59, 999);
 
                 return {
-                    dueDate: {
+                    dueAt: {
                         lt: end,
                         gte: start,
                     }
@@ -44,7 +44,7 @@ export class InstallmentsRepository {
             late: () => {
                 const now = new Date();
                 return {
-                    dueDate: {
+                    dueAt: {
                         lt: now,
                     }
                 }

@@ -1,6 +1,6 @@
 import { CreateInstallmentBody } from "@/modules/installments/installments.type";
 import { GenerateInstallmentsForContractInput } from "./types";
-import { calculateDueDate } from "./calculateDueDate";
+import { calculateDueAt } from "./calculateDueAt";
 import { calculateAmountPlan } from "./calculateAmountPlan";
 import { adjustBusinessDay } from "./adjustBusinessDay";
 
@@ -22,10 +22,10 @@ export function generateInstallmentsForContract({
 
     const installments: CreateInstallmentBody[] = [];
 
-    let dueDate = startAt;
+    let dueAt = startAt;
 
-    dueDate = adjustBusinessDay({
-        date: dueDate,
+    dueAt = adjustBusinessDay({
+        date: dueAt,
         skipSaturday,
         skipSunday
     });
@@ -42,16 +42,16 @@ export function generateInstallmentsForContract({
             installmentNumber: i,
             originalAmount: amount.toString(),
             remainingAmount: amount.toString(),
-            dueDate,
+            dueAt: dueAt,
         });
 
-        dueDate = calculateDueDate({
+        dueAt = calculateDueAt({
             installmentFrequency,
-            startDate: dueDate,
+            startAt: dueAt,
         });
 
-        dueDate = adjustBusinessDay({
-            date: dueDate,
+        dueAt = adjustBusinessDay({
+            date: dueAt,
             skipSaturday,
             skipSunday
         });

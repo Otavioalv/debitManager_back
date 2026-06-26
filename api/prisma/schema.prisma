@@ -150,8 +150,8 @@ model Installment {
 
   accruedInterest String @default("0")      // Juros acumulados até o momento
 
-  dueDate DateTime @db.Date           // Data de vencimento da parcela      
-  paidAt DateTime?                    // Data de pagamento da parcela (null se não paga)
+  dueAt DateTime @db.Timestamptz                      // Data de inicio vencimento da parcela      
+  paidAt DateTime? @db.Timestamptz                    // Data de pagamento da parcela (null se não paga)
 
   status InstallmentStatus @default(PENDING)      // Status da parcela (pendente, parcial, paga, vencida)
 
@@ -163,7 +163,7 @@ model Installment {
   // Índices para otimizar consultas
   @@unique([contractId, installmentNumber])
   @@index([contractId])
-  @@index([dueDate])
+  @@index([dueAt])
   @@index([status])
 
   @@map("installment")

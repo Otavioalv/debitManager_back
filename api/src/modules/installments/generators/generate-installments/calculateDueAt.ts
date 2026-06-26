@@ -1,26 +1,26 @@
 import { InstallmentFrequency } from "@generated/prisma/enums";
 import { addDays, addMonths, addYears } from "date-fns";
 
-export interface CalculateDueDateParams {
+export interface CalculateDueAtParams {
     installmentFrequency: InstallmentFrequency;
-    startDate: Date;
+    startAt: Date;
 }
 
-export function calculateDueDate({
+export function calculateDueAt({
     installmentFrequency,
-    startDate,
-}: CalculateDueDateParams): Date{
+    startAt,
+}: CalculateDueAtParams): Date{
     switch(installmentFrequency) {
         case InstallmentFrequency.DAILY:
-            return addDays(startDate, 1);
+            return addDays(startAt, 1);
         case InstallmentFrequency.WEEKLY: 
-            return addDays(startDate, 7);
+            return addDays(startAt, 7);
         case InstallmentFrequency.BIWEEKLY:
-            return addDays(startDate, 14);
+            return addDays(startAt, 14);
         case InstallmentFrequency.MONTHLY:
-            return addMonths(startDate, 1);
+            return addMonths(startAt, 1);
         case InstallmentFrequency.ANNUALLY:
-            return addYears(startDate, 1);
+            return addYears(startAt, 1);
     }
 }
 
