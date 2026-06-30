@@ -15,7 +15,7 @@ export class InstallmentMapper {
             
             status: installment.status,
             
-            dueDate: installment.dueDate.toISOString().slice(0, 10),
+            dueAt: installment.dueAt.toISOString(),
             paidAt: installment.paidAt?.toISOString() || null,
 
             createdAt: installment.createdAt.toISOString(),

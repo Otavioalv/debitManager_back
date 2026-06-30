@@ -1,4 +1,4 @@
-import { CreateInstallmentBody } from "@/modules/installments/installments.type";
+import { CreateInstallmentBody } from "@/modules/installments/installments.types";
 import { GenerateInstallmentsForContractInput } from "./types";
 import { calculateDueAt } from "./calculateDueAt";
 import { calculateAmountPlan } from "./calculateAmountPlan";

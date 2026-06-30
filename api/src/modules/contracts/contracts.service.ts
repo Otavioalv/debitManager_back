@@ -6,7 +6,7 @@ import { ContractsMapper } from "./contracts.mapper";
 import { AppError } from "@/shared/http/AppError";
 import { DatabaseService } from "@/shared/database/database.service";
 import { InstallmentsRepository } from "../installments/installments.repository";
-import { CreateInstallmentBody } from "../installments/installments.type";
+import { CreateInstallmentBody } from "../installments/installments.types";
 import { generateInstallmentsForContract } from "../installments/generators/generate-installments";
 import { convertDateToUtc } from "@/shared/utils/date.utils";
 

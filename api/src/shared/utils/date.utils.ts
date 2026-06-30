@@ -6,3 +6,12 @@ export function convertDateToUtc(date: string, timezone: string): Date{
     
     return fromZonedTime(dateTime, timezone);
 }
+
+export function isValidTimeZone(timeZone: string): boolean {
+    try {
+        Intl.DateTimeFormat(undefined, {timeZone});
+        return true;
+    } catch {
+        return false;
+    }
+}

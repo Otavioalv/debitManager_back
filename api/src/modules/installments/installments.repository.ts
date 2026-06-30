@@ -1,5 +1,5 @@
 import { DbClient } from "@/shared/database/database.types";
-import { CreateInstallmentBody } from "./installments.type";
+import { CreateInstallmentBody } from "./installments.types";
 import { BatchPayload } from "@generated/prisma/internal/prismaNamespace";
 import { FilterListInstallmentsParams } from "./installments.types";
 import { EnumMap } from "@/shared/types";
@@ -22,34 +22,34 @@ export class InstallmentsRepository {
             }
         };
 
-        const whereMap: EnumMap<
-            FilterListInstallmentsParams["filter"],
-            () => Prisma.InstallmentWhereInput
-        > = {
-            all: () => ({}),
-            dueToday: () => {
-                const start = new Date();
-                start.setHours(0, 0, 0, 0);
+        // const whereMap: EnumMap<
+        //     FilterListInstallmentsParams["filter"],
+        //     () => Prisma.InstallmentWhereInput
+        // > = {
+        //     all: () => ({}),
+        //     dueToday: () => {
+        //         const start = new Date();
+        //         start.setHours(0, 0, 0, 0);
 
-                const end = new Date();
-                end.setHours(23, 59, 59, 999);
+        //         const end = new Date();
+        //         end.setHours(23, 59, 59, 999);
 
-                return {
-                    dueAt: {
-                        lt: end,
-                        gte: start,
-                    }
-                };
-            },
-            late: () => {
-                const now = new Date();
-                return {
-                    dueAt: {
-                        lt: now,
-                    }
-                }
-            }
-        }
+        //         return {
+        //             dueAt: {
+        //                 lt: end,
+        //                 gte: start,
+        //             }
+        //         };
+        //     },
+        //     late: () => {
+        //         const now = new Date();
+        //         return {
+        //             dueAt: {
+        //                 lt: now,
+        //             }
+        //         }
+        //     }
+        // }
         
         const dataPaginated = await db.installment.findMany({
             orderBy: [
@@ -58,7 +58,7 @@ export class InstallmentsRepository {
                     id: "asc",
                 }
             ],
-            where: whereMap[filter.filter](),
+            // where: whereMap[filter.filter](),'
             ...(filter.cursor && {
                 cursor: {
                     id: filter.cursor,
