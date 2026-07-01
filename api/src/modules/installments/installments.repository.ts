@@ -22,34 +22,17 @@ export class InstallmentsRepository {
             }
         };
 
-        // const whereMap: EnumMap<
-        //     FilterListInstallmentsParams["filter"],
-        //     () => Prisma.InstallmentWhereInput
-        // > = {
-        //     all: () => ({}),
-        //     dueToday: () => {
-        //         const start = new Date();
-        //         start.setHours(0, 0, 0, 0);
-
-        //         const end = new Date();
-        //         end.setHours(23, 59, 59, 999);
-
-        //         return {
-        //             dueAt: {
-        //                 lt: end,
-        //                 gte: start,
-        //             }
-        //         };
-        //     },
-        //     late: () => {
-        //         const now = new Date();
-        //         return {
-        //             dueAt: {
-        //                 lt: now,
-        //             }
-        //         }
-        //     }
-        // }
+        const whereMap: EnumMap<
+            FilterListInstallmentsParams["filter"],
+            () => Prisma.InstallmentWhereInput
+        > = {
+            all: () => ({}),
+            overdue: () => {
+                return  {
+                    status: "OVERDUE",
+                }
+            }
+        }
         
         const dataPaginated = await db.installment.findMany({
             orderBy: [
@@ -58,7 +41,13 @@ export class InstallmentsRepository {
                     id: "asc",
                 }
             ],
-            // where: whereMap[filter.filter](),'
+            where: {
+                ...whereMap[filter.filter](),
+                dueAt: {
+                    gte: filter.from,
+                    lte: filter.to,
+                }
+            },
             ...(filter.cursor && {
                 cursor: {
                     id: filter.cursor,

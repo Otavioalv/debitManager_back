@@ -2,20 +2,22 @@ import { createListQuerySchema } from "@/shared/schemas/pagination/listing.schem
 import z from "zod";
 
 
+// replicar em outros schemas, tornar isso global e reutilizavel
+const optionalIsoDateTime = z.preprocess(
+    value => value === "" ? undefined : value,
+    z.iso.datetime().optional()
+);
+
 export const dateRangeQuerySchema = z
     .object({
-        from: z
-            .iso.datetime()
-            .optional(),
-        to: z
-            .iso.datetime()
-            .optional(),
+        from: optionalIsoDateTime,
+        to: optionalIsoDateTime,
     })
     .refine(
-        ({from, to}) => !(from && !to),
+        ({from, to}) => !(to && !from),
         {
-            error: "\"from\" cannot be used without \"to\"",
-            path: ["from"],
+            error: "\"to\" cannot be used without \"from\"",
+            path: ["to"],
         }
     )
     .refine(
@@ -24,18 +26,18 @@ export const dateRangeQuerySchema = z
             return new Date(from) <= new Date(to);
         },
         {
-            message: "\"from\" must be before or equal to \"to\"",
-            path: ["from"],
+            message: "\"to\" must be after or equal to \"from\"",
+            path: ["to"],
         }
     );
 
 
-export const listInstallmentsQuerySchema = createListQuerySchema({
+export const listInstallmentsQuerySchema = dateRangeQuerySchema.and(createListQuerySchema({
     sortOptions: ["dueAt"] as const, 
     defaultSort: "dueAt",
     filterOptions: ["all", "overdue"] as const,
-    defaultFilter: "all"
-}).safeExtend(dateRangeQuerySchema.shape);
+    defaultFilter: "all",
+}));
 
 
 // upcoming: vao vencer (nao faz muito sentido)
