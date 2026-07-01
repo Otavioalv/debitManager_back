@@ -15,7 +15,7 @@ export  const contractParamsSchema = z.object({
     id: z.uuid("Parametro invalido"),
 });
 
-export const createContractBodySchema = z.object({
+export const createContractBodySchema = z.strictObject({
     title: z
         .string("Campo precisa conter caracteres validos")
         .trim()
@@ -52,11 +52,13 @@ export const createContractBodySchema = z.object({
     skipSunday: z
         .boolean("Campo precisa conter um valor booleano")
         .default(false),
+}, {
+    error: ({keys, }) => `Campo inesperado foi enviado (${keys})`,
 });
 
 
 // strict object ou strict
-export const updateContractBodySchema = z.object({
+export const updateContractBodySchema = z.strictObject({
     description: z
         .string("Campo precisa conter caracteres validos")
         .trim()
@@ -71,7 +73,9 @@ export const updateContractBodySchema = z.object({
     status: z
         .enum(ContractStatus, "Valor escolhido invalido")
         .optional(),
-}).strict();
+}, {
+    error: ({keys, }) => `Campo inesperado foi enviado (${keys})`,
+});
 
 export const deleteManyContractsBodySchema = z.object({
     ids: z

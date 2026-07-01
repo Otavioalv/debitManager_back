@@ -13,23 +13,29 @@ export const dateRangeQuerySchema = z
         from: optionalIsoDateTime,
         to: optionalIsoDateTime,
     })
-    .refine(
-        ({from, to}) => !(to && !from),
-        {
-            error: "\"to\" cannot be used without \"from\"",
-            path: ["to"],
-        }
-    )
-    .refine(
-        ({from, to}) => {
-            if(!from || !to) return true;
-            return new Date(from) <= new Date(to);
-        },
-        {
-            message: "\"to\" must be after or equal to \"from\"",
-            path: ["to"],
-        }
-    );
+    .refine(({from, to}) => !(to && !from),{
+        error: "\"to\" cannot be used without \"from\"",
+        path: ["to"],
+    })
+    .refine(({from, to}) => {
+        if(!from || !to) return true;
+        return new Date(from) <= new Date(to);
+    },{
+        message: "\"to\" must be after or equal to \"from\"",
+        path: ["to"],
+    })
+    .refine(({ from, to }) => {
+        if(!from || !to) return true;
+        const start = new Date(from);
+        const max = new Date(start);
+
+        max.setMonth(max.getMonth() + 3);
+
+        return new Date(to) <= max;
+    },{
+        error: "The maximum allowed date range is 3 months",
+        path: ["to"],
+    });
 
 
 export const listInstallmentsQuerySchema = dateRangeQuerySchema.and(createListQuerySchema({

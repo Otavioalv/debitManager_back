@@ -14,7 +14,7 @@ export const personParamsSchema = z.object({
     id: z.uuid("Parametro invalido"),
 });
 
-export const createPersonBodySchema = z.object({
+export const createPersonBodySchema = z.strictObject({
     name: z
         .string("Campo precisa conter caracteres validos")
         .trim()
@@ -57,6 +57,8 @@ export const createPersonBodySchema = z.object({
     //         /^\d+$/,
     //         "Campo deve conter apenas numeros positivos inteiros representando centavos",
     //     )
+}, {
+    error: ({keys, }) => `Campo inesperado foi enviado (${keys})`
 });
 
 export const updatePersonBodySchema = createPersonBodySchema.partial();
