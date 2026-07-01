@@ -78,7 +78,7 @@ export class ContractsService {
             return ContractsMapper.toDetailsResponse(contract);
         });
     }
-
+    
     public async updateContract(id: string, data: UpdateContractBody): Promise<ContractDetailsResponseDTO> {
         const contractData:ContractUpdateParams  = {
             description: data.description,

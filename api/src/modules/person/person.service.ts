@@ -1,7 +1,7 @@
 import { PersonRepository } from "./person.repository";
 import { PersonMapper } from "./person.mapper";
 import { PersonResponseDTO } from "./person.dto";
-import { CreatePersonBody, FilterListPersonParams, UpdatePersonBody } from "./person.type";
+import { CreatePersonBody, FilterListPersonParams, PersonCreateParams, PersonUpdateParams, UpdatePersonBody } from "./person.type";
 import { AppError } from "@/shared/http/AppError";
 import { Person } from "@generated/prisma/client";
 import { DataWithPagination } from "@/shared/http/response.types";
@@ -38,12 +38,36 @@ export class PersonService {
     }
 
     public async createPerson(data: CreatePersonBody): Promise<PersonResponseDTO> {
-        const person:Person = await this.personRepository.createPerson(this.databaseService.client, data);
+        const personData:PersonCreateParams = {
+            name: data.name,
+            phoneNumber: data.phoneNumber,
+            cnh: data.cnh,
+            cnpj: data.cnpj,
+            cpf: data.cpf,
+            municipalRegistration: data.municipalRegistration,
+            rg: data.rg,
+            secondaryPhoneNumber: data.secondaryPhoneNumber,
+            stateRegistration: data.stateRegistration,
+        };
+
+        const person:Person = await this.personRepository.createPerson(this.databaseService.client, personData);
         return PersonMapper.toResponse(person);
     }
 
     public async updatePerson(id: string, data: UpdatePersonBody): Promise<PersonResponseDTO> {
-        const person:Person = await this.personRepository.updatePerson(this.databaseService.client, id, data);
+        const personData:PersonUpdateParams = {
+            name: data.name,
+            phoneNumber: data.phoneNumber,
+            cnh: data.cnh,
+            cnpj: data.cnpj,
+            cpf: data.cpf,
+            municipalRegistration: data.municipalRegistration,
+            rg: data.rg,
+            secondaryPhoneNumber: data.secondaryPhoneNumber,
+            stateRegistration: data.stateRegistration,
+        };
+
+        const person:Person = await this.personRepository.updatePerson(this.databaseService.client, id, personData);
         return PersonMapper.toResponse(person);
     }
 

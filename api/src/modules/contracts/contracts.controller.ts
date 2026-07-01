@@ -35,7 +35,7 @@ export class ContractsController {
 
         return ApiResponse.created(res, data, "Contract created successfully");
     }
-
+    
     public updateContract = async (req: Request, res: Response) => {
         const { id } = res.locals.validated.params as { id: string };
         const updateData = res.locals.validated.body as UpdateContractBody;

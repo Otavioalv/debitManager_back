@@ -25,7 +25,7 @@ export type UpdateContractBody = z.infer<typeof updateContractBodySchema>;
 export type CreateContractInputBody = z.input<typeof createContractBodySchema>;
 export type UpdateContractInputBody = z.input<typeof updateContractBodySchema>;
 
-// tipo para salvar no banco de dados
+// tipos para salvar no banco de dados
 export type ContractCreateParams = Pick<Prisma.ContractCreateInput, 
     "person"
     | "title"

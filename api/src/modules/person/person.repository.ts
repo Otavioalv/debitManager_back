@@ -1,5 +1,5 @@
 import { Person, Prisma } from "@generated/prisma/client";
-import { CreatePersonBody, FilterListPersonParams, UpdatePersonBody } from "./person.type";
+import { CreatePersonBody, FilterListPersonParams, PersonCreateParams, PersonUpdateParams, UpdatePersonBody } from "./person.type";
 import { DbClient, ExtendedPrismaClient } from "@/shared/database/database.types";
 import { buildPaginatedResponse } from "@/shared/utils/pagination.utils";
 import { DataWithPagination } from "@/shared/http/response.types";
@@ -57,13 +57,13 @@ export class PersonRepository {
         });
     }
 
-    public async createPerson(db: DbClient, data: CreatePersonBody): Promise<Person> {
+    public async createPerson(db: DbClient, data: PersonCreateParams): Promise<Person> {
         return db.person.create({
             data
         });
     }
 
-    public async updatePerson(db: DbClient, id: string, data: UpdatePersonBody): Promise<Person> {
+    public async updatePerson(db: DbClient, id: string, data: PersonUpdateParams): Promise<Person> {
         return db.person.update({
             where: {
                 id,

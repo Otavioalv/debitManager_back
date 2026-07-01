@@ -130,7 +130,7 @@ export class ContractsRepository {
             data
         })
     }
-
+    
     public async deleteContract(db: DbClient, id: string): Promise<void> {
         await db.contract.delete({
             where: {
