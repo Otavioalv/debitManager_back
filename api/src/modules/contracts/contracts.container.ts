@@ -5,12 +5,14 @@ import { ContractsService } from "./contracts.service";
 import { ContractsController } from "./contracts.controller";
 import { DatabaseService } from "@/shared/database/database.service";
 import { installmentsRepository } from "../installments/installments.container";
+import { personRepository, personService } from "../person/person.container";
 
 export const databaseService = new DatabaseService(prisma);
 export const contractsRepository = new ContractsRepository();
 export const contractsService = new ContractsService(
     contractsRepository, 
     installmentsRepository, 
+    personService,
     databaseService
 );
 export const contractsController = new ContractsController(contractsService);

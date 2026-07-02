@@ -9,12 +9,15 @@ import { InstallmentsRepository } from "../installments/installments.repository"
 import { CreateInstallmentBody } from "../installments/installments.types";
 import { generateInstallmentsForContract } from "../installments/generators/generate-installments";
 import { convertDateToUtc } from "@/shared/utils/date.utils";
+import { PersonRepository } from "../person/person.repository";
+import { PersonService } from "../person/person.service";
 
 
 export class ContractsService {
     constructor (
         private contractsRepository: ContractsRepository,
         private installmentsRepository: InstallmentsRepository,
+        private personService: PersonService,
         private databaseService: DatabaseService,
     ){}
 
@@ -42,7 +45,10 @@ export class ContractsService {
     }
 
     public async createContract(data: CreateContractBody): Promise<ContractDetailsResponseDTO> {
-        return this.databaseService.transaction(async (tx) => {            
+        // Verifica se pessoa existe, se nao existe joga um erro
+        await this.personService.personExists(data.personId);
+        
+        return this.databaseService.transaction(async (tx) => {
             const contractData:ContractCreateParams  = {
                 person:{
                     connect: {

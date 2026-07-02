@@ -27,7 +27,7 @@ export class ContractsController {
 
         return ApiResponse.ok(res, data, "Contract fetched successfully");
     }
-
+    
     public createContract = async (req: Request, res: Response) => {
         const createData = res.locals.validated.body as CreateContractBody;
 

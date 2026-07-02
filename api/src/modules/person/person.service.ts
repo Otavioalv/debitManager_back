@@ -27,14 +27,22 @@ export class PersonService {
     }
 
     public async getPersonById(id: string): Promise<PersonResponseDTO> {
-        const person:Person | null = await this.personRepository.getPersonById(this.databaseService.client, id);
+        const person:Person | null = await this.getPersonOrThrow(id);
+        return PersonMapper.toResponse(person);
+    }
 
-        // If person is not found, throw a 404 error
+    public async personExists(id: string): Promise<void>{
+        await this.getPersonOrThrow(id);
+    }
+
+    // controlador de erro.
+    private async getPersonOrThrow(id: string): Promise<Person>{
+        const person: Person | null = await this.personRepository.getPersonById(this.databaseService.client, id);
         if(!person) {
             throw AppError.notFound("Person not found");
         }
 
-        return PersonMapper.toResponse(person);
+        return person;
     }
 
     public async createPerson(data: CreatePersonBody): Promise<PersonResponseDTO> {
