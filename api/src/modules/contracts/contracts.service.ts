@@ -11,6 +11,7 @@ import { generateInstallmentsForContract } from "../installments/generators/gene
 import { convertDateToUtc } from "@/shared/utils/date.utils";
 import { PersonRepository } from "../person/person.repository";
 import { PersonService } from "../person/person.service";
+import { Contract } from "@generated/prisma/client";
 
 
 export class ContractsService {
@@ -35,12 +36,7 @@ export class ContractsService {
     }
 
     public async getContractById(id: string): Promise<ContractDetailsResponseDTO> {
-        const contract = await this.contractsRepository.getContractById(this.databaseService.client, id);
-        
-        if(!contract) {
-            throw AppError.notFound("Contract not found");
-        }
-
+        const contract = await this.getContractOrThrow(id);
         return ContractsMapper.toDetailsResponse(contract);
     }
 
@@ -97,8 +93,28 @@ export class ContractsService {
     }
 
     public async deleteContract(id: string): Promise<void>{
+        await this.getContractOrThrow(id);
         await this.contractsRepository.deleteContract(this.databaseService.client, id);
     }
+
+    private async getContractOrThrow(id: string): Promise<ContractWithPerson> {
+        const contract: ContractWithPerson | null = await this.contractsRepository.getContractById(this.databaseService.client, id);
+        if(!contract){
+            throw AppError.notFound("Contract not found");
+        }
+        return contract;   
+    }
+
+    /* 
+    private async getPersonOrThrow(id: string): Promise<Person>{
+        const person: Person | null = await this.personRepository.getPersonById(this.databaseService.client, id);
+        if(!person) {
+            throw AppError.notFound("Person not found");
+        }
+
+        return person;
+    }
+    */
 
     public async deleteManyContracts(ids: string[]): Promise<number>{
         return await this.contractsRepository.deleteManyContracts(this.databaseService.client, ids);
