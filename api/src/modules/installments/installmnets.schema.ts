@@ -68,10 +68,14 @@ export const listInstallmentsQuerySchema =
             })
         )
     );
-
+    
 
 // upcoming: vao vencer (nao faz muito sentido)
 // overdue: atrasadas
 
 // inicion 12/05/2025 T00:00:01Z
 // fim 12/06/2025 T00:00:01Z
+export  const installmentParamsSchema = z.object({
+    id: z.uuid("Parametro invalido"),
+});
+

@@ -68,6 +68,14 @@ export class InstallmentsRepository {
         return buildPaginatedResponse(dataPaginated, filter.limit, filter.cursor);
     }
 
+    public async getInstallmentById(db: DbClient, id: string): Promise<Installment | null>{
+        return db.installment.findUnique({
+            where: {
+                id
+            }
+        });
+    }
+
     public async createManyInstallments(db: DbClient, data: CreateInstallmentBody[]): Promise<BatchPayload>{
         return db.installment.createMany({
             data,

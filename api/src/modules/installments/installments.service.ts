@@ -5,6 +5,7 @@ import { InstallmentMapper } from "./installments.mapper";
 import { DataWithPagination } from "@/shared/http/response.types";
 import { InstallmentResponseDTO } from "./installments.dto";
 import { AppError } from "@/shared/http/AppError";
+import { Installment } from "@generated/prisma/client";
 
 
 export class InstallmentsService {
@@ -33,5 +34,19 @@ export class InstallmentsService {
         if(hasPaid) {
             throw AppError.conflict("Contract has paid installments");
         }
+    }
+
+    public async getInstallmentById(id:string): Promise<InstallmentResponseDTO>{
+        const installment = await this.getInstallmentOrThrow(id);
+        return InstallmentMapper.toResponse(installment);
+    }
+
+    private async getInstallmentOrThrow(id: string): Promise<Installment>{
+        const installment: Installment | null = await this.installmentsRepository.getInstallmentById(this.databaseService.client, id);
+        if(!installment){
+            throw AppError.notFound("Contract not found");
+        }        
+
+        return installment;
     }
 }

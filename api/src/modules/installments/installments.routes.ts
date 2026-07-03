@@ -1,6 +1,6 @@
 import { Request, Response, Router } from "express";
 import { installmentsController } from "./installments.container";
-import { validateQuery } from "./installments.validation";
+import { validateParams, validateQuery } from "./installments.validation";
 import { ApiResponse } from "@/shared/http/ApiResponse";
 import { timezoneMiddleware } from "@/shared/middlewares/timezone.middleware";
 
@@ -12,11 +12,18 @@ const installmentsRouter = Router();
 // list installments
 installmentsRouter.get(
     "/",
-    timezoneMiddleware,
+    // timezoneMiddleware,
     validateQuery,
     installmentsController.listAllInstallments
 );
 
+
+// list by id
+installmentsRouter.get(
+    "/:id",
+    validateParams,
+    installmentsController.getInstallmentById
+);
 
 
 export default installmentsRouter;

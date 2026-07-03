@@ -19,4 +19,13 @@ export class InstallmentsController {
         
         return ApiResponse.ok(res, data, "Installments fetched successfully");
     }
+
+    // listar por id
+    public getInstallmentById = async (req: Request, res: Response): Promise<ApiResponse>=> {
+        const {id} = res.locals.validated.params as { id: string };
+
+        const data = await this.installmentsService.getInstallmentById(id);
+        
+        return ApiResponse.ok(res, data, "Contract fetched successfully");
+    }
 }
