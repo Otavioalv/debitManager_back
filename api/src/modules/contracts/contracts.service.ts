@@ -12,12 +12,14 @@ import { convertDateToUtc } from "@/shared/utils/date.utils";
 import { PersonRepository } from "../person/person.repository";
 import { PersonService } from "../person/person.service";
 import { Contract } from "@generated/prisma/client";
+import { InstallmentsService } from "../installments/installments.service";
 
 
 export class ContractsService {
     constructor (
         private contractsRepository: ContractsRepository,
         private installmentsRepository: InstallmentsRepository,
+        private installmentsService: InstallmentsService,
         private personService: PersonService,
         private databaseService: DatabaseService,
     ){}
@@ -93,7 +95,11 @@ export class ContractsService {
     }
 
     public async deleteContract(id: string): Promise<void>{
+        // Verifica se contrato existe
         await this.getContractOrThrow(id);
+        // Verifica se contrato tem conta paga
+        await this.installmentsService.ensureNoPaidInstallments(id);
+        // Deleta contrato
         await this.contractsRepository.deleteContract(this.databaseService.client, id);
     }
 
@@ -104,17 +110,6 @@ export class ContractsService {
         }
         return contract;   
     }
-
-    /* 
-    private async getPersonOrThrow(id: string): Promise<Person>{
-        const person: Person | null = await this.personRepository.getPersonById(this.databaseService.client, id);
-        if(!person) {
-            throw AppError.notFound("Person not found");
-        }
-
-        return person;
-    }
-    */
 
     public async deleteManyContracts(ids: string[]): Promise<number>{
         return await this.contractsRepository.deleteManyContracts(this.databaseService.client, ids);

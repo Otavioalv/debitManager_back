@@ -4,6 +4,7 @@ import { FilterListInstallmentsParams } from "./installments.types";
 import { InstallmentMapper } from "./installments.mapper";
 import { DataWithPagination } from "@/shared/http/response.types";
 import { InstallmentResponseDTO } from "./installments.dto";
+import { AppError } from "@/shared/http/AppError";
 
 
 export class InstallmentsService {
@@ -23,5 +24,14 @@ export class InstallmentsService {
         }
 
         return resList;
+    }
+
+    public async ensureNoPaidInstallments(contractId: string): Promise<void>{
+        const hasPaid = await this.installmentsRepository.hasPaidInstallments(this.databaseService.client, contractId);
+        
+        // Pode não necessariamente não ser um erro.
+        if(hasPaid) {
+            throw AppError.conflict("Contract has paid installments");
+        }
     }
 }

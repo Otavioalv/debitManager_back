@@ -4,14 +4,15 @@ import { ContractsRepository } from "./contracts.repository";
 import { ContractsService } from "./contracts.service";
 import { ContractsController } from "./contracts.controller";
 import { DatabaseService } from "@/shared/database/database.service";
-import { installmentsRepository } from "../installments/installments.container";
+import { installmentsRepository, installmentsService } from "../installments/installments.container";
 import { personRepository, personService } from "../person/person.container";
 
 export const databaseService = new DatabaseService(prisma);
 export const contractsRepository = new ContractsRepository();
 export const contractsService = new ContractsService(
     contractsRepository, 
-    installmentsRepository, 
+    installmentsRepository,
+    installmentsService,
     personService,
     databaseService
 );

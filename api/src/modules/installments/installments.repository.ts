@@ -69,4 +69,18 @@ export class InstallmentsRepository {
         //     data,
         // });
     }
+    
+    public async hasPaidInstallments(db: DbClient, contractId: string): Promise<boolean>{
+        const installment = await db.installment.findFirst({
+            where: {
+                contractId, 
+                status: "PAID"
+            },
+            select: {
+                id: true,
+            }
+        });
+
+        return installment !== null;
+    }
 }
