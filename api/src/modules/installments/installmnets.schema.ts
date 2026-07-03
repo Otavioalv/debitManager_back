@@ -8,6 +8,8 @@ const optionalIsoDateTime = z.preprocess(
     z.iso.datetime().optional()
 );
 
+
+// Talvez mesclar com installmentFiltersQuerySchema
 export const dateRangeQuerySchema = z
     .object({
         from: optionalIsoDateTime,
@@ -38,12 +40,34 @@ export const dateRangeQuerySchema = z
     });
 
 
-export const listInstallmentsQuerySchema = dateRangeQuerySchema.and(createListQuerySchema({
-    sortOptions: ["dueAt"] as const, 
-    defaultSort: "dueAt",
-    filterOptions: ["all", "overdue"] as const,
-    defaultFilter: "all",
-}));
+export const installmentFiltersQuerySchema = z.object({
+    contractId: z
+        .preprocess(
+            (v) => (typeof v === "string" && v.trim() === "" ? undefined : v),
+            z
+            .uuid("Parametro invalido")
+            .optional(),
+        ),
+    // personId
+    // status
+    // minAmount
+    // maxAmount
+    // dueAfter
+    // dueBefore
+});
+
+export const listInstallmentsQuerySchema = 
+    installmentFiltersQuerySchema.and(
+        dateRangeQuerySchema.and(
+            createListQuerySchema({
+                sortOptions: ["dueAt", "installmentNumber"] as const, 
+                defaultSort: "dueAt",
+                
+                filterOptions: ["all", "overdue"] as const,
+                defaultFilter: "all",
+            })
+        )
+    );
 
 
 // upcoming: vao vencer (nao faz muito sentido)

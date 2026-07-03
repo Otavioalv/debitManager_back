@@ -19,6 +19,9 @@ export class InstallmentsRepository {
         > = {
             dueAt: {
                 dueAt: order
+            },
+            installmentNumber: {
+                installmentNumber: order
             }
         };
 
@@ -33,7 +36,7 @@ export class InstallmentsRepository {
                 }
             }
         }
-        
+
         const dataPaginated = await db.installment.findMany({
             orderBy: [
                 orderByMap[filter.sortBy],
@@ -41,13 +44,18 @@ export class InstallmentsRepository {
                     id: "asc",
                 }
             ],
+            // Separar isso em uma unica variavel, juntar os filtros
             where: {
                 ...whereMap[filter.filter](),
                 dueAt: {
                     gte: filter.from,
                     lte: filter.to,
-                }
+                },
+                ...(filter.contractId && {
+                    contractId: filter.contractId,
+                })
             },
+
             ...(filter.cursor && {
                 cursor: {
                     id: filter.cursor,
