@@ -15,14 +15,19 @@ export class InstallmentsRepository {
 
         const orderByMap: EnumMap<
             FilterListInstallmentsParams["sortBy"],
-            Prisma.InstallmentOrderByWithRelationInput
+            Prisma.InstallmentOrderByWithRelationInput[]
         > = {
-            dueAt: {
+            dueAt: [{
                 dueAt: order
-            },
-            installmentNumber: {
-                installmentNumber: order
-            }
+            }],
+            installmentNumber: [
+                {
+                    contractId: "asc"
+                },
+                {
+                    installmentNumber: order
+                },
+            ]
         };
 
         const whereMap: EnumMap<
@@ -39,7 +44,7 @@ export class InstallmentsRepository {
 
         const dataPaginated = await db.installment.findMany({
             orderBy: [
-                orderByMap[filter.sortBy],
+                ...orderByMap[filter.sortBy],
                 {
                     id: "asc",
                 }

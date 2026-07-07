@@ -59,6 +59,15 @@ enum InstallmentStatus {
 }
 
 
+// Metodos de pagamentos
+enum PaymentMethod {
+  PIX
+  CASH
+  CREDIT_CARD
+  DEBIT_CARD
+  TRANSFER
+}
+
 
 model Person {
   id String @id @default(uuid()) @db.Uuid
@@ -157,7 +166,7 @@ model Installment {
   createdAt DateTime @default(now())              // Data de criação da parcela
   updatedAt DateTime @updatedAt                   // Data de última atualização da parcela
 
-  // payments Payment[]
+  payments Payment[]    // Pode ter varios Payments
 
   // Índices para otimizar consultas
   @@unique([contractId, installmentNumber])
@@ -168,3 +177,25 @@ model Installment {
   @@map("installment")
 }
 
+
+model Payment {
+  id String @id @default(uuid()) @db.Uuid
+  installmentId String @db.Uuid
+
+  installment Installment @relation(fields: [installmentId], references: [id])
+
+  amount String
+
+  interestAmount String @default("0")
+  method PaymentMethod
+
+  paidAt DateTime @db.Timestamptz @default(now())
+  
+  createdAt DateTime @db.Timestamptz @default(now())
+  // Possivel opção data de update (se for necessario atualizar o pagamento)
+
+  @@index([installmentId])
+  @@index([paidAt])
+  
+  @@map("payment")
+}

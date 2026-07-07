@@ -75,6 +75,15 @@ export const listInstallmentsQuerySchema =
 
 // inicion 12/05/2025 T00:00:01Z
 // fim 12/06/2025 T00:00:01Z
+
+// Status da parcela: pendente, parcial, paga, vencida
+// enum InstallmentStatus {
+//   PENDING
+//   PARTIAL
+//   PAID
+//   OVERDUE
+// }
+
 export  const installmentParamsSchema = z.object({
     id: z.uuid("Parametro invalido"),
 });
