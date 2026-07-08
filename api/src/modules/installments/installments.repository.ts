@@ -1,5 +1,5 @@
 import { DbClient } from "@/shared/database/database.types";
-import { CreateInstallmentBody } from "./installments.types";
+import { CreateInstallmentBody, InstallmentUpdateParams } from "./installments.types";
 import { BatchPayload } from "@generated/prisma/internal/prismaNamespace";
 import { FilterListInstallmentsParams } from "./installments.types";
 import { EnumMap } from "@/shared/types";
@@ -103,5 +103,15 @@ export class InstallmentsRepository {
         });
 
         return installment !== null;
+    }
+
+    public async updateInstallment(db: DbClient, id: string, data: InstallmentUpdateParams): Promise<Installment>{
+        return db.installment.update({
+            where: {
+                id: id,
+            },
+            // possivelmente adicionar include? oque fazer?
+            data
+        });
     }
 }

@@ -154,6 +154,7 @@ model Installment {
 
   installmentNumber Int                          // Número da parcela (1, 2, 3, ...)
   originalAmount String               // Valor original da parcela
+  // interestAmount String              // Valor monetario dos juros do contrato sobre a parcela
   remainingAmount String              // Valor restante a ser pago  
 
   accruedInterest String @default("0")      // Juros acumulados até o momento
@@ -199,3 +200,5 @@ model Payment {
   
   @@map("payment")
 }
+
+// olhar conversa com o chat gpt

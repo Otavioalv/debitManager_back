@@ -28,4 +28,12 @@ export class InstallmentsController {
         
         return ApiResponse.ok(res, data, "Contract fetched successfully");
     }
+
+    // efetuar pagamento
+    public receivePayment = async (req: Request, res: Response): Promise<ApiResponse> => {
+        const {id} = res.locals.validated.params as { id: string }; 
+        await this.installmentsService.receivePayment(id);
+
+        return ApiResponse.ok(res, ["penis"], "Payment successfully made");
+    }
 }

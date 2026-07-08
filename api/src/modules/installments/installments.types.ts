@@ -1,5 +1,6 @@
 import z from "zod";
 import { listInstallmentsQuerySchema } from "./installmnets.schema";
+import { Prisma } from "@generated/prisma/client";
 
 
 export type FilterListInstallmentsParams = z.infer<typeof listInstallmentsQuerySchema>;
@@ -30,4 +31,33 @@ export interface CreateInstallmentBody {
     // payments Payment[]
 }
 
+export type InstallmentUpdateParams = Partial<Pick<Prisma.InstallmentCreateInput,
+    "remainingAmount"
+    | "paidAt"
+    | "status"
+>>
+
+/* 
+criar um para installments
+export type ContractCreateParams = Pick<Prisma.ContractCreateInput, 
+    "person"
+    | "title"
+    | "totalAmount"
+    | "installmentCount"
+    | "installmentFrequency"
+    | "interestRate"
+    | "interestPeriod"
+    | "timezone"
+    | "startAt"
+    | "skipSaturday"
+    | "skipSunday"
+    | "description"
+>;
+
+export type ContractUpdateParams = Partial<Pick<Prisma.ContractCreateInput, 
+    "description"
+    | "title"
+    | "status"
+>>;
+*/
 

@@ -1,6 +1,6 @@
 import { DatabaseService } from "@/shared/database/database.service";
 import { InstallmentsRepository } from "./installments.repository";
-import { FilterListInstallmentsParams } from "./installments.types";
+import { FilterListInstallmentsParams, InstallmentUpdateParams } from "./installments.types";
 import { InstallmentMapper } from "./installments.mapper";
 import { DataWithPagination } from "@/shared/http/response.types";
 import { InstallmentResponseDTO } from "./installments.dto";
@@ -39,6 +39,55 @@ export class InstallmentsService {
     public async getInstallmentById(id:string): Promise<InstallmentResponseDTO>{
         const installment = await this.getInstallmentOrThrow(id);
         return InstallmentMapper.toResponse(installment);
+    }
+
+    public async receivePayment(id: string) {
+        // talvez criar um transaction
+
+        // Verifica se installment existe
+        const installment = await this.getInstallmentOrThrow(id);
+
+        // verifica se installment foi pago
+        if(installment.remainingAmount === "0") throw AppError.conflict("Installment has already been paid");
+
+        // pagar installment com valor inteiro
+        return this.receiveFullPayment(id);
+
+        // criar um payment conforme os dados do pagamento ou tipo
+        
+
+        // return alguma coisa ai talvez os dados de payment, 
+        // ou dados de payments e installments juntos 
+        // ou installments e payments juntos
+
+        /* 
+            ```
+            InstallmentsController.receivePayment(...)
+            ```
+
+            ↓
+
+            ```
+            InstallmentsService.receivePayment(...)
+            ```
+
+            ↓
+
+            ```
+            PaymentRepository.create(...)
+            InstallmentRepository.update(...)
+            ```
+        */
+    }
+
+    private async receiveFullPayment(id:string) {
+        const data: InstallmentUpdateParams = {
+            paidAt: new Date(),
+            remainingAmount: "0",
+            status: "PAID"
+        };
+
+        await this.installmentsRepository.updateInstallment(this.databaseService.client, id, data);
     }
 
     private async getInstallmentOrThrow(id: string): Promise<Installment>{

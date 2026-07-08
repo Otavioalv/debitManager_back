@@ -25,5 +25,11 @@ installmentsRouter.get(
     installmentsController.getInstallmentById
 );
 
+installmentsRouter.post(
+    "/:id/payments",
+    validateParams,
+    installmentsController.receivePayment,
+);
+
 
 export default installmentsRouter;
